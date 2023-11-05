@@ -19,7 +19,7 @@
 
                 @endphp
                 <tr class="text-center">
-                    <td class="text-start"><a href="{{ route('animal.profile', $a->id) }}">{!! $a->name !!}</a></td>
+                    <td class="text-start border-bottom"><a href="{{ route('animal.profile', $a->id) }}">{!! $a->name !!}</a></td>
                     <td>
                         <input type="hidden" name="id" wire:model="mass.{{$a->id}}.id">
                         <input type="number" min="0" class="form-control" wire:model="mass.{{$a->id}}.weight">

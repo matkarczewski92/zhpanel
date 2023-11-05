@@ -77,7 +77,7 @@ class PossibleOffspring extends Component
         }
 
 
-        $ltPaitings = $query->distinct()->get();
+        $ltPaitings = $query->distinct()->orderBy('title_vis')->get();
         return $ltPaitings;
     }
 }

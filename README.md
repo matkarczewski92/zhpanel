@@ -14,4 +14,18 @@ Dashboard is connected with breedery main webpage  Dashboard allows to manage of
 
 
 
- 
+ ![My Remote Image](https://makssnake.pl/public/git/1.png)
+
+ ![My Remote Image](https://makssnake.pl/public/git/2.png)
+
+ ![My Remote Image](https://makssnake.pl/public/git/3.png)
+ ![My Remote Image](https://makssnake.pl/public/git/4.png)
+
+ ![My Remote Image](https://makssnake.pl/public/git/5.png)
+
+ ![My Remote Image](https://makssnake.pl/public/git/6.png)
+
+ ![My Remote Image](https://makssnake.pl/public/git/7.png)
+
+ ![My Remote Image](https://makssnake.pl/public/git/8.png)
+

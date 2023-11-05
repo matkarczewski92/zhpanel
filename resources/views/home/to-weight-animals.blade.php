@@ -1,4 +1,4 @@
-<div class="card mb-3 bg-dark photobg rounded-1 h-100 " id="printableArea{{$title}}">
+<div class="card mb-3 bg-dark photobg rounded-1 " id="printableArea{{$title}}">
     <div class="card-body " style="">
         <button type="button" onclick="printDiv('printableArea{{$title}}')" class="btn btn-success rounded-circle editmode">
             <i class="fa-solid fa-print"></i>

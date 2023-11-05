@@ -14,30 +14,25 @@
             </div>
         </div>
     </div>
+    <div class="col mb-4">
+        <div class="row-lg-6">
 
-    <div class="row mb-4">
-        <div class="col-lg">
             @include('home.to-weight-animals', ['animal' => $toWeight, 'title' => 'Do ważenia - W hodowli'])
         </div>
-        <div class="col-lg-6">
-            @include('home.to-feed-animals', ['animal' => $animal, 'summary' => $summary, 'title' => 'Do nakarmienia - W hodowli'])
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-lg-6">
+        <div class="row-lg-6">
             @include('home.to-weight-animals', ['animal' => $toWeightLitters, 'title' => 'Do ważenia - Mioty'])
         </div>
-        <div class="col-lg-6">
-            @include('home.to-feed-animals', ['animal' => $litter, 'summary' => $summaryLitters, 'title' => 'Do nakarmienia - Mioty'])
-        </div>
-    </div>
-    <div class="row mb-4">
-        <div class="col-lg">
+        <div class="row-lg-6">
             @include('home.litters-status')
         </div>
-        <div class="col-lg-6">
+    </div>
+    <div class="col mb-4">
+        <div class="row-lg">
+            @include('home.to-feed-animals', ['animal' => $animal, 'summary' => $summary, 'title' => 'Do nakarmienia - W hodowli'])
 
+        </div>
+        <div class="row-lg-6">
+            @include('home.to-feed-animals', ['animal' => $litter, 'summary' => $summaryLitters, 'title' => 'Do nakarmienia - Mioty'])
         </div>
     </div>
 </div>

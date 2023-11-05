@@ -39,8 +39,8 @@ class ProfileDetails extends Component
             'status' => litterStatus($this->litterId),
             'category' => litterCategory($litter->category),
             'animals' => Animal::where('litter_id', $litter->id)->get(),
-            'animalsMale' => Animal::where('sex', 2)->get(),
-            'animalsFemale' => Animal::where('sex', 3)->get(),
+            'animalsMale' => Animal::where('sex', 2)->where('animal_category_id', 1)->get(),
+            'animalsFemale' => Animal::where('sex', 3)->where('animal_category_id', 1)->get(),
         ]);
     }
 

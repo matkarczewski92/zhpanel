@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('litters_adnotations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('litter_id')->constrained('litters');
+            $table->foreignId('litter_id')->constrained('litters')->onDelete('CASCADE');
             $table->text('adnotation');
             $table->timestamps();
         });
