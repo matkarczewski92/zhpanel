@@ -1,0 +1,135 @@
+body {
+    background-color: black;
+    background-image: url('/public/src/5.jpg');
+    background-attachment: fixed;
+    background-position: center;
+    background-position-y: -100px;
+  }
+
+  .navbar {
+    margin-bottom: 20px;
+    --bs-bg-opacity: 0.8;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: fixed;
+    top: 0px;
+    width:100%;
+    z-index:100;
+  }
+
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: none;
+  }
+  .photobg{
+    --bs-bg-opacity: 0.75 !important
+  }
+
+  .cardopacity{
+    --bs-bg-opacity: 0.85 !important
+  }
+
+  .sidemenu {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 4.0rem;
+    position: fixed;
+    left: 25px;
+    top: auto;
+    --bs-bg-opacity: 0.5 !important
+  }
+
+.key {
+    color:darkgray;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.borderless table {
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+}
+
+.detailsTable {
+    width: 100%;
+}
+
+table.detailsTable td.key  {
+    width: 40%;
+}
+
+.strike {
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.strike > span {
+    position: relative;
+    display: inline-block;
+
+}
+
+
+.strike > span:before,
+.strike > span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+    height: 1px;
+    background: rgb(228, 228, 228);
+}
+
+.strike > span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.strike > span:after {
+    left: 100%;
+    margin-left: 15px;
+}
+
+.editmode {
+    width:40px;
+    height:40px;
+    position: absolute;
+    top:-15px;
+    right: -15px;
+}
+.content-to-show {
+    display:none;
+ }
+.stGtx {
+    width: 5.5rem;
+}
+@media (max-width: 960px) {
+    .content-to-hide {
+       display: none !important;
+    }
+    .content-to-show {
+        display: block !important;;
+     }
+    .hidden-result {
+        display: none;
+      }
+    .navbar {
+        --bs-bg-opacity: 0.99;
+    }
+    .stGtx {
+        width: 100%
+    }
+ }
+
+ .adnotations {
+    width:100%;
+    background: transparent;
+    border: 0 none;
+ }
+
+
+
