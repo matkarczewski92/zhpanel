@@ -10,9 +10,7 @@
 
       <div class="collapse navbar-collapse" id="offcanvas">
         <ul class="navbar-nav me-auto mb-2 mb-xl-0">
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{{ route('webpage') }}">Web</a>
-          </li>
+
           <li class="nav-item">
             <a class="nav-link {{ (request()->segment(1) == 'home') ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">Home</a>
           </li>
@@ -66,7 +64,9 @@
           <li class="nav-item">
             <a class="nav-link {{ (request()->segment(1) == 'offers') ? 'active' : '' }}" href="{{route('offers.index')}}" >Oferty</a>
           </li>
-
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ route('webpage') }}">Web</a>
+          </li>
         </ul>
         <div style="float: right;" class="me-3">
             <div class="input-group">
