@@ -56,8 +56,8 @@ function timeToFeed(int $animalId)
     $nextFeedDate = nextFeed($animalId);
     $test = Carbon::parse($nextFeedDate);
     $diff = Carbon::parse($nowDate)->diffInDays($test, false);
-    $diff = ($nowDate->format("Y-m-d") == $test->format("Y-m-d")) ? $diff : $diff + 1;
     $diff = ($diff < 0) ? $diff - 1 : $diff;
+    $diff = ($nowDate->format("Y-m-d") == $test->format("Y-m-d")) ? $diff : $diff + 1;
     return $diff;
 }
 
@@ -85,7 +85,7 @@ function nextWeight(int $animalId): String
 {
     if (lastWeight($animalId)) {
         $date = Carbon::parse(lastWeighting($animalId));
-        return $date->addDays(28)->format('Y-m-d');
+        return $date->addDays(30)->format('Y-m-d');
     } else return "";
 }
 function timeToWeight(int $animalId)

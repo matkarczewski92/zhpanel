@@ -18,13 +18,15 @@ class HomeController extends Controller
             'litter' => $this->animalToFeed(2),
             'toWeight' => $this->animalToWeight(),
             'toWeightLitters' => $this->animalToWeight(2),
-            'summary' => $this->animalToFeedSummary($this->animalToFeed()),
-            'summaryLitters' => $this->animalToFeedSummary($this->animalToFeed(2)),
+            'summary' => $this->animalToFeedSummary($this->animalToFeed(), 0),
+            'summaryLitters' => $this->animalToFeedSummary($this->animalToFeed(2), 0),
+            'summaryPast' => $this->animalToFeedSummary($this->animalToFeed(), 1),
+            'summaryLittersPast' => $this->animalToFeedSummary($this->animalToFeed(2), 1),
         ]);
     }
 
 
-    public function animalToFeed(int $animalCategoryId = 1)
+    public function animalToFeed(int $animalCategoryId = 1): array
     {
 
         $animal = [];
@@ -38,24 +40,32 @@ class HomeController extends Controller
         return $animal;
     }
 
-    public function animalToFeedSummary($animalArray)
+    public function animalToFeedSummary($animalArray, int $fn = 0): array
     {
+        $feed = [];
         if (!empty($animalArray)) {
             foreach ($animalArray ?? [] as $a) {
-                $fName = Feed::find($a->animalFeed->id);
-                $feed[] = $fName->name;
+                if ($fn == 1) {
+                    if (timeToFeed($a->id) <= 0) {
+                        $fName = Feed::find($a->animalFeed->id);
+                        $feed[] = $fName->name;
+                    }
+                } else if ($fn == 0) {
+                    $fName = Feed::find($a->animalFeed->id);
+                    $feed[] = $fName->name;
+                }
             }
             return array_count_values($feed);
         } else return [];
     }
 
-    public function animalToWeight(int $animalCategoryId = 1)
+    public function animalToWeight(int $animalCategoryId = 1): array
     {
 
         $animal = [];
         $animals = Animal::where('animal_category_id', '=', $animalCategoryId)->get();
         foreach ($animals as $a) {
-            if (timeToWeight($a->id) <= 1) {
+            if (timeToWeight($a->id) <= 3) {
                 $animal[] = $a;
             }
         }

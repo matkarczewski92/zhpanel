@@ -28,11 +28,11 @@
     </div>
     <div class="col mb-4">
         <div class="row-lg">
-            @include('home.to-feed-animals', ['animal' => $animal, 'summary' => $summary, 'title' => 'Do nakarmienia - W hodowli'])
+            @include('home.to-feed-animals', ['animal' => $animal, 'summary' => $summary, 'summaryPast' => $summaryPast, 'title' => 'Do nakarmienia - W hodowli'])
 
         </div>
         <div class="row-lg-6">
-            @include('home.to-feed-animals', ['animal' => $litter, 'summary' => $summaryLitters, 'title' => 'Do nakarmienia - Mioty'])
+            @include('home.to-feed-animals', ['animal' => $litter, 'summary' => $summaryLitters, 'summaryPast' => $summaryLittersPast, 'title' => 'Do nakarmienia - Mioty'])
         </div>
     </div>
 </div>

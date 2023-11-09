@@ -27,17 +27,35 @@
             <div class="strike mb-2">
                 <span>Podsumowanie</span>
              </div>
-             <div class="w-100 text-end">
-                <table class="detailsTable ">
-                @foreach ($summary as $s =>$v)
-                    <tr>
-                        <td>{{$s}}</td>
-                        <td class="text-center">{{$v}} szt.</td>
-                    </tr>
-                @endforeach
-                </table>
+             <div class="row">
+                <div class="col-lg-6">
+                    <div class="strike mb-2">
+                        <span>Minione i bieżące</span>
+                     </div>
+                    <table class="detailsTable ">
+                        @foreach ($summaryPast as $s =>$v)
+                            <tr>
+                                <td>{{$s}}</td>
+                                <td class="text-center">{{$v}} szt.</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <div class="strike mb-2">
+                        <span>Wszystkie</span>
+                     </div>
+                    <table class="detailsTable ">
+                        @foreach ($summary as $s =>$v)
+                            <tr>
+                                <td>{{$s}}</td>
+                                <td class="text-center">{{$v}} szt.</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
 
-            </div>
+             </div>
             @endif
         </div>
     </div>
