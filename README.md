@@ -29,3 +29,4 @@ Dashboard is connected with breedery main webpage  Dashboard allows to manage of
 
  ![My Remote Image](https://makssnake.pl/public/git/8.png)
 
+.
