@@ -11,17 +11,17 @@ Reptile breeding management complete dashboard.
 
 Dashboard is connected with breedery main webpage  Dashboard allows to manage offers and gallery. 
 
-![My Remote Image](https://makssnake.pl/git/1.png)
+![My Remote Image](https://makssnake.pl/public/git/1.png)
 
-![My Remote Image](https://makssnake.pl/git/2.png)
+![My Remote Image](https://makssnake.pl/public/git/2.png)
 
-![My Remote Image](https://makssnake.pl/git/3.png)
-![My Remote Image](https://makssnake.pl/git/4.png)
+![My Remote Image](https://makssnake.pl/public/git/3.png)
+![My Remote Image](https://makssnake.pl/public/git/4.png)
 
-![My Remote Image](https://makssnake.pl/git/5.png)
+![My Remote Image](https://makssnake.pl/public/git/5.png)
 
-![My Remote Image](https://makssnake.pl/git/6.png)
+![My Remote Image](https://makssnake.pl/public/git/6.png)
 
-![My Remote Image](https://makssnake.pl/git/7.png)
+![My Remote Image](https://makssnake.pl/public/git/7.png)
 
-![My Remote Image](https://makssnake.pl/git/8.png)
+![My Remote Image](https://makssnake.pl/public/git/8.png)
