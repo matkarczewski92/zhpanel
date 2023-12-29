@@ -9,7 +9,7 @@
          <div>
             <table class="detailsTable">
                 <tr class="border-bottom">
-                    <td>Nazwa zwierzęcia</td>
+                    <td>Zwierze</td>
                     <td style="width:15%">Rodzaj karmy</td>
                     <td>Data karmienia</td>
                     <td class="text-center">Dni do karmienia</td>
