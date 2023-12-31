@@ -31,6 +31,7 @@
                 @endif
                 @include('animals.profile.animal-profile-litters')
                 @livewire('animal.animal-molts-profile', ['animalId' => $animal->id])
+                @livewire('animal.animal-wintering-profile', ['animalId' => $animal->id])
             </div>
         </div>
     </div>

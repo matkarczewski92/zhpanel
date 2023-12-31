@@ -68,6 +68,10 @@
 
                     <table class="detailsTable">
                         <tr>
+                            <td class="key">Planowana data łączenia</td>
+                            <td>@if ($editMode==1) <input type="date" class="form-control" wire:model="plannedConnectionDate"> @else {{ $litter->planned_connection_date }} @endif</td>
+                        </tr>
+                        <tr>
                             <td class="key">Data łączenia</td>
                             <td>@if ($editMode==1) <input type="date" class="form-control" wire:model="connectionDate"> @else {{ $litter->connection_date }} @endif</td>
                         </tr>

@@ -19,17 +19,7 @@
                     @livewire('settings.system-config')
                 </div>
                 <div class="col-lg-6">
-                    <div class="card mb-3">
-                        <div class="card-header">{{ __('4A') }}</div>
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
-                            <a href="{{ route('settings.index') }}">test</a>
-                        </div>
-                    </div>
+                    @livewire('settings.settings-animal-witering')
                 </div>
             </div>
         </div>

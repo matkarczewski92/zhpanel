@@ -1,5 +1,5 @@
 <div>
-    <div class="card mb-3 bg-dark photobg rounded-1">
+    <div class="card mb-3 mt-4 bg-dark photobg rounded-1">
         <button type="button" wire:click="editModeSwitch" class="btn btn-{{$editBtnMode}} rounded-circle editmode">
             <i class="fa-solid fa-pen"></i>
         </button>

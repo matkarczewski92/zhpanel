@@ -2,16 +2,27 @@
 
 namespace App\Livewire\Litters;
 
-use App\Http\Controllers\LitterController;
 use App\Models\Animal;
 use App\Models\Litter;
 use Livewire\Component;
 
 class ProfileDetails extends Component
 {
-    public $litterId, $category, $litterCode, $connectionDate, $layingDate, $hatchingDate, $layingEggsTotal, $layingEggsOk, $hatchingEggs, $parentMale, $parentFemale, $season;
+    public $litterId;
+    public $category;
+    public $litterCode;
+    public $connectionDate;
+    public $layingDate;
+    public $hatchingDate;
+    public $layingEggsTotal;
+    public $layingEggsOk;
+    public $hatchingEggs;
+    public $parentMale;
+    public $parentFemale;
+    public $season;
+    public $plannedConnectionDate;
     public $editMode = 0;
-    public $editBtnMode = "success";
+    public $editBtnMode = 'success';
     protected $rules = [
         'litterCode' => 'required',
     ];
@@ -33,6 +44,7 @@ class ProfileDetails extends Component
         $this->parentMale = $litter->parent_male;
         $this->parentFemale = $litter->parent_female;
         $this->season = $litter->season;
+        $this->plannedConnectionDate = $litter->planned_connection_date;
 
         return view('livewire.litters.profile-details', [
             'litter' => $litter,
@@ -59,23 +71,26 @@ class ProfileDetails extends Component
         $litter->parent_male = $this->parentMale;
         $litter->parent_female = $this->parentFemale;
         $litter->season = $this->season;
+        $litter->planned_connection_date = $this->plannedConnectionDate;
         $litter->save();
         $this->editModeSwitch();
     }
+
     public function delete()
     {
         Litter::find($this->litterId)->delete();
-        return  redirect(route('litters.index'));
+
+        return redirect(route('litters.index'));
     }
 
     public function editModeSwitch()
     {
         if ($this->editMode == 0) {
             $this->editMode = 1;
-            $this->editBtnMode = "danger";
+            $this->editBtnMode = 'danger';
         } else {
             $this->editMode = 0;
-            $this->editBtnMode = "success";
+            $this->editBtnMode = 'success';
         }
     }
 }
