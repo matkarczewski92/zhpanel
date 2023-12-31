@@ -62,16 +62,17 @@ class ProfileDetails extends Component
         $litter = Litter::find($this->litterId);
         $litter->category = $this->category;
         $litter->litter_code = $this->litterCode;
-        $litter->connection_date = $this->connectionDate;
-        $litter->laying_date = $this->layingDate;
-        $litter->hatching_date = $this->hatchingDate;
+        $litter->connection_date = (!empty($this->connectionDate)) ? $this->connectionDate : null;
+        $litter->laying_date = (!empty($this->layingDate)) ? $this->layingDate : null;
+        $litter->hatching_date = (!empty($this->hatchingDate)) ? $this->hatchingDate : null;
         $litter->laying_eggs_total = ($this->layingEggsTotal == '') ? 0 : $this->layingEggsTotal;
         $litter->laying_eggs_ok = ($this->layingEggsOk == '') ? 0 : $this->layingEggsOk;
         $litter->hatching_eggs = ($this->hatchingEggs == '') ? 0 : $this->hatchingEggs;
         $litter->parent_male = $this->parentMale;
         $litter->parent_female = $this->parentFemale;
         $litter->season = $this->season;
-        $litter->planned_connection_date = $this->plannedConnectionDate;
+        $litter->planned_connection_date = (!empty($this->plannedConnectionDate)) ? $this->plannedConnectionDate : null;
+        // dd($litter->planned_connection_date);
         $litter->save();
         $this->editModeSwitch();
     }
