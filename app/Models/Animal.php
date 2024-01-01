@@ -69,6 +69,6 @@ class Animal extends Model
 
     public function animalWinterings(): HasMany
     {
-        return $this->hasMany(Wintering::class, 'animal_id', 'id')->orderBy('season', 'desc');
+        return $this->hasMany(Wintering::class, 'animal_id', 'id')->where('archive', null);
     }
 }

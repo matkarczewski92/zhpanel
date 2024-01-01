@@ -16,10 +16,9 @@ use App\Http\Controllers\PossibleOffspringController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SoldController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\WinteringController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-
 
 Route::get('/', [WebController::class, 'index'])->name('webpage');
 // Route::get('/profile/{tag}', [WebController::class, 'index']);
@@ -41,7 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('animals.sell/{id}', [AnimalOfferController::class, 'sell'])->name('sell');
     Route::get('possibleoffspring', [PossibleOffspringController::class, 'index'])->name('possibleoffspring');
     Route::get('massdata', [MassDataController::class, 'index'])->name('massdata');
-
+    Route::get('winterings', [WinteringController::class, 'index'])->name('winterings');
 
     Route::resource('availableconnections', AvailableConnectionsController::class)->only(['index', 'show']);
     Route::resource('animals', AnimalController::class);

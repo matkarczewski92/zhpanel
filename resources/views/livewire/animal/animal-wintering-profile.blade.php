@@ -54,10 +54,12 @@
                             <td class="@if(!$winter->end_date) text-secondary @endif text-center">{{ $winter->end_date ?? $winter->planned_end_date }}</td>
                         @endif
                             <td class="text-end">
-                                <button class="btn btn-sm" type="submit" wire:click.prevent="editModeStage({{$winter->id}})"><i class="bi bi-pencil-fill text-warning "></i></button>
-                                <button class="btn btn-sm" type="submit" wire:click="startStage({{$winter->id}})"><i class="bi bi-play-circle-fill text-success"></i></button>
-                                <button class="btn btn-sm" type="submit" wire:click="endStage({{$winter->id}})"><i class="bi bi-stop-circle-fill text-danger"></i></button>
-                                <button class="btn btn-sm" type="submit" wire:click="stageDelete({{$winter->id}})"><i class="bi bi-trash"></i></button>
+                                @if ($editMode!=0)
+                                    <button class="btn btn-sm" type="submit" wire:click.prevent="editModeStage({{$winter->id}})"><i class="bi bi-pencil-fill text-warning "></i></button>
+                                    <button class="btn btn-sm" type="submit" wire:click="startStage({{$winter->id}})"><i class="bi bi-play-circle-fill text-success"></i></button>
+                                    <button class="btn btn-sm" type="submit" wire:click="endStage({{$winter->id}})"><i class="bi bi-stop-circle-fill text-danger"></i></button>
+                                    <button class="btn btn-sm" type="submit" wire:click="stageDelete({{$winter->id}})"><i class="bi bi-trash"></i></button>
+                                @endif
                             </td>
                         </tr>
 
@@ -73,7 +75,7 @@
             @endif
                 <button class="btn btn-warning" wire:click="closeWintering({{$animalId}})">Zakończ zimowanie</button>
                 <button class="btn btn-danger" wire:click="deleteWintering({{$animalId}})">Usuń zimowanie</button>
-                <button class="btn btn-primary" wire:click="updateDates({{$animalId}})">Aktualizuj daty {{ $animalId }}</button>
+                <button class="btn btn-primary" wire:click="updateDates({{$animalId}})">Aktualizuj daty</button>
             @endif
         </div>
     </div>

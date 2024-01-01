@@ -5,6 +5,7 @@ use App\Models\AnimalFeedings;
 use App\Models\AnimalOffer;
 use App\Models\AnimalWeight;
 use App\Models\Feed;
+use App\Models\Wintering;
 use App\Models\WinteringStages;
 use Carbon\Carbon;
 
@@ -136,4 +137,24 @@ function getDurationsToEndByOrder(int $order)
     $duration = WinteringStages::where('order', '>', $order)->sum('duration');
 
     return $duration;
+}
+function winteringStart(int $animalId)
+{
+    $wintering = Wintering::where('animal_id', $animalId)->where('archive', null)->first();
+
+    return $wintering->start_date ?? '';
+}
+function winteringEnd(int $animalId)
+{
+    $wintering = Wintering::where('animal_id', $animalId)->where('archive', null)->orderBy('id', 'desc')->first();
+
+    return $wintering->end_date ?? $wintering->planned_end_date ?? '';
+}
+function winteringActualStage(int $animalId)
+{
+    $wintering = Wintering::where('animal_id', $animalId)->where('archive', null)->where('start_date', '<>', null)->orderBy('id', 'asc')->first();
+    $return['stage'] = $wintering->stageDetails->order;
+    $return['title'] = $wintering->stageDetails->title;
+
+    return $return;
 }

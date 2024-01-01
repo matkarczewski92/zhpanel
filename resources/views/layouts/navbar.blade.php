@@ -31,6 +31,7 @@
               <li><a class="dropdown-item" href="{{ route('forsale') }}">Maluchy</a></li>
               <li><a class="dropdown-item" href="{{ route('sold') }}">Sprzedane</a></li>
               <li><a class="dropdown-item" href="{{ route('deleted') }}">Usunięte</a></li>
+              <li><a class="dropdown-item" href="{{ route('winterings') }}">Zimowania</a></li>
             </ul>
           </li>
 
