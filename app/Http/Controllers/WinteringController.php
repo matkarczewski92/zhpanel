@@ -23,8 +23,8 @@ class WinteringController extends Controller
             if ($count != 0) {
                 $return[] = $animal;
             }
-
-            return $return ?? [];
         }
+
+        return $return ?? [];
     }
 }
