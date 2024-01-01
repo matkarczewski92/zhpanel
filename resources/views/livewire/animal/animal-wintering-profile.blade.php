@@ -51,7 +51,7 @@
                         @else
                             <td class="@if(!$winter->start_date) text-secondary @endif text-center" >{{ $winter->custom_duration ?? $winter->stageDetails->duration }}</td>
                             <td class="@if(!$winter->start_date) text-secondary @endif text-center" >{{ $winter->start_date ?? $winter->planned_start_date }}</td>
-                            <td class="@if(!$winter->end_date) text-secondary @endif text-center">{{ $winter->end_date ?? $$winter->planned_end_date }}</td>
+                            <td class="@if(!$winter->end_date) text-secondary @endif text-center">{{ $winter->end_date ?? $winter->planned_end_date }}</td>
                         @endif
                             <td class="text-end">
                                 <button class="btn btn-sm" type="submit" wire:click.prevent="editModeStage({{$winter->id}})"><i class="bi bi-pencil-fill text-warning "></i></button>
