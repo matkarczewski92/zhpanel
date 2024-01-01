@@ -152,7 +152,7 @@ function winteringEnd(int $animalId)
 }
 function winteringActualStage(int $animalId)
 {
-    $wintering = Wintering::where('animal_id', $animalId)->where('archive', null)->where('start_date', '<>', null)->orderBy('id', 'asc')->first();
+    $wintering = Wintering::where('animal_id', $animalId)->where('archive', null)->where('start_date', '<>', null)->orderBy('id', 'desc')->first();
     $return['stage'] = $wintering->stageDetails->order;
     $return['title'] = $wintering->stageDetails->title;
 
