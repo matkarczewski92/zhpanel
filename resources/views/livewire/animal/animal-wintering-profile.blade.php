@@ -25,7 +25,7 @@
                 @php
                     $todayDate = date("Y-m-d");
                     $startDate = $winter->start_date ?? $winter->planned_start_date ?? $todayDate;
-                    $endStage = (!is_null($startDate)) ? date('Y-m-d', strtotime($startDate. ' + '.$winter->stageDetails->duration.' days')) : '';
+                    $endStage = $winter->end_date ?? $winter->planned_end_day;
                 @endphp
                         <tr>
                             <td>{{ $winter->stageDetails->order }} - {{ $winter->stageDetails->title }}</td>
