@@ -34,13 +34,13 @@
              {{-- <hr/> --}}
              @if ($editMode == 1)
              <hr/>
-             <form wire:submit="addMolt">
+            <form wire:submit="addMolt">
                 <div class="input-group mb-5">
                     <span class="input-group-text" id="basic-addon1">Data wylinki:</span>
                     <input type="date" class="form-control" wire:model="date">
                     <button type="submit" class="btn btn-success" >Dodaj</button>
-                    </form>
                 </div>
+            </form>
                 @endif
         </div>
     </div>

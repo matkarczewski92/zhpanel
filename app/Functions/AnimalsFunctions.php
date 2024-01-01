@@ -1,24 +1,24 @@
 <?php
 
-
 use App\Models\Animal;
 use App\Models\AnimalFeedings;
 use App\Models\AnimalOffer;
 use App\Models\AnimalWeight;
 use App\Models\Feed;
+use App\Models\WinteringStages;
 use Carbon\Carbon;
 
-function sexName(int $value): String
+function sexName(int $value): string
 {
     switch ($value) {
         case 1:
-            return "N/sex";
+            return 'N/sex';
             break;
         case 2:
-            return "Samiec";
+            return 'Samiec';
             break;
         case 3:
-            return "Samica";
+            return 'Samica';
             break;
     }
 }
@@ -28,25 +28,34 @@ function feedInterval(int $animalId): int
     if (!is_null($animal->feed_id)) {
         if (is_null($animal->feed_interval)) {
             $feed = Feed::find($animal->feed_id);
+
             return $feed->feeding_interval;
-        } else return $animal->feed_interval;
+        } else {
+            return $animal->feed_interval;
+        }
     }
+
     return 0;
 }
-function lastFeed(int $animalId): String
+function lastFeed(int $animalId): string
 {
     $feed = AnimalFeedings::where('animal_id', '=', $animalId)->orderBy('created_at', 'desc')->first();
     if ($feed) {
         return $feed->created_at->format('Y-m-d');
-    } else return "";
+    } else {
+        return '';
+    }
 }
 
-function nextFeed(int $animalId): String
+function nextFeed(int $animalId): string
 {
     if (lastFeed($animalId)) {
         $date = Carbon::parse(lastFeed($animalId));
+
         return $date->addDays(feedInterval($animalId))->format('Y-m-d');
-    } else return "";
+    } else {
+        return '';
+    }
 }
 
 function timeToFeed(int $animalId)
@@ -57,36 +66,42 @@ function timeToFeed(int $animalId)
     $test = Carbon::parse($nextFeedDate);
     $diff = Carbon::parse($nowDate)->diffInDays($test, false);
     $diff = ($diff < 0) ? $diff - 1 : $diff;
-    $diff = ($nowDate->format("Y-m-d") == $test->format("Y-m-d")) ? $diff : $diff + 1;
+    $diff = ($nowDate->format('Y-m-d') == $test->format('Y-m-d')) ? $diff : $diff + 1;
+
     return $diff;
 }
 
 function feedCount(int $animalId): int
 {
     $animal = AnimalFeedings::where('animal_id', $animalId)->where('feed_id', '<>', 0)->count();
+
     return $animal;
 }
-
-
 
 function lastWeight(int $animalId): int|null
 {
     $weight = AnimalWeight::where('animal_id', '=', $animalId)->orderBy('created_at', 'desc')->first();
+
     return $weight->value ?? null;
 }
-function lastWeighting(int $animalId): String
+function lastWeighting(int $animalId): string
 {
     $feed = AnimalWeight::where('animal_id', '=', $animalId)->orderBy('created_at', 'desc')->first();
     if ($feed) {
         return $feed->created_at->format('Y-m-d');
-    } else return "";
+    } else {
+        return '';
+    }
 }
-function nextWeight(int $animalId): String
+function nextWeight(int $animalId): string
 {
     if (lastWeight($animalId)) {
         $date = Carbon::parse(lastWeighting($animalId));
+
         return $date->addDays(30)->format('Y-m-d');
-    } else return "";
+    } else {
+        return '';
+    }
 }
 function timeToWeight(int $animalId)
 {
@@ -94,11 +109,11 @@ function timeToWeight(int $animalId)
     $nextWeight = nextWeight($animalId);
     $nextWeightDate = Carbon::parse($nextWeight);
     $diff = Carbon::parse($nowDate)->diffInDays($nextWeightDate, false);
-    $diff = ($nowDate->format("Y-m-d") == $nextWeightDate->format("Y-m-d")) ? $diff : $diff + 1;
+    $diff = ($nowDate->format('Y-m-d') == $nextWeightDate->format('Y-m-d')) ? $diff : $diff + 1;
     $diff = ($diff < 0) ? $diff - 1 : $diff;
+
     return $diff;
 }
-
 
 function animalStatus(int $animalId)
 {
@@ -108,8 +123,17 @@ function animalStatus(int $animalId)
         return $animal->animalCategory->name;
     }
     if (feedCount($animalId) < 4) {
-        return "W trakcie wykarmiania";
-    } else if ($offerCount == 1) {
-        return "Wystawiony na sprzedaż";
-    } else return "Wykarmiony - oczekiwanie na sprzedaż";
+        return 'W trakcie wykarmiania';
+    } elseif ($offerCount == 1) {
+        return 'Wystawiony na sprzedaż';
+    } else {
+        return 'Wykarmiony - oczekiwanie na sprzedaż';
+    }
+}
+
+function getDurationsToEndByOrder(int $order)
+{
+    $duration = WinteringStages::where('order', '>', $order)->sum('duration');
+
+    return $duration;
 }
