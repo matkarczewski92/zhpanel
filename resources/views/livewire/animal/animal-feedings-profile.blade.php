@@ -40,7 +40,7 @@
                                 <td></td>
                                 <td></td>
                                 <td>{{$four->created_at->format("Y-m-d")}}</td>
-                                <td>{{$four->feedType->name}}</td>
+                                <td>{{$four->feedType?->name}}</td>
                                 <td>{{$four->amount}}</td>
                                 <td style="width:5%">
                                 <button class="btn btn-sm" type="submit" wire:click="delete({{$four->id}})"> <i class="fa-regular fa-trash-can"></i></button></td>

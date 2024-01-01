@@ -117,12 +117,13 @@ class AnimalWinteringProfile extends Component
             $winterings->planned_end_date = date('Y-m-d', strtotime($winterings->start_date.' + '.$winterings->stageDetails->duration.' days'));
             $winterings->save();
 
-            $stages = Wintering::join('winterings_stage', 'winterings.stage_id', '=', 'winterings_stage.id')->where('archive', null)->where('order', '>', $winterings->stageDetails->order)->orderBy('order')->get();
+            $stages = Wintering::join('winterings_stage', 'winterings.stage_id', '=', 'winterings_stage.id')->where('animal_id', $animalId)->where('archive', null)->where('order', '>', $winterings->stageDetails->order)->orderBy('order')->get();
 
             foreach ($stages as $st) {
-                $prevStages = WinteringStages::join('winterings', 'winterings_stage.id', '=', 'winterings.stage_id')->where('order', '<', $st->order)->orderBy('order', 'desc')->first();
+                $prevStages = WinteringStages::join('winterings', 'winterings_stage.id', '=', 'winterings.stage_id')->where('animal_id', $animalId)->where('order', '<', $st->order)->orderBy('order', 'desc')->first();
                 $wintering = Wintering::where('animal_id', $animalId)->where('archive', null)->where('stage_id', '=', $st->stage_id)->first();
                 $duration = $wintering->custom_duration ?? $st->duration;
+
                 $wintering->planned_start_date = $prevStages->end_date ?? $prevStages->planned_end_date;
                 $wintering->planned_end_date = date('Y-m-d', strtotime($wintering->planned_start_date.' + '.$duration.' days'));
                 $wintering->save();

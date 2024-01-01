@@ -73,7 +73,7 @@
             @endif
                 <button class="btn btn-warning" wire:click="closeWintering({{$animalId}})">Zakończ zimowanie</button>
                 <button class="btn btn-danger" wire:click="deleteWintering({{$animalId}})">Usuń zimowanie</button>
-                <button class="btn btn-primary" wire:click="updateDates({{$animalId}})">Aktualizuj daty</button>
+                <button class="btn btn-primary" wire:click="updateDates({{$animalId}})">Aktualizuj daty {{ $animalId }}</button>
             @endif
         </div>
     </div>
