@@ -14,6 +14,7 @@
                 <tr class="border-bottom">
                     <td>ID</td>
                     <td>Nazwa</td>
+                    <td>Waga</td>
                     <td class="text-center">Aktualny etap</td>
                     <td class="text-center">Początek zimowania</td>
                     <td class="text-center">Koniec zimowania</td>
@@ -23,6 +24,7 @@
                     <tr>
                         <td>{{ $wt->id }}</td>
                         <td><a href="{{ route('animal.profile', $wt->id)}}">{!! $wt->name !!}</a></td>
+                        <td>{{ lastWeight($wt->id) }}</td>
                         <td class="text-center">{{ winteringActualStage($wt->id)['stage'] }}. {{ winteringActualStage($wt->id)['title'] }}</td>
                         <td class="text-center">{{ winteringStart($wt->id) }}</td>
                         <td class="text-center">{{ winteringEnd($wt->id) }}</td>
