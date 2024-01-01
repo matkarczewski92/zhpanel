@@ -158,3 +158,11 @@ function winteringActualStage(int $animalId)
 
     return $return;
 }
+
+function getWinteringStageDetails(int $animalId, $order)
+{
+    $getStageByOrder = WinteringStages::where('order', $order)->first();
+    $wintering = Wintering::where('animal_id', $animalId)->where('stage_id', $getStageByOrder->id)->where('archive', null)->first();
+
+    return $wintering;
+}
