@@ -13,6 +13,10 @@
             <td class="value">{{ $animal->animalType->name }}</td>
         </tr>
         <tr>
+            <td class="key">Publiczne ID</td>
+            <td class="value">{{ $animal->public_profile_tag }}</td>
+        </tr>
+        <tr>
             <td colspan="2"><div class="strike mb-2 mt-2"><span>Informacje ogónle</span></div></td>
         </tr>
         <tr>
