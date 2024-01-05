@@ -52,9 +52,8 @@ class AnimalWinteringProfile extends Component
         $stage->start_date = (!empty($this->editStartDate)) ? $this->editStartDate : null;
         $stage->end_date = (!empty($this->editEndDate)) ? $this->editEndDate : null;
         $stage->custom_duration = (!empty($this->editCustomDuration)) ? $this->editCustomDuration : null;
-
         $stage->save();
-
+        $this->updateDates($stage->animal_id);
         $this->editModeStageId = 0;
     }
 
@@ -69,6 +68,7 @@ class AnimalWinteringProfile extends Component
         $stage = Wintering::findOrFail($stagideId);
         $stage->start_date = $date;
         $stage->save();
+        $this->updateDates($stage->animal_id);
     }
 
     public function endStage(int $stagideId)
@@ -77,6 +77,7 @@ class AnimalWinteringProfile extends Component
         $stage = Wintering::findOrFail($stagideId);
         $stage->end_date = $date;
         $stage->save();
+        $this->updateDates($stage->animal_id);
     }
 
     public function deleteWintering(int $animalId)
