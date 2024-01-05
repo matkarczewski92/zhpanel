@@ -114,7 +114,8 @@ class AnimalWinteringProfile extends Component
             ->where('start_date', '!=', null)
             ->orderBy('id', 'desc')
             ->first();
-            $winterings->planned_end_date = date('Y-m-d', strtotime($winterings->start_date.' + '.$winterings->stageDetails->duration.' days'));
+            $duration = $winterings->custom_duration ?? $winterings->stageDetails->duration;
+            $winterings->planned_end_date = date('Y-m-d', strtotime($winterings->start_date.' + '.$duration.' days'));
             $winterings->save();
 
             $stages = Wintering::join('winterings_stage', 'winterings.stage_id', '=', 'winterings_stage.id')->where('animal_id', $animalId)->where('archive', null)->where('order', '>', $winterings->stageDetails->order)->orderBy('order')->get();
