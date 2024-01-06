@@ -20,7 +20,7 @@
 @endphp
 @if (isset($_GET['filter']))
 <div class="text-end me-5 mb-4" style="margin-top:-30px">
-    <a type="button" class="btn btn-success" href="{{ route('litters-planning') }}">Wyczyść filtrowanie</a>
+    <a type="button" class="btn btn-success" href="{{ route('litters-planning') }}">Wyczyść filtry</a>
 </div>
 @endif
 <div class="container-fluid">
