@@ -41,6 +41,7 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{{ route('availableconnections.index') }}">Dostępne łączenia</a></li>
               <li><a class="dropdown-item" href="{{ route('possibleoffspring')}}">Możliwe młode</a></li>
+              <li><a class="dropdown-item" href="{{ route('not-for-sale.index')}}">Do zatrzymania</a></li>
               {{-- <li><a class="dropdown-item" href="#">Planowane NFS</a></li> --}}
               <li><a class="dropdown-item" href="#">Projekty</a></li>
               <li><a class="dropdown-item" href="#">Projekty - Mapa</a></li>

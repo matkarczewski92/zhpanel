@@ -14,8 +14,9 @@
         @endif
         <table class="detailsTable">
             <tr class="border-bottom">
-                <td style="width:10%">Procent</td>
-                <td colspan="2" style="width:70%">Nazwa</td>
+                <td style="width:8%">Procent</td>
+                <td colspan="2" style="width:65%">Nazwa</td>
+                <td style="width:5%">NFS</td>
                 <td style="width:10%" class="text-center">Wartość</td>
                 <td style="width:10%"></td>
             </tr>
@@ -24,6 +25,7 @@
                 <td>{{ $og->percent }}%</td>
                 <td>{{ $og->title_vis }}</td>
                 <td>{{ $og->title_het }}</td>
+                <td>@if(checkNfs($og->id)!=0) <a href="{{ route('not-for-sale.index') }}">TAK</a> @endif</td>
                 <td class="text-center"> </td>
                 <td class="text-end">
                     <a wire:click="edit({{$og->id}})"><i class="fa-solid fa-pen-to-square fa-lg me-2"></i></a>
@@ -56,6 +58,7 @@
             <div class="col-1"><button type="submit" class="btn btn-success" wire:click="create">Dodaj</button></div>
         </div>
         @endif
+
     </div>
 </div>
 
