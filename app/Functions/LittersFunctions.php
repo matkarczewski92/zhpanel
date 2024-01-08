@@ -54,5 +54,5 @@ function checkNfs(int $paitngId)
 {
     $nfs = NotForSale::where('pairing_id', $paitngId)->count();
 
-    return $nfs;
+    return $nfs ?? 0;
 }

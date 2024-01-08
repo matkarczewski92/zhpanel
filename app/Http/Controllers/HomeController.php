@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use App\Models\Feed;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Models\Litter;
 
 class HomeController extends Controller
 {
-
-
     public function index()
     {
         return view('home', [
@@ -22,13 +19,12 @@ class HomeController extends Controller
             'summaryLitters' => $this->animalToFeedSummary($this->animalToFeed(2), 0),
             'summaryPast' => $this->animalToFeedSummary($this->animalToFeed(), 1),
             'summaryLittersPast' => $this->animalToFeedSummary($this->animalToFeed(2), 1),
+            'littersStatus' => $this->litterStatus(),
         ]);
     }
 
-
     public function animalToFeed(int $animalCategoryId = 1): array
     {
-
         $animal = [];
         $animals = Animal::where('animal_category_id', '=', $animalCategoryId)->get();
         foreach ($animals as $a) {
@@ -50,18 +46,20 @@ class HomeController extends Controller
                         $fName = Feed::find($a->animalFeed->id);
                         $feed[] = $fName->name;
                     }
-                } else if ($fn == 0) {
+                } elseif ($fn == 0) {
                     $fName = Feed::find($a->animalFeed->id);
                     $feed[] = $fName->name;
                 }
             }
+
             return array_count_values($feed);
-        } else return [];
+        } else {
+            return [];
+        }
     }
 
     public function animalToWeight(int $animalCategoryId = 1): array
     {
-
         $animal = [];
         $animals = Animal::where('animal_category_id', '=', $animalCategoryId)->get();
         foreach ($animals as $a) {
@@ -71,5 +69,24 @@ class HomeController extends Controller
         }
 
         return $animal;
+    }
+
+    public function litterStatus(): array
+    {
+        $littersLaying = Litter::where('category', 1)
+        ->where('connection_date', '!=', null)
+        ->where('laying_date', null)
+        ->get();
+
+        $littersHatching = Litter::where('category', 1)
+        ->where('connection_date', '!=', null)
+        ->where('laying_date', '!=', null)
+        ->where('hatching_date', null)
+        ->get();
+
+        return $return = [
+                    'laying' => $littersLaying,
+                    'hatching' => $littersHatching,
+                ];
     }
 }
