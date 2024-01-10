@@ -199,7 +199,7 @@ class Presentation extends Component
         if (!empty($weight->created_at)) {
             $lastWeightDate = new Carbon($weight->created_at);
             $diff = $lastWeightDate->diff($nowDate)->days;
-            if ($diff >= 25) {
+            if ($diff >= 28) {
                 $this->weightIndicator = 'text-danger';
             } else {
                 $this->weightIndicator = '';
