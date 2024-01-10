@@ -26,6 +26,7 @@ class Presentation extends Component
     public $inputDate = '';
     public $feedIndicator = '';
     public $weightIndicator = '';
+    public $ref = 0;
 
     public function render()
     {
@@ -33,13 +34,16 @@ class Presentation extends Component
         $this->inputDate = Carbon::now()->format('Y-m-d');
         if ($this->presentationOption == 'litters' and $this->littersSelect != '') {
             $this->animalCount = Animal::where('litter_id', $this->littersSelect)->where('animal_category_id', 2)->count();
-            $this->animalList = $this->animalLitterList();
+            $this->animalList = ($this->ref == 0) ? $this->animalLitterList() : $this->animalList;
+            $this->ref = 1;
         } elseif ($this->presentationOption == 'all') {
             $this->animalCount = Animal::where('animal_category_id', 1)->count();
-            $this->animalList = $this->animalList();
+            $this->animalList = ($this->ref == 0) ? $this->animalList() : $this->animalList;
+            $this->ref = 1;
         } elseif ($this->presentationOption == 'feed') {
             $this->animalCount = $this->toFeed('count');
-            $this->animalList = $this->toFeed();
+            $this->animalList = ($this->ref == 0) ? $this->toFeed() : $this->animalList;
+            $this->ref = 1;
         } else {
             $this->animalCount = '';
         }
@@ -87,6 +91,7 @@ class Presentation extends Component
     {
         $this->step = 1;
         $this->reset();
+        $this->ref = 0;
     }
 
     public function toFeed($opt = null)
