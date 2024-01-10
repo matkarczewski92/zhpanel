@@ -43,12 +43,12 @@
                         <tbody >
                             @foreach ($animal ?? [] as $an)
                             @php
-                            $sex = sexName($an->sex);
+                                $sex = $repo->sexName($an->sex);
                                 $feed = App\Models\Feed::find($an->feed_id);
-                                $lastWeight = lastWeight($an->id);
-                                $feedInterval = feedInterval($an->id);
-                                $lastFeed = lastFeed($an->id);
-                                $nextFeed = nextFeed($an->id);
+                                $lastWeight = $repo->lastWeight($an->id);
+                                $feedInterval = $repo->feedInterval($an->id);
+                                $lastFeed = $repo->lastFeed($an->id);
+                                $nextFeed = $repo->nextFeed($an->id);
                             @endphp
                             @if ($an->animal_type_id == $typ->id)
                             <tr >

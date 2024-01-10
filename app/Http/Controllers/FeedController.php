@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Charts\FeedConsumptionChart;
+use App\Interfaces\FeedRepositoryInterface;
 use App\Models\AnimalFeedings;
 use App\Models\Feed;
 use App\Models\Finances;
@@ -16,11 +17,17 @@ class FeedController extends Controller
     /**
      * Display a listing of the resource.
      */
+    private FeedRepositoryInterface $feedRepository;
+
+    public function __construct(FeedRepositoryInterface $feedRepository)
+    {
+        $this->feedRepository = $feedRepository;
+    }
+
     public function index(Request $request): View
     {
-
         return view('feed', [
-            'feed' => Feed::all(),
+            'feed' => $this->feedRepository->all(),
             'chart' => $this->consumptionChart($request->year),
         ]);
     }
@@ -30,7 +37,6 @@ class FeedController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -38,12 +44,13 @@ class FeedController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $feed = new Feed;
+        $feed = new Feed();
         $feed->name = $request->name;
         $feed->feeding_interval = $request->feeding_interval;
         $feed->amount = $request->amount;
         $feed->last_price = $request->last_price;
         $feed->save();
+
         return redirect()
             ->route('feeds.index');
     }
@@ -54,7 +61,7 @@ class FeedController extends Controller
     public function show(int $id): View
     {
         return view('feed.feed-profile', [
-            'feed' => Feed::find($id),
+            'feed' => $this->feedRepository->getById($id),
             'costs' => Finances::where('feed_id', '=', $id)->orderBy('created_at', 'desc')->paginate(10),
         ]);
     }
@@ -72,12 +79,13 @@ class FeedController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
-        $feed = Feed::find($id);
+        $feed = $this->feedRepository->getById($id);
         $feed->name = $request->name;
         $feed->feeding_interval = $request->feeding_interval;
         $feed->amount = $request->amount;
         $feed->last_price = $request->last_price;
         $feed->save();
+
         return redirect()
             ->route('feed.profile', $id)
             ->with('feed-status', 'Edytowano pomyślnie')
@@ -90,6 +98,7 @@ class FeedController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         Feed::find($id)->delete();
+
         return redirect()
             ->route('feeds.index')
             // ->with('feed-status', 'Edytowano pomyślnie')
@@ -99,12 +108,12 @@ class FeedController extends Controller
 
     private function consumptionChart(int $year = null): FeedConsumptionChart
     {
-        $year = (is_null($year) || $year == '') ? date("Y") : $year;
+        $year = (is_null($year) || $year == '') ? date('Y') : $year;
         $months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-        $label = "";
-        $fc = Feed::all();
-        $label = substr_replace($label, "", -1);
-        $chart = new FeedConsumptionChart;
+        $label = '';
+        $fc = $this->feedRepository->all();
+        $label = substr_replace($label, '', -1);
+        $chart = new FeedConsumptionChart();
         $chart->labels($months);
         foreach ($fc as $cat) {
             $amount = [];
@@ -112,7 +121,7 @@ class FeedController extends Controller
                 $feedings = AnimalFeedings::where('feed_id', '=', $cat->id)
                     ->whereYear('created_at', '=', $year)
                     ->whereMonth('created_at', '=', $mo)
-                    ->select(DB::raw("sum(amount) as sum"))
+                    ->select(DB::raw('sum(amount) as sum'))
                     ->get();
                 foreach ($feedings as $feed) {
                     $sum = ($feed->sum < 1) ? 0 : $feed->sum;
@@ -123,6 +132,7 @@ class FeedController extends Controller
                 'backgroundColor' => sprintf('#%06X', mt_rand(0, 0xFFFFFF)),
             ]);
         }
+
         return $chart;
     }
 }

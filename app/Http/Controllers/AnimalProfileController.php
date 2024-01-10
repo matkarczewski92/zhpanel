@@ -3,25 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Charts\AnimalWeightChart;
-use App\Models\Animal;
+use App\Interfaces\AnimalRepositoryInterface;
+use App\Interfaces\LitterRepositoryInterface;
 use App\Models\AnimalPhotoGallery;
 use App\Models\AnimalWeight;
-use App\Models\Litter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 
 class AnimalProfileController extends Controller
 {
+    private AnimalRepositoryInterface $animalRepo;
+    private LitterRepositoryInterface $litterRepository;
+
+    public function __construct(
+        AnimalRepositoryInterface $animalRepo,
+        LitterRepositoryInterface $litterRepository
+    ) {
+        $this->animalRepo = $animalRepo;
+        $this->litterRepository = $litterRepository;
+    }
+
     public function index(Request $request): View
     {
         $animalId = $request->route('id');
-        $animal = Animal::find($animalId);
+        $animal = $this->animalRepo->getById($animalId);
 
         return view('animals.animal-profile', [
             'animal' => $animal,
             'charts' => $this->weightChart($animalId),
-            'litters' => Litter::where('parent_male', '=', $animalId)->orWhere('parent_female', '=', $animalId)->get(),
+            'litters' => $this->litterRepository->getByParents($animalId),
         ]);
     }
 
