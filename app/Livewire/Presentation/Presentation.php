@@ -166,6 +166,8 @@ class Presentation extends Component
             session()->flash('animalFeedingColor', 'text-success');
             $this->reset('amount');
         }
+        $this->checkWeight();
+        $this->checkFeeding();
     }
 
     public function addWeight()
@@ -183,6 +185,8 @@ class Presentation extends Component
         $this->reset('inputDate');
         $this->reset('inputWeight');
         session()->flash('animalWeightColor', 'text-success');
+        $this->checkWeight();
+        $this->checkFeeding();
     }
 
     public function checkFeeding()
@@ -204,7 +208,7 @@ class Presentation extends Component
         if (!empty($weight->created_at)) {
             $lastWeightDate = new Carbon($weight->created_at);
             $diff = $lastWeightDate->diff($nowDate)->days;
-            if ($diff >= 28) {
+            if ($diff >= 25) {
                 $this->weightIndicator = 'text-danger';
             } else {
                 $this->weightIndicator = '';

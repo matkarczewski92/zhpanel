@@ -3,7 +3,11 @@
         <div class="card mb-3 me-4 ms-4 bg-dark photobg rounded-1">
             <div class="card-body " style="">
                 <div class="strike mb-2">
-                    <span>Tryb Prezentacji</span>
+                    <span>Tryb Prezentacji
+                        @if ($step==2)
+                            : {{$index}}/{{$animalCount}}
+                        @endif
+                    </span>
                 </div>
 
                 @if ($step == 1 OR $step == '')
