@@ -1,6 +1,6 @@
 @php
-    $wColor = (session()->has('animalWeightColor')) ? session('animalWeightColor') : '';
-    $fColor = (session()->has('animalFeedingColor')) ? session('animalFeedingColor') : '';
+    $wColor = (session()->has('animalWeightColor')) ? session('animalWeightColor') : $weightIndicator;
+    $fColor = (session()->has('animalFeedingColor')) ? session('animalFeedingColor') : $feedIndicator;
 @endphp
 <div class="card mb-3 bg-dark photobg rounded-1">
     <div class="card-body " style="">

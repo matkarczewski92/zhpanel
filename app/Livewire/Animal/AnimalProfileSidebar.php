@@ -2,9 +2,7 @@
 
 namespace App\Livewire\Animal;
 
-use App\Http\Controllers\AnimalProfileController;
 use App\Models\Animal;
-use App\Models\AnimalFeedings;
 use App\Models\AnimalWeight;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
@@ -12,29 +10,28 @@ use Livewire\Component;
 
 class AnimalProfileSidebar extends Component
 {
-    public $animalId = "";
-    public $feedIndicator = "";
-    public $feedIndicatorColor = "#c5cad3";
-    public $feedDiff = "";
-    public $weightIndicator = "";
-    public $weightIndicatorColor = "#c5cad3";
+    public $animalId = '';
+    public $feedIndicator = '';
+    public $feedIndicatorColor = '#c5cad3';
+    public $feedDiff = '';
+    public $weightIndicator = '';
+    public $weightIndicatorColor = '#c5cad3';
 
     #[On('animal-sidebar-render')]
     public function render()
     {
         $this->checkWeight();
         $this->checkFeeding();
+
         return view('livewire.animal.animal-profile-sidebar', [
             'animal' => Animal::find($this->animalId),
-
         ]);
     }
-
 
     public function publicProfileSwitch()
     {
         $animal = Animal::find($this->animalId);
-        $switch = ($animal->public_profile == "0") ? '1' : '0';
+        $switch = ($animal->public_profile == '0') ? '1' : '0';
         $animal->public_profile = $switch;
         $animal->save();
     }
@@ -49,7 +46,7 @@ class AnimalProfileSidebar extends Component
         if ($diff == 0) {
             $this->feedIndicator = 'fa-bounce';
             $this->feedIndicatorColor = '#e7b50f';
-        } else if ($diff < 0) {
+        } elseif ($diff < 0) {
             $this->feedIndicator = 'fa-bounce';
             $this->feedIndicatorColor = '#b41d1d';
         } else {

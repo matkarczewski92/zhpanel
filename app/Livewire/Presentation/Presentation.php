@@ -24,6 +24,8 @@ class Presentation extends Component
     public $amount = 1;
     public $inputWeight = '';
     public $inputDate = '';
+    public $feedIndicator = '';
+    public $weightIndicator = '';
 
     public function render()
     {
@@ -55,6 +57,8 @@ class Presentation extends Component
         $this->actual = Animal::find($this->animalList[0]);
         $this->feed_id = $this->actual->feed_id;
         $this->step = 2;
+        $this->checkWeight();
+        $this->checkFeeding();
     }
 
     public function nextStep()
@@ -63,6 +67,8 @@ class Presentation extends Component
         if ($this->animalCount > $this->index) {
             $this->actual = Animal::find($this->animalList[$this->index]);
             $this->feed_id = $this->actual->feed_id;
+            $this->checkWeight();
+            $this->checkFeeding();
         }
     }
 
@@ -72,6 +78,8 @@ class Presentation extends Component
             --$this->index;
             $this->actual = Animal::find($this->animalList[$this->index]);
             $this->feed_id = $this->actual->feed_id;
+            $this->checkWeight();
+            $this->checkFeeding();
         }
     }
 
@@ -170,5 +178,34 @@ class Presentation extends Component
         $this->reset('inputDate');
         $this->reset('inputWeight');
         session()->flash('animalWeightColor', 'text-success');
+    }
+
+    public function checkFeeding()
+    {
+        $nowDate = Carbon::now();
+        $nextFeedDate = nextFeed($this->actual->id);
+        $diff = Carbon::parse($nowDate)->diffInDays(Carbon::parse($nextFeedDate), false);
+        if ($diff <= 0) {
+            $this->feedIndicator = 'text-danger';
+        } else {
+            $this->feedIndicator = '';
+        }
+    }
+
+    public function checkWeight()
+    {
+        $weight = AnimalWeight::where('animal_id', '=', $this->actual->id)->orderBy('created_at', 'desc')->first();
+        $nowDate = Carbon::now();
+        if (!empty($weight->created_at)) {
+            $lastWeightDate = new Carbon($weight->created_at);
+            $diff = $lastWeightDate->diff($nowDate)->days;
+            if ($diff >= 25) {
+                $this->weightIndicator = 'text-danger';
+            } else {
+                $this->weightIndicator = '';
+            }
+        } else {
+            $this->weightIndicator = '';
+        }
     }
 }
