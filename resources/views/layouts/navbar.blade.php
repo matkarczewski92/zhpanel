@@ -70,6 +70,9 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="{{ route('webpage') }}">Web</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ route('presentation') }}">Tryb Prezentacji</a>
+          </li>
         </ul>
         <div style="float: right;" class="me-3">
             <div class="input-group">

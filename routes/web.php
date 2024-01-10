@@ -15,6 +15,7 @@ use App\Http\Controllers\LittersNotForSaleController;
 use App\Http\Controllers\LittersPlanningController;
 use App\Http\Controllers\MassDataController;
 use App\Http\Controllers\PossibleOffspringController;
+use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SoldController;
 use App\Http\Controllers\WebController;
@@ -44,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('massdata', [MassDataController::class, 'index'])->name('massdata');
     Route::get('winterings', [WinteringController::class, 'index'])->name('winterings');
     Route::get('litters-planning', [LittersPlanningController::class, 'index'])->name('litters-planning');
+    Route::get('presentation', PresentationController::class)->name('presentation');
 
     Route::resource('not-for-sale', LittersNotForSaleController::class);
     Route::resource('availableconnections', AvailableConnectionsController::class)->only(['index', 'show']);

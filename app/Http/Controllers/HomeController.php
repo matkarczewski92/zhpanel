@@ -43,12 +43,12 @@ class HomeController extends Controller
             foreach ($animalArray ?? [] as $a) {
                 if ($fn == 1) {
                     if (timeToFeed($a->id) <= 0) {
-                        $fName = Feed::find($a->animalFeed->id);
-                        $feed[] = $fName->name;
+                        $fName = Feed::find($a->animalFeed?->id);
+                        $feed[] = $fName->name ?? '';
                     }
                 } elseif ($fn == 0) {
-                    $fName = Feed::find($a->animalFeed->id);
-                    $feed[] = $fName->name;
+                    $fName = Feed::find($a->animalFeed?->id) ?? [];
+                    $feed[] = $fName->name ?? '';
                 }
             }
 
