@@ -23,7 +23,7 @@ class AnimalFeedingsProfile extends Component
     public $editMode = 0;
     public $editBtnMode = 'success';
 
-    public function mount(
+    public function boot(
         AnimalRepositoryInterface $animalRepo,
         FeedRepositoryInterface $feedRepo
     ) {

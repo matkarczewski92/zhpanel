@@ -16,7 +16,7 @@ class AnimalProfileDetails extends Component
     public $feedId = '';
     public $sex = '';
 
-    public function mount(
+    public function boot(
         AnimalRepositoryInterface $animalRepo,
         FeedRepositoryInterface $feedRepo
     ) {

@@ -2,12 +2,15 @@
 
 namespace App\Livewire\Animal;
 
+use App\Interfaces\AnimalWinteringRepositoryInterface;
 use App\Models\Wintering;
 use App\Models\WinteringStages;
 use Livewire\Component;
 
 class AnimalWinteringProfile extends Component
 {
+    private AnimalWinteringRepositoryInterface $winteringRepo;
+
     public $animalId = '';
     public $editMode = 0;
     public $editStartDate;
@@ -17,6 +20,12 @@ class AnimalWinteringProfile extends Component
     public $editCustomDuration;
     public $editModeStageId = 0;
     public $editBtnMode = 'success';
+
+    public function boot(
+        AnimalWinteringRepositoryInterface $winteringRepo
+    ) {
+        $this->winteringRepo = $winteringRepo;
+    }
 
     public function render()
     {

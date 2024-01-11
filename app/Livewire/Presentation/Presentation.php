@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Presentation;
 
+use App\Interfaces\AnimalRepositoryInterface;
+use App\Interfaces\FeedRepositoryInterface;
 use App\Models\Animal;
 use App\Models\AnimalFeedings;
 use App\Models\AnimalWeight;
@@ -12,6 +14,9 @@ use Livewire\Component;
 
 class Presentation extends Component
 {
+    private AnimalRepositoryInterface $animalRepo;
+    private FeedRepositoryInterface $feedRepo;
+
     public $presentationOption;
     public $littersSelect;
     public $animalCount;
@@ -27,6 +32,14 @@ class Presentation extends Component
     public $feedIndicator = '';
     public $weightIndicator = '';
     public $ref = 0;
+
+    public function boot(
+        AnimalRepositoryInterface $animalRepo,
+        FeedRepositoryInterface $feedRepo
+    ) {
+        $this->animalRepo = $animalRepo;
+        $this->feedRepo = $feedRepo;
+    }
 
     public function render()
     {
@@ -52,6 +65,7 @@ class Presentation extends Component
             'litters' => Litter::where('category', 1)->get(),
             'data' => $this->animalList ?? [],
             'feeds' => Feed::all(),
+            'animalRepo' => $this->animalRepo,
         ]);
     }
 
@@ -69,7 +83,7 @@ class Presentation extends Component
     {
         ++$this->index;
         if ($this->animalCount > $this->index) {
-            $this->actual = Animal::find($this->animalList[$this->index]);
+            $this->actual = $this->animalRepo->getById($this->animalList[$this->index]);
             $this->feed_id = $this->actual->feed_id;
             $this->checkWeight();
             $this->checkFeeding();
@@ -80,7 +94,7 @@ class Presentation extends Component
     {
         if ($this->index >= 0) {
             --$this->index;
-            $this->actual = Animal::find($this->animalList[$this->index]);
+            $this->actual = $this->animalRepo->getById($this->animalList[$this->index]);
             $this->feed_id = $this->actual->feed_id;
             $this->checkWeight();
             $this->checkFeeding();
@@ -99,14 +113,14 @@ class Presentation extends Component
         $animal = [];
         $animals = Animal::where('animal_category_id', '=', 1)->get();
         foreach ($animals as $a) {
-            if (timeToFeed($a->id) <= 1) {
+            if ($this->animalRepo->timeToFeed($a->id) <= 1) {
                 $animal[] = $a->id;
             }
         }
 
         $animals = Animal::where('animal_category_id', '=', 1)->get();
         foreach ($animals as $a) {
-            if (timeToWeight($a->id) <= 3) {
+            if ($this->animalRepo->timeToWeight($a->id) <= 3) {
                 $animal[] = $a->id;
             }
         }
@@ -192,7 +206,7 @@ class Presentation extends Component
     public function checkFeeding()
     {
         $nowDate = Carbon::now();
-        $nextFeedDate = nextFeed($this->actual->id);
+        $nextFeedDate = $this->animalRepo->nextFeed($this->actual->id);
         $diff = Carbon::parse($nowDate)->diffInDays(Carbon::parse($nextFeedDate), false);
         if ($diff <= 0) {
             $this->feedIndicator = 'text-danger';

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Animal;
 
+use App\Interfaces\AnimalRepositoryInterface;
 use App\Models\Animal;
 use App\Models\AnimalWeight;
 use Carbon\Carbon;
@@ -10,12 +11,19 @@ use Livewire\Component;
 
 class AnimalProfileSidebar extends Component
 {
+    private AnimalRepositoryInterface $animalRepo;
+
     public $animalId = '';
     public $feedIndicator = '';
     public $feedIndicatorColor = '#c5cad3';
     public $feedDiff = '';
     public $weightIndicator = '';
     public $weightIndicatorColor = '#c5cad3';
+
+    public function boot(AnimalRepositoryInterface $animalRepo)
+    {
+        $this->animalRepo = $animalRepo;
+    }
 
     #[On('animal-sidebar-render')]
     public function render()
@@ -39,7 +47,7 @@ class AnimalProfileSidebar extends Component
     public function checkFeeding()
     {
         $nowDate = Carbon::now();
-        $nextFeedDate = nextFeed($this->animalId);
+        $nextFeedDate = $this->animalRepo->nextFeed($this->animalId);
         $feedingDate = new Carbon($nextFeedDate);
         // $diff = $nowDate->diff($feedingDate)->days;
         $diff = Carbon::parse($nowDate)->diffInDays(Carbon::parse($nextFeedDate), false);

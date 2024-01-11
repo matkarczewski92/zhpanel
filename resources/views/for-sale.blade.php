@@ -42,11 +42,11 @@
                         <tbody >
                             @foreach ($animal ?? [] as $an)
                             @php
-                                $sex = sexName($an->sex);
-                                $lastWeight = lastWeight($an->id);
-                                $feedInterval = feedInterval($an->id);
-                                $lastFeed = lastFeed($an->id);
-                                $nextFeed = nextFeed($an->id);
+                                $sex = $animalRepo->sexName($an->sex);
+                                $lastWeight = $animalRepo->lastWeight($an->id);
+                                $feedInterval = $animalRepo->feedInterval($an->id);
+                                $lastFeed = $animalRepo->lastFeed($an->id);
+                                $nextFeed = $animalRepo->nextFeed($an->id);
                                 $offer = ($an->animalOffer?->id) ? 'TAK' : 'NIE';
                             @endphp
                             <tr >

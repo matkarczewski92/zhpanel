@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <td class="key">Płeć</td>
-        <td class="value">{{ sexName($animal->sex) }}</td>
+        <td class="value">{{ $animalRepo->sexName($animal->sex) }}</td>
     </tr>
     <tr>
         <td class="key">Data urodzenia</td>
@@ -43,15 +43,15 @@
     </tr>
     <tr>
         <td class="key">Inrerwał karmienia</td>
-        <td class="value">{{ feedInterval($animal->id) }}</td>
+        <td class="value">{{ $animalRepo->feedInterval($animal->id) }}</td>
     </tr>
     <tr>
         <td class="key">Data ost. karmienia</td>
-        <td class="value">{{lastFeed($animal->id)}}</td>
+        <td class="value">{{$animalRepo->lastFeed($animal->id)}}</td>
     </tr>
     <tr>
         <td class="key">Data nast. karmienia</td>
-        <td class="value">{{nextFeed($animal->id)}}</td>
+        <td class="value">{{$animalRepo->nextFeed($animal->id)}}</td>
     </tr>
 
 </table>

@@ -2,14 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\AnimalRepositoryInterface;
+use App\Interfaces\LitterRepositoryInterface;
 use App\Models\Animal;
 use App\Models\Litter;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class LitterController extends Controller
 {
+    private AnimalRepositoryInterface $animalRepo;
+    private LitterRepositoryInterface $litterRepository;
+
+    public function __construct(
+        AnimalRepositoryInterface $animalRepo,
+        LitterRepositoryInterface $litterRepository
+    ) {
+        $this->animalRepo = $animalRepo;
+        $this->litterRepository = $litterRepository;
+    }
+
     public function index(): View
     {
         return view('litters', [
@@ -18,7 +30,7 @@ class LitterController extends Controller
             'littersClose' => Litter::where('category', 4)->orderBy('season', 'desc')->paginate(15),
             'animalsMale' => Animal::where('sex', 2)->where('animal_category_id', 1)->get(),
             'animalsFemale' => Animal::where('sex', 3)->where('animal_category_id', 1)->get(),
-
+            'animalRepo' => $this->animalRepo,
         ]);
     }
 
@@ -28,35 +40,36 @@ class LitterController extends Controller
         $litter->litter_code = $request->litter_code;
         $litter->season = $request->season;
         $litter->category = $request->category;
-        $litter->parent_male  = $request->parent_male;
-        $litter->parent_female  = $request->parent_female;
+        $litter->parent_male = $request->parent_male;
+        $litter->parent_female = $request->parent_female;
         $litter->save();
 
-        if ($request->category == "3") {
+        if ($request->category == '3') {
             return redirect()
                 ->route('availableconnections.index')
                 ->with('litters-status', 'Dodano nowy miot')
                 ->with('litters-status-color', 'success');
-        } else
+        } else {
             return redirect()
-                ->route('litters.index')
-                ->with('litters-status', 'Dodano nowy miot')
-                ->with('litters-status-color', 'success');
+                    ->route('litters.index')
+                    ->with('litters-status', 'Dodano nowy miot')
+                    ->with('litters-status-color', 'success');
+        }
     }
 
     public function show(string $id)
     {
         $litter = Litter::find($id);
+
         return view('litters.litters-profile', [
             'litter' => $litter,
             'category' => litterCategory($litter->category),
             'animals' => Animal::where('litter_id', $id)->get(),
+            'animalRepo' => $this->animalRepo,
         ]);
     }
 
-
     public function destroy(string $id)
     {
-        //
     }
 }

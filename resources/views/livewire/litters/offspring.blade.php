@@ -19,11 +19,11 @@
                     @foreach ($animals as $animal)
                     <tr>
                         <td><a href="{{ route('animal.profile', $animal->id)}} ">{!! $animal->name !!}</td>
-                        <td class="text-center">{{ sexName($animal->sex) }}</td>
-                        <td class="text-center">{{ lastWeight($animal->id) }}</td>
-                        <td class="text-center">{{ feedCount($animal->id) }}</td>
+                        <td class="text-center">{{ $animalRepo->sexName($animal->sex) }}</td>
+                        <td class="text-center">{{ $animalRepo->lastWeight($animal->id) }}</td>
+                        <td class="text-center">{{ $animalRepo->feedCount($animal->id) }}</td>
                         <td class="text-center">{{ $animal->date_of_birth }}</td>
-                        <td class="text-center">{{ animalStatus($animal->id) }}</td>
+                        <td class="text-center">{{ $animalRepo->animalStatus($animal->id) }}</td>
                     </tr>
                     @endforeach
             </table>

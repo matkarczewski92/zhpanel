@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Charts\FeedConsumptionChart;
+use App\Interfaces\AnimalRepositoryInterface;
 use App\Interfaces\FeedRepositoryInterface;
 use App\Models\AnimalFeedings;
 use App\Models\Feed;
@@ -18,10 +19,12 @@ class FeedController extends Controller
      * Display a listing of the resource.
      */
     private FeedRepositoryInterface $feedRepository;
+    private AnimalRepositoryInterface $animalRepo;
 
-    public function __construct(FeedRepositoryInterface $feedRepository)
+    public function __construct(FeedRepositoryInterface $feedRepository, AnimalRepositoryInterface $animalRepo)
     {
         $this->feedRepository = $feedRepository;
+        $this->animalRepo = $animalRepo;
     }
 
     public function index(Request $request): View
@@ -29,6 +32,7 @@ class FeedController extends Controller
         return view('feed', [
             'feed' => $this->feedRepository->all(),
             'chart' => $this->consumptionChart($request->year),
+            'animalRepo' => $this->animalRepo,
         ]);
     }
 
@@ -63,6 +67,7 @@ class FeedController extends Controller
         return view('feed.feed-profile', [
             'feed' => $this->feedRepository->getById($id),
             'costs' => Finances::where('feed_id', '=', $id)->orderBy('created_at', 'desc')->paginate(10),
+            'animalRepo' => $this->animalRepo,
         ]);
     }
 

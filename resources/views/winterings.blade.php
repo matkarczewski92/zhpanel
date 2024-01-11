@@ -24,17 +24,17 @@
                 {{-- {{dd($winterings)}} --}}
                 @foreach ($winterings as $wt)
                 @php
-                    $stageDetails = getWinteringStageDetails($wt->id, winteringActualStage($wt->id)['stage']);
+                    $stageDetails = $winteringRepo->getWinteringStageDetails($wt->id, $winteringRepo->winteringActualStage($wt->id)['stage']);
                 @endphp
                     <tr>
                         <td>{{ $wt->id }}</td>
                         <td><a href="{{ route('animal.profile', $wt->id)}}">{!! $wt->name !!}</a></td>
-                        <td class="text-center">{{ lastWeight($wt->id) }} g.</td>
-                        <td class="text-center border-start">{{ winteringActualStage($wt->id)['stage'] }}. {{ winteringActualStage($wt->id)['title'] }}</td>
+                        <td class="text-center">{{ $animalRepo->lastWeight($wt->id) }} g.</td>
+                        <td class="text-center border-start">{{ $winteringRepo->winteringActualStage($wt->id)['stage'] }}. {{ $winteringRepo->winteringActualStage($wt->id)['title'] }}</td>
                         <td class="text-center ">{{ $stageDetails->start_date ?? $stageDetails->planned_start_date }}</td>
                         <td class="text-center  border-end">{{ $stageDetails->planned_end_date }}</td>
-                        <td class="text-center">{{ winteringStart($wt->id) }}</td>
-                        <td class="text-center">{{ winteringEnd($wt->id) }}</td>
+                        <td class="text-center">{{ $winteringRepo->winteringStart($wt->id) }}</td>
+                        <td class="text-center">{{ $winteringRepo->winteringEnd($wt->id) }}</td>
 
                     </tr>
                 @endforeach

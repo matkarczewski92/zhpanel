@@ -9,7 +9,7 @@
         <table class="detailsTable" >
             <tr>
                 <td class="key">Płeć</td>
-                <td class="value" colspan="2">{{ sexName($actual->sex) }}</td>
+                <td class="value" colspan="2">{{ $animalRepo->sexName($actual->sex) }}</td>
             </tr>
             <tr>
                 <td class="key">Data urodzenia</td>
@@ -37,27 +37,27 @@
             </tr>
             <tr>
                 <td class="key {{$fColor}}">Inrerwał karmienia</td>
-                <td class="value {{$fColor}}">co {{ feedInterval($actual->id) }} dni</td>
+                <td class="value {{$fColor}}">co {{ $animalRepo->feedInterval($actual->id) }} dni</td>
             </tr>
             <tr>
                 <td class="key {{$fColor}}">Data ost. karmienia</td>
-                <td class="value {{$fColor}}">{{ lastFeed($actual->id)}}</td>
+                <td class="value {{$fColor}}">{{ $animalRepo->lastFeed($actual->id)}}</td>
             </tr>
             <tr class="">
                 <td class="key {{$fColor}}">Data nast. karmienia</td>
-                <td class="value {{$fColor}}">{{ nextFeed($actual->id) }}</td>
+                <td class="value {{$fColor}}">{{ $animalRepo->nextFeed($actual->id) }}</td>
             </tr>
             <tr>
                 <td colspan="3"><div class="strike mb-2 mt-2"><span>Ważenia</span></div></td>
             </tr>
             <tr>
                 <td class="key {{$wColor}}">Data ost. ważenie</td>
-                <td class="value {{$wColor}}">{{ lastWeighting($actual->id) }}</td>
+                <td class="value {{$wColor}}">{{ $animalRepo->lastWeighting($actual->id) }}</td>
                 <td rowspan="2">@if(session()->has('animalWeightColor'))<h3><i class="bi bi-check-square-fill text-success"> Dodano</i></h3>@endif</td>
             </tr>
             <tr>
                 <td class="key {{$wColor}}">Ostatnie ważenie</td>
-                <td class="value {{$wColor}}">{{ lastWeight($actual->id) }} g.</td>
+                <td class="value {{$wColor}}">{{ $animalRepo->lastWeight($actual->id) }} g.</td>
             </tr>
 
         </table>

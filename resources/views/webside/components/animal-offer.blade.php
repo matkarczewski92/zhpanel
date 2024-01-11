@@ -27,7 +27,7 @@
                     <td><small class=" ">
                         @if (!empty($o->offerReservation->booker))
                             REZERWACJA
-                        @elseif (animalStatus($o->animal_id) == "W trakcie wykarmiania")
+                        @elseif ($animalRepo->animalStatus($o->animal_id) == "W trakcie wykarmiania")
                             W trakcie wykarmiania
                         @endif</small></td>
                     <td class="text-end"><small class="text-body-secondary ">CENA: {{$o->price}} zł </small></td>

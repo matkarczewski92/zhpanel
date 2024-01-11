@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\AnimalRepositoryInterface;
 use App\Models\Animal;
 use App\Models\Feed;
 use App\Models\Litter;
 
 class HomeController extends Controller
 {
+    private AnimalRepositoryInterface $animalRepo;
+
+    public function __construct(AnimalRepositoryInterface $animalRepo)
+    {
+        $this->animalRepo = $animalRepo;
+    }
+
     public function index()
     {
         return view('home', [
@@ -20,6 +28,7 @@ class HomeController extends Controller
             'summaryPast' => $this->animalToFeedSummary($this->animalToFeed(), 1),
             'summaryLittersPast' => $this->animalToFeedSummary($this->animalToFeed(2), 1),
             'littersStatus' => $this->litterStatus(),
+            'animalRepo' => $this->animalRepo,
         ]);
     }
 
@@ -28,7 +37,7 @@ class HomeController extends Controller
         $animal = [];
         $animals = Animal::where('animal_category_id', '=', $animalCategoryId)->get();
         foreach ($animals as $a) {
-            if (timeToFeed($a->id) <= 1) {
+            if ($this->animalRepo->timeToFeed($a->id) <= 1) {
                 $animal[] = $a;
             }
         }
@@ -42,7 +51,7 @@ class HomeController extends Controller
         if (!empty($animalArray)) {
             foreach ($animalArray ?? [] as $a) {
                 if ($fn == 1) {
-                    if (timeToFeed($a->id) <= 0) {
+                    if ($this->animalRepo->timeToFeed($a->id) <= 0) {
                         $fName = Feed::find($a->animalFeed?->id);
                         $feed[] = $fName->name ?? '';
                     }
@@ -63,7 +72,7 @@ class HomeController extends Controller
         $animal = [];
         $animals = Animal::where('animal_category_id', '=', $animalCategoryId)->get();
         foreach ($animals as $a) {
-            if (timeToWeight($a->id) <= 3) {
+            if ($this->animalRepo->timeToWeight($a->id) <= 3) {
                 $animal[] = $a;
             }
         }

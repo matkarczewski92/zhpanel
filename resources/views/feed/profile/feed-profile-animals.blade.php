@@ -13,7 +13,7 @@
             {{-- {{dd($feed->animalFeed)}} --}}
             @foreach ($feed->animalsFeed as $aF)
             @php
-                 $feedInterval = feedInterval($aF->id);
+                 $feedInterval = $animalRepo->feedInterval($aF->id);
             @endphp
 
             @if ($aF->animal_category_id !=0 AND $aF->animal_category_id !=3)

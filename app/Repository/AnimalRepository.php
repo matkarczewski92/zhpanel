@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Interfaces\AnimalRepositoryInterface;
 use App\Models\Animal;
 use App\Models\AnimalFeedings;
+use App\Models\AnimalOffer;
 use App\Models\AnimalWeight;
 use App\Models\Feed;
 use Carbon\Carbon;
@@ -26,11 +27,9 @@ class AnimalRepository implements AnimalRepositoryInterface
         return Animal::findOrFail($id);
     }
 
-    public function lastWeight(int $animalId): int|null
+    public function getByLitter(int $litterId)
     {
-        $weight = AnimalWeight::where('animal_id', '=', $animalId)->orderBy('created_at', 'desc')->first();
-
-        return $weight->value ?? null;
+        return Animal::where('litter_id', $litterId)->get();
     }
 
     public function sexName(int $value): string
@@ -76,12 +75,89 @@ class AnimalRepository implements AnimalRepositoryInterface
 
     public function nextFeed(int $animalId): string
     {
-        if (lastFeed($animalId)) {
-            $date = Carbon::parse(lastFeed($animalId));
+        if ($this->lastFeed($animalId)) {
+            $date = Carbon::parse($this->lastFeed($animalId));
 
-            return $date->addDays(feedInterval($animalId))->format('Y-m-d');
+            return $date->addDays($this->feedInterval($animalId))->format('Y-m-d');
         } else {
             return '';
+        }
+    }
+
+    public function timeToFeed(int $animalId)
+    {
+        $nowDate = Carbon::now();
+
+        $nextFeedDate = $this->nextFeed($animalId);
+        $test = Carbon::parse($nextFeedDate);
+        $diff = Carbon::parse($nowDate)->diffInDays($test, false);
+        $diff = ($diff < 0) ? $diff - 1 : $diff;
+        $diff = ($nowDate->format('Y-m-d') == $test->format('Y-m-d')) ? $diff : $diff + 1;
+
+        return $diff;
+    }
+
+    public function feedCount(int $animalId): int
+    {
+        $animal = AnimalFeedings::where('animal_id', $animalId)->where('feed_id', '<>', 0)->count();
+
+        return $animal;
+    }
+
+    public function lastWeight(int $animalId): int|null
+    {
+        $weight = AnimalWeight::where('animal_id', '=', $animalId)->orderBy('created_at', 'desc')->first();
+
+        return $weight->value ?? null;
+    }
+
+    public function lastWeighting(int $animalId): string
+    {
+        $feed = AnimalWeight::where('animal_id', '=', $animalId)->orderBy('created_at', 'desc')->first();
+        if ($feed) {
+            return $feed->created_at->format('Y-m-d');
+        } else {
+            return '';
+        }
+    }
+
+    public function nextWeight(int $animalId): string
+    {
+        if ($this->lastWeight($animalId)) {
+            $date = Carbon::parse($this->lastWeighting($animalId));
+
+            return $date->addDays(30)->format('Y-m-d');
+        } else {
+            return '';
+        }
+    }
+
+    public function timeToWeight(int $animalId)
+    {
+        $nowDate = Carbon::now();
+        $nextWeight = $this->nextWeight($animalId);
+        $nextWeightDate = Carbon::parse($nextWeight);
+        $diff = Carbon::parse($nowDate)->diffInDays($nextWeightDate, false);
+        $diff = ($nowDate->format('Y-m-d') == $nextWeightDate->format('Y-m-d')) ? $diff : $diff + 1;
+        $diff = ($diff < 0) ? $diff - 1 : $diff;
+
+        return $diff;
+    }
+
+    public function animalStatus(int $animalId)
+    {
+        $animal = Animal::find($animalId);
+        $offerCount = AnimalOffer::where('animal_id', $animalId)->count();
+        if ($animal->animal_category_id != 2) {
+            return $animal->animalCategory?->name;
+        }
+
+        if ($this->feedCount($animalId) < 4) {
+            return 'W trakcie wykarmiania';
+        } elseif ($offerCount == 1) {
+            return 'Wystawiony na sprzedaż';
+        } else {
+            return 'Wykarmiony - oczekiwanie na sprzedaż';
         }
     }
 }

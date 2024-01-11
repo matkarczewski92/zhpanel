@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Massdata;
 
+use App\Interfaces\AnimalRepositoryInterface;
+use App\Interfaces\FeedRepositoryInterface;
 use App\Models\Animal;
 use App\Models\AnimalFeedings;
 use App\Models\AnimalWeight;
@@ -11,27 +13,39 @@ use Livewire\Component;
 
 class MassData extends Component
 {
-    public $title, $category, $mass = [];
+    private AnimalRepositoryInterface $animalRepo;
+    private FeedRepositoryInterface $feedRepo;
+    public $title;
+    public $category;
+    public $mass = [];
 
+    public function mount(AnimalRepositoryInterface $animalRepo, FeedRepositoryInterface $feedRepo)
+    {
+        $this->animalRepo = $animalRepo;
+        $this->feedRepo = $feedRepo;
+    }
 
     #[On('render')]
     public function render()
     {
         $this->setData();
+
         return view('livewire.massdata.mass-data', [
             'animals' => Animal::where('animal_category_id', $this->category)->get(),
-            'feeds' => Feed::all(),
+            'feeds' => $this->feedRepo->all(),
         ]);
     }
+
     public function setData()
     {
         $animal = Animal::where('animal_category_id', $this->category)->get();
         foreach ($animal as $a) {
             $this->mass[$a->id]['feed'] = $a->feed_id;
             $this->mass[$a->id]['amount'] = 1;
-            $this->mass[$a->id]['feedCheck'] = (timeToFeed($a->id) <= 0) ? true  : '';
+            $this->mass[$a->id]['feedCheck'] = ($this->animalRepo->timeToFeed($a->id) <= 0) ? true : '';
         }
     }
+
     public function saveMassData()
     {
         foreach ($this->mass as $a => $value) {
@@ -55,6 +69,7 @@ class MassData extends Component
                 $weight->save();
             }
         }
+
         return redirect(request()->header('Referer'));
     }
 }

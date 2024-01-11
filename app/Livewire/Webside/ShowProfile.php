@@ -2,20 +2,28 @@
 
 namespace App\Livewire\Webside;
 
-use App\Charts\AnimalWeightChart;
-
+use App\Interfaces\AnimalRepositoryInterface;
 use App\Models\Animal;
-use App\Models\AnimalWeight;
 use Livewire\Component;
 
 class ShowProfile extends Component
 {
-    public $animalToken, $animalId, $status;
+    public $animalToken;
+    public $animalId;
+    public $status;
+
+    private AnimalRepositoryInterface $animalRepo;
+
+    public function mount(AnimalRepositoryInterface $animalRepo)
+    {
+        $this->animalRepo = $animalRepo;
+    }
 
     public function render()
     {
         $this->checkToken();
         $animal = (!empty($this->animalId)) ? Animal::find($this->animalId) : '';
+
         return view('livewire.webside.show-profile', [
             'animal' => $animal,
         ]);
@@ -28,7 +36,9 @@ class ShowProfile extends Component
             $this->status = $animal;
             if ($animal->count() > 0) {
                 $this->animalId = $animal[0]->id;
-            } else $this->status = "Nie znaleziono";
+            } else {
+                $this->status = 'Nie znaleziono';
+            }
         }
     }
 }
