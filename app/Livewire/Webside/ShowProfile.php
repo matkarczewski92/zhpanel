@@ -14,7 +14,7 @@ class ShowProfile extends Component
 
     private AnimalRepositoryInterface $animalRepo;
 
-    public function mount(AnimalRepositoryInterface $animalRepo)
+    public function boot(AnimalRepositoryInterface $animalRepo)
     {
         $this->animalRepo = $animalRepo;
     }

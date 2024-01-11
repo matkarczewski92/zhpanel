@@ -17,7 +17,7 @@ class Offspring extends Component
     public $litterId;
     public $createAmount = 1;
 
-    public function mount(
+    public function boot(
         AnimalRepositoryInterface $animalRepo,
         LitterRepositoryInterface $litterRepo
     ) {

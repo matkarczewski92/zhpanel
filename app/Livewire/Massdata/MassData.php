@@ -19,7 +19,7 @@ class MassData extends Component
     public $category;
     public $mass = [];
 
-    public function mount(AnimalRepositoryInterface $animalRepo, FeedRepositoryInterface $feedRepo)
+    public function boot(AnimalRepositoryInterface $animalRepo, FeedRepositoryInterface $feedRepo)
     {
         $this->animalRepo = $animalRepo;
         $this->feedRepo = $feedRepo;

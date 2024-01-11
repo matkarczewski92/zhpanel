@@ -5,11 +5,28 @@
 <div class="card mb-3 bg-dark photobg rounded-1">
     <div class="card-body " style="">
 
-        <p class="text-center">{!! $actual->name !!}</p>
+        <div class="text-center mb-2">
+            <form wire:submit="">
+                <div class="input-group">
+                    <input type="text" class="form-control" wire:model="editNameInput">
+                    <button type="button" class="btn btn-primary" wire:click="editName({{$actual->id}})">Zapisz</button>
+                </div>
+            </form>
+        </div>
+
         <table class="detailsTable" >
             <tr>
                 <td class="key">Płeć</td>
-                <td class="value" colspan="2">{{ $animalRepo->sexName($actual->sex) }}</td>
+                <td class="value" colspan="2">
+                    <div class="input-group">
+                        <select class="form-select" aria-label="Default select example" wire:model="editSexInput">
+                            <option value="1">N/Sex</option>
+                            <option value="2">Samiec</option>
+                            <option value="3">Samica</option>
+                        </select>
+                        <button type="button" class="btn btn-primary" wire:click="editSex({{$actual->id}})">Zapisz</button>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td class="key">Data urodzenia</td>

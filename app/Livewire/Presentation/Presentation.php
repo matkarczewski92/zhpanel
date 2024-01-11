@@ -32,6 +32,9 @@ class Presentation extends Component
     public $feedIndicator = '';
     public $weightIndicator = '';
     public $ref = 0;
+    public $editDetails;
+    public $editNameInput;
+    public $editSexInput;
 
     public function boot(
         AnimalRepositoryInterface $animalRepo,
@@ -73,6 +76,8 @@ class Presentation extends Component
     {
         $this->index = 0;
         $this->actual = Animal::find($this->animalList[0]);
+        $this->editNameInput = $this->actual->name;
+        $this->editSexInput = $this->actual->sex;
         $this->feed_id = $this->actual->feed_id;
         $this->step = 2;
         $this->checkWeight();
@@ -84,6 +89,8 @@ class Presentation extends Component
         ++$this->index;
         if ($this->animalCount > $this->index) {
             $this->actual = $this->animalRepo->getById($this->animalList[$this->index]);
+            $this->editNameInput = $this->actual->name;
+            $this->editSexInput = $this->actual->sex;
             $this->feed_id = $this->actual->feed_id;
             $this->checkWeight();
             $this->checkFeeding();
@@ -95,6 +102,8 @@ class Presentation extends Component
         if ($this->index >= 0) {
             --$this->index;
             $this->actual = $this->animalRepo->getById($this->animalList[$this->index]);
+            $this->editNameInput = $this->actual->name;
+            $this->editSexInput = $this->actual->sex;
             $this->feed_id = $this->actual->feed_id;
             $this->checkWeight();
             $this->checkFeeding();
@@ -230,5 +239,19 @@ class Presentation extends Component
         } else {
             $this->weightIndicator = '';
         }
+    }
+
+    public function editName(int $animalid)
+    {
+        $animal = $this->animalRepo->getById($animalid);
+        $animal->name = $this->editNameInput;
+        $animal->save();
+    }
+
+    public function editSex(int $animalid)
+    {
+        $animal = $this->animalRepo->getById($animalid);
+        $animal->sex = $this->editSexInput;
+        $animal->save();
     }
 }

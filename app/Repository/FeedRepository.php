@@ -12,8 +12,8 @@ class FeedRepository implements FeedRepositoryInterface
         return Feed::all();
     }
 
-    public function getById(int $feedId)
+    public function getById($feedId)
     {
-        return Feed::findOrFail($feedId);
+        return $result = (!is_null($feedId)) ? Feed::findOrFail($feedId) : '';
     }
 }
