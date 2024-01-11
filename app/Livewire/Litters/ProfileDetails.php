@@ -2,12 +2,17 @@
 
 namespace App\Livewire\Litters;
 
+use App\Interfaces\AnimalRepositoryInterface;
+use App\Interfaces\LitterRepositoryInterface;
 use App\Models\Animal;
 use App\Models\Litter;
 use Livewire\Component;
 
 class ProfileDetails extends Component
 {
+    private LitterRepositoryInterface $litterRepo;
+    private AnimalRepositoryInterface $animalRepo;
+
     public $litterId;
     public $category;
     public $litterCode;
@@ -30,9 +35,17 @@ class ProfileDetails extends Component
         'litterCode.required' => 'Wprowadź kod miotu',
     ];
 
+    public function boot(
+        LitterRepositoryInterface $litterRepo,
+        AnimalRepositoryInterface $animalRepo
+    ) {
+        $this->litterRepo = $litterRepo;
+        $this->animalRepo = $animalRepo;
+    }
+
     public function render()
     {
-        $litter = Litter::find($this->litterId);
+        $litter = $this->litterRepo->getById($this->litterId);
         $this->category = $litter->category;
         $this->litterCode = $litter->litter_code;
         $this->connectionDate = $litter->connection_date;
@@ -48,18 +61,19 @@ class ProfileDetails extends Component
 
         return view('livewire.litters.profile-details', [
             'litter' => $litter,
-            'status' => litterStatus($this->litterId),
-            'category' => litterCategory($litter->category),
+            'status' => $this->litterRepo->litterStatus($this->litterId),
+            'category' => $this->litterRepo->litterCategory($litter->category),
             'animals' => Animal::where('litter_id', $litter->id)->get(),
             'animalsMale' => Animal::where('sex', 2)->where('animal_category_id', 1)->get(),
             'animalsFemale' => Animal::where('sex', 3)->where('animal_category_id', 1)->get(),
+            'litterRepo' => $this->litterRepo,
         ]);
     }
 
     public function save(): void
     {
         $this->validate();
-        $litter = Litter::find($this->litterId);
+        $litter = $this->litterRepo->getById($this->litterId);
         $litter->category = $this->category;
         $litter->litter_code = $this->litterCode;
         $litter->connection_date = (!empty($this->connectionDate)) ? $this->connectionDate : null;

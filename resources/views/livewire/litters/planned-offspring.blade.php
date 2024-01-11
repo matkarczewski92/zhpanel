@@ -7,7 +7,7 @@
         <div class="strike mb-2">
             <span >Planowane potomstwo </span>
         </div>
-        @if (litterOffspringPercentCount($litterId)<100)
+        @if ($litterRepo->litterOffspringPercentCount($litterId)<100)
             <div class="alert alert-warning " role="alert">
                 Nieprawidłowa suma procentowa
             </div>
@@ -25,7 +25,7 @@
                 <td>{{ $og->percent }}%</td>
                 <td>{{ $og->title_vis }}</td>
                 <td>{{ $og->title_het }}</td>
-                <td>@if(checkNfs($og->id)!=0) <a href="{{ route('not-for-sale.index') }}">TAK</a> @endif</td>
+                <td>@if($litterRepo->checkNfs($og->id)!=0) <a href="{{ route('not-for-sale.index') }}">TAK</a> @endif</td>
                 <td class="text-center"> </td>
                 <td class="text-end">
                     <a wire:click="edit({{$og->id}})"><i class="fa-solid fa-pen-to-square fa-lg me-2"></i></a>

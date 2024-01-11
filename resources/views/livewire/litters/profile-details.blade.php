@@ -20,7 +20,7 @@
                                         <option value="3" @if ($litter->category == 2) selected @endif>Szablon/Możliwe</option>
                                         <option value="4" @if ($litter->category == 3) selected @endif>Zrealizowane</option>
                                     </select>
-                                @else {{ litterCategory($category) }} @endif</td>
+                                @else {{ $litterRepo->litterCategory($category) }} @endif</td>
                         </tr>
                         <tr>
                             <td class="key" >Status</td>

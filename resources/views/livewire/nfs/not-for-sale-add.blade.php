@@ -9,7 +9,7 @@
 
                 @foreach ($litters as $lt)
 
-                <option value="{{$lt->id}}">{{litterCategory($lt->category)}} - {{$lt->litter_code}} : {!! $lt->litterDetails->animalMale->name !!} &nbsp;&nbsp;&nbsp;&nbsp; X &nbsp;&nbsp;&nbsp;&nbsp; {!! $lt->litterDetails->animalFemale->name !!}</option>
+                <option value="{{$lt->id}}">{{$litterRepo->litterCategory($lt->category)}} - {{$lt->litter_code}} : {!! $lt->litterDetails->animalMale->name !!} &nbsp;&nbsp;&nbsp;&nbsp; X &nbsp;&nbsp;&nbsp;&nbsp; {!! $lt->litterDetails->animalFemale->name !!}</option>
                 @endforeach
             </select>
 
@@ -17,7 +17,7 @@
             <select name="litter" wire:model.live="animal" class="form-select mt-3">
                 <option value="">Wybierz miot</option>
                 @foreach ($animals as $lt)
-                <option value="{{$lt->id}}">{{litterCategory($lt->category)}} - {{$lt->litter_code}} : {{ $lt->title_vis }} - {{ $lt->title_het }} - </option>
+                <option value="{{$lt->id}}">{{$litterRepo->litterCategory($lt->category)}} - {{$lt->litter_code}} : {{ $lt->title_vis }} - {{ $lt->title_het }} - </option>
                 @endforeach
             </select>
             @endif

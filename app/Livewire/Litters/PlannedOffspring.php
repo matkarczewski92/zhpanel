@@ -2,16 +2,26 @@
 
 namespace App\Livewire\Litters;
 
+use App\Interfaces\AnimalRepositoryInterface;
+use App\Interfaces\LitterRepositoryInterface;
 use App\Models\LittersPairing;
 use Livewire\Component;
 
 class PlannedOffspring extends Component
 {
-    public $litterId, $percent, $titleVis, $titleHet;
+    private LitterRepositoryInterface $litterRepo;
+    private AnimalRepositoryInterface $animalRepo;
+
+    public $litterId;
+    public $percent;
+    public $titleVis;
+    public $titleHet;
     public $editMode = 0;
-    public $editBtnMode = "success";
+    public $editBtnMode = 'success';
     public $offspringEditMode = 0;
-    public $ofspringEditPercent, $ofspringEditHet, $ofspringEditVis;
+    public $ofspringEditPercent;
+    public $ofspringEditHet;
+    public $ofspringEditVis;
 
     protected $rules = [
         'percent' => 'required',
@@ -22,10 +32,19 @@ class PlannedOffspring extends Component
         'titleVis.required' => 'Wprowadź nazwę genu',
     ];
 
+    public function boot(
+        LitterRepositoryInterface $litterRepo,
+        AnimalRepositoryInterface $animalRepo
+    ) {
+        $this->litterRepo = $litterRepo;
+        $this->animalRepo = $animalRepo;
+    }
+
     public function render()
     {
         return view('livewire.litters.planned-offspring', [
             'offspring' => LittersPairing::where('litter_id', '=', $this->litterId)->get(),
+            'litterRepo' => $this->litterRepo,
         ]);
     }
 
@@ -43,6 +62,7 @@ class PlannedOffspring extends Component
         $this->reset('titleHet');
         $this->reset('percent');
     }
+
     public function edit(int $id)
     {
         if ($this->offspringEditMode == 0 || $this->offspringEditMode != $id) {
@@ -51,8 +71,11 @@ class PlannedOffspring extends Component
             $this->ofspringEditPercent = $off->percent;
             $this->ofspringEditHet = $off->title_het;
             $this->ofspringEditVis = $off->title_vis;
-        } else $this->offspringEditMode = 0;
+        } else {
+            $this->offspringEditMode = 0;
+        }
     }
+
     public function update()
     {
         $offspring = LittersPairing::find($this->offspringEditMode);
@@ -62,6 +85,7 @@ class PlannedOffspring extends Component
         $offspring->save();
         $this->offspringEditMode = 0;
     }
+
     public function delete(int $id)
     {
         LittersPairing::where('id', $id)->delete();
@@ -71,10 +95,10 @@ class PlannedOffspring extends Component
     {
         if ($this->editMode == 0) {
             $this->editMode = 1;
-            $this->editBtnMode = "danger";
+            $this->editBtnMode = 'danger';
         } else {
             $this->editMode = 0;
-            $this->editBtnMode = "success";
+            $this->editBtnMode = 'success';
         }
     }
 }

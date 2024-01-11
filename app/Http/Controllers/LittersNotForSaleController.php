@@ -2,18 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\AnimalRepositoryInterface;
+use App\Interfaces\LitterRepositoryInterface;
 use App\Models\NotForSale;
 use Illuminate\Http\Request;
 
 class LittersNotForSaleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private LitterRepositoryInterface $litterRepo;
+    private AnimalRepositoryInterface $animalRepo;
+
+    public function __construct(
+        LitterRepositoryInterface $litterRepo,
+        AnimalRepositoryInterface $animalRepo,
+    ) {
+        $this->litterRepo = $litterRepo;
+        $this->animalRepo = $animalRepo;
+    }
+
     public function index()
     {
         return view('not-for-sale', [
             'animal' => NotForSale::all(),
+            'animalRepo' => $this->animalRepo,
+            'litterRepo' => $this->litterRepo,
         ]);
     }
 

@@ -77,7 +77,7 @@
             @foreach ($offspring ?? [] as $of)
             <tr>
                 <td><a href="{{ route('litters.show', $of->litter_id) }}">{{ $of->litterDetails->litter_code }}</a></td>
-                <td><a href="{{ route('litters.show', $of->litter_id) }}">{{ litterCategory($of->litterDetails->category) }}</a></td>
+                <td><a href="{{ route('litters.show', $of->litter_id) }}">{{ $litterRepo->litterCategory($of->litterDetails->category) }}</a></td>
                 <td class="border-end"><a href="{{ route('litters.show', $of->litter_id) }}">{{ $of->litterDetails?->season }}</a></td>
                 <td class="text-center">{{ $of->percent }} %</td>
                 <td>{{ $of->title_vis }}</td>

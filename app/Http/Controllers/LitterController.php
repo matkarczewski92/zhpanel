@@ -12,14 +12,14 @@ use Illuminate\View\View;
 class LitterController extends Controller
 {
     private AnimalRepositoryInterface $animalRepo;
-    private LitterRepositoryInterface $litterRepository;
+    private LitterRepositoryInterface $litterRepo;
 
     public function __construct(
         AnimalRepositoryInterface $animalRepo,
-        LitterRepositoryInterface $litterRepository
+        LitterRepositoryInterface $litterRepo
     ) {
         $this->animalRepo = $animalRepo;
-        $this->litterRepository = $litterRepository;
+        $this->litterRepo = $litterRepo;
     }
 
     public function index(): View
@@ -31,6 +31,7 @@ class LitterController extends Controller
             'animalsMale' => Animal::where('sex', 2)->where('animal_category_id', 1)->get(),
             'animalsFemale' => Animal::where('sex', 3)->where('animal_category_id', 1)->get(),
             'animalRepo' => $this->animalRepo,
+            'litterRepo' => $this->litterRepo,
         ]);
     }
 
@@ -63,7 +64,7 @@ class LitterController extends Controller
 
         return view('litters.litters-profile', [
             'litter' => $litter,
-            'category' => litterCategory($litter->category),
+            'category' => $this->litterRepo->litterCategory($litter->category),
             'animals' => Animal::where('litter_id', $id)->get(),
             'animalRepo' => $this->animalRepo,
         ]);

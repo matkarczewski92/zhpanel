@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Nfs;
 
+use App\Interfaces\AnimalRepositoryInterface;
+use App\Interfaces\LitterRepositoryInterface;
 use App\Models\Litter;
 use App\Models\LittersPairing;
 use App\Models\NotForSale;
@@ -9,16 +11,29 @@ use Livewire\Component;
 
 class NotForSaleAdd extends Component
 {
+    private AnimalRepositoryInterface $animalRepo;
+    private LitterRepositoryInterface $litterRepo;
+
     public $litter;
     public $animal;
     public $sex;
     public $annotations;
+
+    public function boot(
+        AnimalRepositoryInterface $animalRepo,
+        LitterRepositoryInterface $litterRepo
+    ) {
+        $this->animalRepo = $animalRepo;
+        $this->litterRepo = $litterRepo;
+    }
 
     public function render()
     {
         return view('livewire.nfs.not-for-sale-add', [
             'litters' => $this->litters(),
             'animals' => $this->animals($this->litter),
+            'animalRepo' => $this->animalRepo,
+            'litterRepo' => $this->litterRepo,
         ]);
     }
 

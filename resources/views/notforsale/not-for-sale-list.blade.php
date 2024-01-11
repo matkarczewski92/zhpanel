@@ -20,7 +20,7 @@
 
                 @foreach ($animal ?? [] as $an)
                 @php
-                $sex = sexName($an->sex);
+                $sex = $animalRepo->sexName($an->sex);
                 @endphp
                 <tr >
                     <td>{{$an->id}}</td>
