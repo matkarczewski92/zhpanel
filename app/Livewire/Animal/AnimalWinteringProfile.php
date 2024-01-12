@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Animal;
 
+use App\Interfaces\AnimalRepositoryInterface;
 use App\Interfaces\AnimalWinteringRepositoryInterface;
 use App\Models\Wintering;
 use App\Models\WinteringStages;
@@ -10,6 +11,7 @@ use Livewire\Component;
 class AnimalWinteringProfile extends Component
 {
     private AnimalWinteringRepositoryInterface $winteringRepo;
+    private AnimalRepositoryInterface $animalRepo;
 
     public $animalId = '';
     public $editMode = 0;
@@ -22,9 +24,11 @@ class AnimalWinteringProfile extends Component
     public $editBtnMode = 'success';
 
     public function boot(
-        AnimalWinteringRepositoryInterface $winteringRepo
+        AnimalWinteringRepositoryInterface $winteringRepo,
+        AnimalRepositoryInterface $animalRepo
     ) {
         $this->winteringRepo = $winteringRepo;
+        $this->animalRepo = $animalRepo;
     }
 
     public function render()
@@ -92,11 +96,17 @@ class AnimalWinteringProfile extends Component
     public function deleteWintering(int $animalId)
     {
         $wintering = Wintering::where('animal_id', $animalId)->where('archive', null)->delete();
+        $animal = $this->animalRepo->getById($animalId);
+        $animal->animal_category_id = 1;
+        $animal->save();
     }
 
     public function closeWintering(int $animalId)
     {
         $wintering = Wintering::where('animal_id', $animalId)->where('archive', null)->update(['archive' => '1']);
+        $animal = $this->animalRepo->getById($animalId);
+        $animal->animal_category_id = 1;
+        $animal->save();
     }
 
     public function openWintering(int $animalId)
@@ -110,6 +120,9 @@ class AnimalWinteringProfile extends Component
             $wSt->stage_id = $st->id;
             $wSt->save();
         }
+        $animal = $this->animalRepo->getById($animalId);
+        $animal->animal_category_id = 4;
+        $animal->save();
     }
 
     public function updateDates(int $animalId)
