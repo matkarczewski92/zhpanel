@@ -1,5 +1,5 @@
 <div class="strike mt-2">
-    <span>Wylinka (ost. {{date_format($lastMolt->created_at,"Y-m-d")}} )</span>
+    <span>Wylinka @if($lastMolt?->created_at!=null) (ost. {{date_format($lastMolt->created_at,"Y-m-d")}} ) @endif</span>
 </div>
 
 <form wire:submit="addMolt">

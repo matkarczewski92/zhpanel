@@ -18,6 +18,7 @@
             <tr>
                 <td class="key">Płeć</td>
                 <td class="value" colspan="2">
+                    @if ($presentationOption == 'litters')
                     <div class="input-group">
                         <select class="form-select" aria-label="Default select example" wire:model="editSexInput">
                             <option value="1">N/Sex</option>
@@ -26,6 +27,10 @@
                         </select>
                         <button type="button" class="btn btn-primary" wire:click="editSex({{$actual->id}})">Zapisz</button>
                     </div>
+                    @else
+                    {{ $animalRepo->sexName($actual->sex) }}
+                    @endif
+
                 </td>
             </tr>
             <tr>
