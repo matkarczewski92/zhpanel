@@ -42,10 +42,10 @@ class AnimalRepository implements AnimalRepositoryInterface
                 return 'N/sex';
                 break;
             case 2:
-                return 'Samiec';
+                return '♂ Samiec';
                 break;
             case 3:
-                return 'Samica';
+                return '♀ Samica';
                 break;
         }
     }
