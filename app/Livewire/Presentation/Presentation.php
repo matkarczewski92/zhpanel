@@ -6,6 +6,7 @@ use App\Interfaces\AnimalRepositoryInterface;
 use App\Interfaces\FeedRepositoryInterface;
 use App\Models\Animal;
 use App\Models\AnimalFeedings;
+use App\Models\AnimalMolt;
 use App\Models\AnimalWeight;
 use App\Models\Feed;
 use App\Models\Litter;
@@ -35,6 +36,8 @@ class Presentation extends Component
     public $editDetails;
     public $editNameInput;
     public $editSexInput;
+    public $lastMolt;
+    public $editMolt;
 
     public function boot(
         AnimalRepositoryInterface $animalRepo,
@@ -76,6 +79,7 @@ class Presentation extends Component
     {
         $this->index = 0;
         $this->actual = Animal::find($this->animalList[0]);
+        $this->lastMolt = AnimalMolt::where('animal_id', '=', $this->actual->id)->orderBy('created_at', 'desc')->first();
         $this->editNameInput = $this->actual->name;
         $this->editSexInput = $this->actual->sex;
         $this->feed_id = $this->actual->feed_id;
@@ -89,6 +93,7 @@ class Presentation extends Component
         ++$this->index;
         if ($this->animalCount > $this->index) {
             $this->actual = $this->animalRepo->getById($this->animalList[$this->index]);
+            $this->lastMolt = AnimalMolt::where('animal_id', '=', $this->actual->id)->orderBy('created_at', 'desc')->first();
             $this->editNameInput = $this->actual->name;
             $this->editSexInput = $this->actual->sex;
             $this->feed_id = $this->actual->feed_id;
@@ -102,6 +107,7 @@ class Presentation extends Component
         if ($this->index >= 0) {
             --$this->index;
             $this->actual = $this->animalRepo->getById($this->animalList[$this->index]);
+            $this->lastMolt = AnimalMolt::where('animal_id', '=', $this->actual->id)->orderBy('created_at', 'desc')->first();
             $this->editNameInput = $this->actual->name;
             $this->editSexInput = $this->actual->sex;
             $this->feed_id = $this->actual->feed_id;
@@ -253,5 +259,13 @@ class Presentation extends Component
         $animal = $this->animalRepo->getById($animalid);
         $animal->sex = $this->editSexInput;
         $animal->save();
+    }
+
+    public function addMolt()
+    {
+        $molt = new AnimalMolt();
+        $molt->animal_id = $this->actual->id;
+        $molt->save();
+        $this->lastMolt = AnimalMolt::where('animal_id', '=', $this->actual->id)->orderBy('created_at', 'desc')->first();
     }
 }

@@ -4,6 +4,7 @@
         @include('livewire.presentation.components.profile-details')
         @include('livewire.presentation.components.add-feeding')
         @include('livewire.presentation.components.add-weight')
+        @include('livewire.presentation.components.add-molt')
     </div>
 </div>
 
