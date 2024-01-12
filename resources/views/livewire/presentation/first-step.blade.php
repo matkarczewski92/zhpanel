@@ -12,7 +12,7 @@
 
 
         @if ($animalCount!='')
-            <h5 class="mt-5">Liczba zwierząt do wyświetlenia: {{ $animalCount}}</h5>
+            <h5 class="mt-5">Liczba zwierząt do wyświetlenia: {{ $count }}</h5>
         @endif
 
         @if (!is_null($presentationOption) && $presentationOption==='litters')

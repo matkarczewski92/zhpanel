@@ -21,6 +21,7 @@ class Presentation extends Component
     public $presentationOption;
     public $littersSelect;
     public $animalCount;
+    public $count;
     public $step;
     public $animalList;
     public $index = 0;
@@ -53,14 +54,17 @@ class Presentation extends Component
         $this->inputDate = Carbon::now()->format('Y-m-d');
         if ($this->presentationOption == 'litters' and $this->littersSelect != '') {
             $this->animalCount = ($this->animalCount == '') ? Animal::where('litter_id', $this->littersSelect)->where('animal_category_id', 2)->count() : $this->animalCount;
+            $this->count = Animal::where('litter_id', $this->littersSelect)->where('animal_category_id', 2)->count();
             $this->animalList = ($this->ref == 0) ? $this->animalLitterList() : $this->animalList;
             $this->ref = 1;
         } elseif ($this->presentationOption == 'all') {
             $this->animalCount = ($this->animalCount == '') ? Animal::where('animal_category_id', 1)->count() : $this->animalCount;
+            $this->count = Animal::where('animal_category_id', 1)->count();
             $this->animalList = ($this->ref == 0) ? $this->animalList() : $this->animalList;
             $this->ref = 1;
         } elseif ($this->presentationOption == 'feed') {
             $this->animalCount = ($this->animalCount == '') ? $this->toFeed('count') : $this->animalCount;
+            $this->count = $this->toFeed('count');
             $this->animalList = ($this->ref == 0) ? $this->toFeed() : $this->animalList;
             $this->ref = 1;
         } else {
@@ -155,7 +159,9 @@ class Presentation extends Component
     public function animalList()
     {
         $animal = [];
-        $data = Animal::where('animal_category_id', 1)->get();
+        $data = Animal::where(function ($query) {
+            $query->where('animal_category_id', 1)->orWhere('animal_category_id', 4);
+        })->get();
         foreach ($data ?? [] as $r) {
             $animal[] = $r->id;
         }
