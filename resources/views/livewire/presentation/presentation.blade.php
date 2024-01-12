@@ -5,7 +5,7 @@
                 <div class="strike mb-2">
                     <span>Tryb Prezentacji
                         @if ($step==2)
-                            : {{$index}}/{{$animalCount}}
+                            : {{$index+1}}/{{$animalCount}}
                         @endif
                     </span>
                 </div>

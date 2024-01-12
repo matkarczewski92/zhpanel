@@ -52,15 +52,15 @@ class Presentation extends Component
         $this->date = Carbon::now()->format('Y-m-d');
         $this->inputDate = Carbon::now()->format('Y-m-d');
         if ($this->presentationOption == 'litters' and $this->littersSelect != '') {
-            $this->animalCount = Animal::where('litter_id', $this->littersSelect)->where('animal_category_id', 2)->count();
+            $this->animalCount = ($this->animalCount == '') ? Animal::where('litter_id', $this->littersSelect)->where('animal_category_id', 2)->count() : $this->animalCount;
             $this->animalList = ($this->ref == 0) ? $this->animalLitterList() : $this->animalList;
             $this->ref = 1;
         } elseif ($this->presentationOption == 'all') {
-            $this->animalCount = Animal::where('animal_category_id', 1)->count();
+            $this->animalCount = ($this->animalCount == '') ? Animal::where('animal_category_id', 1)->count() : $this->animalCount;
             $this->animalList = ($this->ref == 0) ? $this->animalList() : $this->animalList;
             $this->ref = 1;
         } elseif ($this->presentationOption == 'feed') {
-            $this->animalCount = $this->toFeed('count');
+            $this->animalCount = ($this->animalCount == '') ? $this->toFeed('count') : $this->animalCount;
             $this->animalList = ($this->ref == 0) ? $this->toFeed() : $this->animalList;
             $this->ref = 1;
         } else {
@@ -119,6 +119,7 @@ class Presentation extends Component
     public function endPres()
     {
         $this->step = 1;
+        $this->animalCount = '';
         $this->reset();
         $this->ref = 0;
     }
