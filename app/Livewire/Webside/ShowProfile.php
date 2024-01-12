@@ -26,6 +26,7 @@ class ShowProfile extends Component
 
         return view('livewire.webside.show-profile', [
             'animal' => $animal,
+            'animalRepo' => $this->animalRepo,
         ]);
     }
 
