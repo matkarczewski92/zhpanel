@@ -17,7 +17,7 @@ class AnimalWinteringRepository implements AnimalWinteringRepositoryInterface
 
     public function winteringStart(int $animalId)
     {
-        $wintering = WinteringStages::where('animal_id', $animalId)->where('archive', null)->first();
+        $wintering = Wintering::where('animal_id', $animalId)->where('archive', null)->first();
 
         return $wintering->start_date ?? '';
     }

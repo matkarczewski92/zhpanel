@@ -19,7 +19,10 @@ class AnimalRepository implements AnimalRepositoryInterface
 
     public function getAllInBreeding()
     {
-        return Animal::where('animal_category_id', '=', 1)->orderBy('id', 'desc')->get();
+        return Animal::where(function ($query) {
+            $query->where('animal_category_id', '=', 1)
+            ->orWhere('animal_category_id', '=', 4);
+        })->orderBy('id', 'desc')->get();
     }
 
     public function getById(int $id)
