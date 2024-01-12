@@ -53,7 +53,7 @@
                             @if ($an->animal_type_id == $typ->id)
                             <tr class="@if($an->animal_category_id == 4) text-info @endif">
                                 <td>{{$an->id}} </td>
-                                <td><a href="{{ route('animal.profile', $an->id)}}">@if($an->animal_category_id == 4)<i class="bi bi-snow2 ms-2"></i>@endif {!!$an->name!!}</a></td>
+                                <td><a href="{{ route('animal.profile', $an->id)}}">@if($an->animal_category_id == 4)<i class="bi bi-snow2 "></i>@endif {!!$an->name!!}</a></td>
                                 <td>{{ $sex }}</td>
                                 <td class="optWaga">{{ $lastWeight }} </td>
                                 <td class="optKarma hidden-result">{{ $feed?->name }}</td>
