@@ -2,7 +2,7 @@
     @if(!empty($weightHistory[0]))
     <table class="detailsTable">
             <tr class="border-bottom">
-                <td>Data ważenia</td>
+                <td>Data ważenia </td>
                 <td>Wartość</td>
                 <td> </td>
             </tr>
