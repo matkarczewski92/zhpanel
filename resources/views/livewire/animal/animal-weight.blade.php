@@ -15,6 +15,11 @@
             </tr>
         @endforeach
         </table>
+        <div class="mt-2">
+            <div class="position-absolute bottom-0 end-0 me-3">
+                {{ $weightHistory->links() }}
+            </div>
+        </div>
         @endif
         <form wire:submit="addWeight">
             <div class="input-group mb-5 ">
