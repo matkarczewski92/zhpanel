@@ -5,6 +5,10 @@
             <p class="text-center">{!! $animal->name !!}</p>
     <table class="detailsTable" >
         <tr>
+            <td class="key">ID</td>
+            <td class="value">{{ $animal->id }}</td>
+        </tr>
+        <tr>
             <td class="key">Status</td>
             <td class="value">{{ $animal->animalCategory?->name }}</td>
         </tr>
