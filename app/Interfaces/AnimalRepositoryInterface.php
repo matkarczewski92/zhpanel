@@ -8,6 +8,8 @@ interface AnimalRepositoryInterface
 
     public function getAllInBreeding();
 
+    public function getUnsoldOffer();
+
     public function getById(int $id);
 
     public function getByLitter(int $litterId);

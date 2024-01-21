@@ -35,6 +35,11 @@ class AnimalRepository implements AnimalRepositoryInterface
         return Animal::where('litter_id', $litterId)->get();
     }
 
+    public function getUnsoldOffer()
+    {
+        return AnimalOffer::where('sold_date', null)->get();
+    }
+
     public function sexName(int $value): string
     {
         switch ($value) {
