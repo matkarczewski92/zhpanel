@@ -25,7 +25,7 @@
     @if(!is_null($animal->litter_id))
     <tr>
         <td class="key">Miot</td>
-        <td class="value">@if($animal->animalLitter->litter_code) <a href="{{ route('litters.show', $animal->animalLitter->id) }} ">{{ $animal->animalLitter?->litter_code }}</a>@endif</td>
+        <td class="value">@if($animal->animalLitter->litter_code) {{ $animal->animalLitter?->litter_code }}@endif</td>
     </tr>
     @endif
     @if($animal->public_profile)
