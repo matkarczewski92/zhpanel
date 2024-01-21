@@ -12,7 +12,7 @@
                     <td>Cena</td>
                     <td>Data</td>
                     <td>Rezerwacja</td>
-                    <td>Publiczna</td>
+                    <td>Opcje</td>
                 </tr>
                 @foreach ($offers as $o)
                     <tr>
@@ -22,8 +22,8 @@
                         <td>{{$o->created_at->format("Y-m-d")}}</td>
                         <td>{{$o->offerReservation->booker ?? ''}}</td>
                         <td>
-                            <a wire:click="publicProfileSwitch({{$o->animalDetails->id}})" class="nav-link py-3 rounded-0" title="Profil publiczny">
-                                @if($o->animalDetails->public_profile == 0 ) <i class="fa-regular fa-eye-slash " style="color: #c5cad3;"></i> @else
+                            <a wire:click="publicProfileSwitch({{$o->animalDetails->id}})" class="nav-link py-3 rounded-0 fa-lg" title="Profil publiczny">
+                                @if($o->animalDetails->public_profile == 0 ) <i class="fa-regular fa-eye-slash  fa-lg" style="color: #c5cad3;"></i> @else
                                 <i class="fa-regular fa-eye " style="color: #297f3f;"></i>
                                 @endif
                             </a>
