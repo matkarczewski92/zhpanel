@@ -17,9 +17,9 @@
                     @endif
                 </div>
             </div>
-            <div class="row ">
+            {{-- <div class="row ">
                 <p class="card-text text-center mt-2">Zobacz profil węża</p>
-            </div>
+            </div> --}}
         </div>
         <div class="card-footer">
             <table class="detailsTable ">

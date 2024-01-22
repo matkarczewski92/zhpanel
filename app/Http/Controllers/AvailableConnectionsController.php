@@ -22,7 +22,12 @@ class AvailableConnectionsController extends Controller
     public function index()
     {
         return view('available-connections', [
-            'females' => Animal::where('sex', 3)->where('animal_category_id', 1)->get(),
+            'females' => Animal::where('sex', 3)
+            ->where(function ($query) {
+                $query->where('animal_category_id', 1)
+                ->orWhere('animal_category_id', 1);
+            })
+            ->get(),
             'males' => Animal::where('sex', 2)->where('animal_category_id', 1)->get(),
         ]);
     }
