@@ -19,12 +19,13 @@ use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SoldController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\WebSideProfile;
 use App\Http\Controllers\WinteringController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WebController::class, 'index'])->name('webpage');
-// Route::get('/profile/{tag}', [WebController::class, 'index']);
+Route::get('/profile/{id}', WebSideProfile::class)->name('profile');
 
 Auth::routes(['register' => false]);
 

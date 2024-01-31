@@ -1,8 +1,10 @@
 <div>
     <div class="card mb-3 mt-4 bg-dark photobg rounded-1">
+        @auth
         <button type="button" wire:click="editModeSwitch" class="btn btn-{{$editBtnMode}} rounded-circle editmode">
             <i class="fa-solid fa-pen"></i>
         </button>
+        @endauth
         <div class="card-body " style="">
             <div class="strike mb-2">
                 <span>Genetyka</span>

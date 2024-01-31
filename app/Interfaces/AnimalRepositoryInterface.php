@@ -12,6 +12,8 @@ interface AnimalRepositoryInterface
 
     public function getById(int $id);
 
+    public function getByToken(string $token);
+
     public function getByLitter(int $litterId);
 
     public function sexName(int $value);

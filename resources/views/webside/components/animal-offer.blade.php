@@ -17,9 +17,9 @@
                     @endif
                 </div>
             </div>
-            {{-- <div class="row ">
-                <p class="card-text text-center mt-2">Zobacz profil węża</p>
-            </div> --}}
+            <div class="row ">
+                <p class="card-text text-center mt-2"><a href="{{route('profile', ['id' => $o->animalDetails->public_profile_tag])}}" target="_blank">Zobacz profil węża</a></p>
+            </div>
         </div>
         <div class="card-footer">
             <table class="detailsTable ">

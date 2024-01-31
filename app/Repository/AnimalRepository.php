@@ -30,6 +30,11 @@ class AnimalRepository implements AnimalRepositoryInterface
         return Animal::findOrFail($id);
     }
 
+    public function getByToken(string $token)
+    {
+        return Animal::where('public_profile_tag', $token)->first();
+    }
+
     public function getByLitter(int $litterId)
     {
         return Animal::where('litter_id', $litterId)->get();
