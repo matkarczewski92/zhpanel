@@ -23,7 +23,7 @@ class WebSideProfile extends Controller
         $animal = $this->animalRepo->getByToken(request()->route('id'));
 
         if ($animal->public_profile == 0) {
-            return redirect('webpage');
+            return redirect('/');
         } else {
             return view('webside-profile', [
                 'animal' => $animal,
