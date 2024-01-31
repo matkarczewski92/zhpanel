@@ -22,20 +22,24 @@ class WebSideProfile extends Controller
         $this->feedRepo = $feedRepo;
         $animal = $this->animalRepo->getByToken(request()->route('id'));
 
-        return view('webside-profile', [
-            'animal' => $animal,
-            'animalFeedings' => AnimalFeedings::where('animal_id', $animal->id)->orderBy('created_at', 'desc')->paginate(10, ['*'], 'feedingsPaginate'),
-            'feedInterval' => $this->animalRepo->feedInterval($animal->id),
-            'lastFeeding' => $this->animalRepo->lastFeed($animal->id),
-            'nextFeed' => $this->animalRepo->nextFeed($animal->id),
-            'feed' => $this->feedRepo->getById($animal->feed_id),
-            'sexName' => $this->animalRepo->sexName($animal->sex),
-            'weightHistory' => AnimalWeight::where('animal_id', '=', $animal->id)->orderBy('created_at', 'desc')->paginate(5, ['*'], 'weightPaginate'),
-            'molts' => AnimalMolt::where('animal_id', '=', $animal->id)->orderBy('created_at', 'desc')->paginate(5, ['*'], 'moltPaginate'),
-            'genotypeVis' => $this->animalGenotype('v', $animal->id),
-            'genotypeHet' => $this->animalGenotype('h', $animal->id),
-            'genotypePos' => $this->animalGenotype('p', $animal->id),
-        ]);
+        if ($animal->public_profile == 0) {
+            return redirect('webpage');
+        } else {
+            return view('webside-profile', [
+                'animal' => $animal,
+                'animalFeedings' => AnimalFeedings::where('animal_id', $animal->id)->orderBy('created_at', 'desc')->paginate(10, ['*'], 'feedingsPaginate'),
+                'feedInterval' => $this->animalRepo->feedInterval($animal->id),
+                'lastFeeding' => $this->animalRepo->lastFeed($animal->id),
+                'nextFeed' => $this->animalRepo->nextFeed($animal->id),
+                'feed' => $this->feedRepo->getById($animal->feed_id),
+                'sexName' => $this->animalRepo->sexName($animal->sex),
+                'weightHistory' => AnimalWeight::where('animal_id', '=', $animal->id)->orderBy('created_at', 'desc')->paginate(5, ['*'], 'weightPaginate'),
+                'molts' => AnimalMolt::where('animal_id', '=', $animal->id)->orderBy('created_at', 'desc')->paginate(5, ['*'], 'moltPaginate'),
+                'genotypeVis' => $this->animalGenotype('v', $animal->id),
+                'genotypeHet' => $this->animalGenotype('h', $animal->id),
+                'genotypePos' => $this->animalGenotype('p', $animal->id),
+            ]);
+        }
     }
 
     public function animalGenotype(string $type, int $animalId)
