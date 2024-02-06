@@ -10,10 +10,11 @@ return new class() extends Migration {
      */
     public function up(): void
     {
-        Schema::create('sensors', function (Blueprint $table) {
+        Schema::create('sensors_settings', function (Blueprint $table) {
             $table->id();
-            $table->text('sensor_id');
-            $table->text('sensor_type');
+            $table->foreignId('sensor_id')->constrained('sensors');
+            $table->decimal('min', 5, 2);
+            $table->decimal('max', 5, 2);
             $table->timestamps();
         });
     }
