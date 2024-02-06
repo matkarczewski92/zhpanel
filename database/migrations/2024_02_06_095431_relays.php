@@ -10,9 +10,10 @@ return new class() extends Migration {
      */
     public function up(): void
     {
-        Schema::create('relays_settings', function (Blueprint $table) {
+        Schema::create('relays', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('relay_id')->constrained('relays');
+            $table->text('relay_id');
+            $table->text('relay_type');
             $table->text('status');
             $table->timestamps();
         });
