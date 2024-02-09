@@ -11,13 +11,13 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::table('sensors', function (Blueprint $table) {
-            $table->string('address');
+            $table->string('address')->nullable();
         });
         Schema::table('relays', function (Blueprint $table) {
-            $table->string('address');
+            $table->string('address')->nullable();
         });
         Schema::table('lights', function (Blueprint $table) {
-            $table->string('address');
+            $table->string('address')->nullable();
         });
     }
 
