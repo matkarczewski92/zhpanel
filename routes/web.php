@@ -8,6 +8,7 @@ use App\Http\Controllers\DeletedAnimalsController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\ForSaleController;
+use App\Http\Controllers\GetApiDataController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LitterController;
 use App\Http\Controllers\LitterGalleryController;
@@ -32,6 +33,7 @@ Auth::routes(['register' => false]);
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/zh', [HomeController::class, 'index'])->name('zh');
+    Route::get('/apidata', GetApiDataController::class)->name('apidata');
 
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::get('/', [SettingsController::class, 'index'])->name('index');  // Settings of Dashboard
