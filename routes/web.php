@@ -22,6 +22,7 @@ use App\Http\Controllers\SoldController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\WebSideProfile;
 use App\Http\Controllers\WinteringController;
+use App\Http\Controllers\ZHCAccessController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/zh', [HomeController::class, 'index'])->name('zh');
     Route::get('/apidata', GetApiDataController::class)->name('apidata');
+    Route::get('/zhcontroll', ZHCAccessController::class)->name('zhcontroll');
 
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::get('/', [SettingsController::class, 'index'])->name('index');  // Settings of Dashboard
