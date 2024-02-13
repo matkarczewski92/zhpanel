@@ -17,7 +17,7 @@
             <tr class="border-bottom">
                 <td>{{$set->key}}</td>
                 <td>@if ($editId === $set->id) <input type="text" class="form-control" wire:model="editName"> @else {{$set->name}} @endif</td>
-                <td class="w-25">@if ($editId === $set->id)
+                <td class="w-25"  style="word-wrap: break-word; white-space: normal !important; min-width: 70px;max-width: 70px;">@if ($editId === $set->id)
                     <div class="input-group ">
                         <input type="text" wire:model="editValue" class="form-control">
                         <button class="btn btn-success" wire:click="update({{$set->id}})"><i class="fa-regular fa-floppy-disk"></i></button>
