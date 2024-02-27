@@ -12,7 +12,7 @@
                     <td>
                     @foreach ($litters as $lt)
                         @if ($lt->category == 4)
-                            <a href="{{route('litters.show', $lt->id)}}">{{$lt->litter_code}} </a>
+                            <a href="{{route('litters.show', $lt->id)}}" class="me-2">{{$lt->litter_code}} </a>
                         @endif
                     @endforeach
                     </td>
@@ -24,7 +24,7 @@
                     <td>
                     @foreach ($litters as $lt)
                         @if ($lt->category == 1)
-                            <a href="{{route('litters.show', $lt->id)}}">{{$lt->litter_code}} </a>
+                            <a href="{{route('litters.show', $lt->id)}}" class="me-2">{{$lt->litter_code}} </a>
                         @endif
                     @endforeach
                     </td>
@@ -36,7 +36,7 @@
                     <td>
                     @foreach ($litters as $lt)
                         @if ($lt->category == 2)
-                           <a href="{{route('litters.show', $lt->id)}}">{{$lt->litter_code}} </a>
+                           <a href="{{route('litters.show', $lt->id)}}" class="me-2">{{$lt->litter_code}} </a>
                         @endif
 
                     @endforeach
