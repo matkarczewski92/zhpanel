@@ -2,9 +2,15 @@
 
 @section('content')
 
-{{$data->where('title', 'Sanctum')->first()['title']}}
+<div class="container-fluid">
+    @foreach ($data as $d)
+        {{$d['sensor_id']}} :
+        {{$d['value']}} stC<br>
+    @endforeach
+    {{-- {{dd($data)}} --}}
+</div>
 
-{{session('apiToken')}}
+
 
 
 @endsection

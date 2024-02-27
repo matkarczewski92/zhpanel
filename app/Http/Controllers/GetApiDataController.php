@@ -14,7 +14,7 @@ class GetApiDataController extends Controller
         $this->apiRepo = $apiRepo;
 
         return view('apiData', [
-            'data' => $apiRepo->apiGetData('heatings'),
+            'data' => $apiRepo->apiGetData('sensors'),
         ]);
     }
 }
