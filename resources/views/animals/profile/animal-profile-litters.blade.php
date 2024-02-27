@@ -36,7 +36,7 @@
                     <td>
                     @foreach ($litters as $lt)
                         @if ($lt->category == 2)
-                           <a href="{{route('litters.show', $lt->id)}}">{{$lt->litter_code}}</a>
+                           <a href="{{route('litters.show', $lt->id)}}">{{$lt->litter_code}} </a>
                         @endif
 
                     @endforeach
