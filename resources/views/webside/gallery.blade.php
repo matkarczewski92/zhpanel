@@ -1,11 +1,7 @@
 <section>
-    <div class="parallax-two" id="offer">
-      <h2>NASZE WĘŻE</h2>
-    </div>
-  </section>
-  <section>
     <div class="block center w-100" id="gallery" style="max-width: 1000px">
         <center>
+            <h3 class="text-center mb-5">Nasze węże   </h3>
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 
             <div class="carousel-inner ">
@@ -29,7 +25,7 @@
               <span class="visually-hidden">Previous</span>
             </button>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <i class="bi bi-caret-right-fill h2"></i>
+                <i class="bi bi-caret-right-fill"></i>
               <span class="visually-hidden">Next</span>
             </button>
           </div>
