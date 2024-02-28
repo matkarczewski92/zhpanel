@@ -1,5 +1,13 @@
 
-    <div class="card mb-3 bg-dark photobg rounded-1 h-100">
+ @php
+    $layingDuration = systemConfig('layingDuration');
+    $hatchlingDuration = systemConfig('hatchlingDuration');
+    $lD = Carbon\Carbon::parse($litter->laying_date);
+    $layingDate = $lD->addDays($layingDuration)->format("Y-m-d");
+    $hD = Carbon\Carbon::parse($layingDate);
+    $hatchingDate = $hD->addDays($hatchlingDuration)->format("Y-m-d");
+ @endphp
+ <div class="card mb-3 bg-dark photobg rounded-1 h-100">
         <button type="button" wire:click="editModeSwitch" class="btn btn-{{$editBtnMode}} rounded-circle editmode">
             <i class="fa-solid fa-pen"></i>
         </button>
@@ -77,11 +85,11 @@
                         </tr>
                         <tr>
                             <td class="key">Data zniosu</td>
-                            <td>@if ($editMode==1) <input type="date" class="form-control" wire:model="layingDate"> @else {{ $litter->laying_date }} @endif</td>
+                            <td>@if ($editMode==1) <input type="date" class="form-control" wire:model="layingDate"> @else {!! $litter->laying_date ?? '<span class="text-secondary">plan. '.$layingDate.'</span>' !!} @endif</td>
                         </tr>
                         <tr>
                             <td class="key">Data wyklucia</td>
-                            <td>@if ($editMode==1) <input type="date" class="form-control" wire:model="hatchingDate"> @else {{ $litter->hatching_date }} @endif</td>
+                            <td>@if ($editMode==1) <input type="date" class="form-control" wire:model="hatchingDate"> @else {!! $litter->hatching_date ?? '<span class="text-secondary">plan. '.$hatchingDate.'</span>' !!} @endif</td>
                         </tr>
                         <tr>
                             <td colspan="2"><hr/></td>
