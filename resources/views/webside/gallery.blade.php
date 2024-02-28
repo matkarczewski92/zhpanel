@@ -1,4 +1,9 @@
 <section>
+    <div class="parallax-two" id="offer">
+      <h2>NASZE WĘŻE</h2>
+    </div>
+  </section>
+  <section>
     <div class="block center w-100" id="gallery" style="max-width: 1000px">
         <center>
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
