@@ -6,6 +6,7 @@
         <meta name="description" content="Hodowla węży zbożowych">
         <meta name="keywords" content="węże zbożowe, hodowla węży, scaleless, palmetto, corn snake, hodowla węży zbożowych">
         <meta name="author" content="Mateusz Karczewski">
+        <meta name="google-site-verification" content="N_YwIOyUOpLAPpK3OqnMndmKuTEYffIFxsYNAHyIZT0" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="_token" content="{{ csrf_token() }}">
         <link rel="dns-prefetch" href="//fonts.bunny.net">
