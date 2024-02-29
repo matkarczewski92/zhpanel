@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Litter;
+use Illuminate\Support\Facades\DB;
 
 class LittersPlanningController extends Controller
 {
@@ -24,7 +25,7 @@ class LittersPlanningController extends Controller
         $array = [];
         $filter = (is_null($id)) ? ['id', '!=',  $id] : ['id', $id];
         for ($i = 1; $i <= 12; ++$i) {
-            $litters = Litter::whereMonth('planned_connection_date', $i)
+            $litters = Litter::whereMonth(DB::raw('IFNULL(connection_date, planned_connection_date)'), $i)
             ->where([$filter])
             ->where('season', $this->year)
             ->where(function ($query) {
@@ -44,13 +45,17 @@ class LittersPlanningController extends Controller
     {
         $array = [];
         $filter = (is_null($id)) ? ['id', '!=',  $id] : ['id', $id];
-        $litters = Litter::whereMonth('planned_connection_date', '<>', null)
+        $litters = Litter::where(function ($query) {
+            $query->whereMonth(DB::raw('IFNULL(connection_date, planned_connection_date)'), '<>', null);
+        })
         ->where([$filter])
-        ->orderBy('planned_connection_date')
+        ->where('season', $this->year)
+        ->orderByRaw('CASE WHEN connection_date IS NULL THEN planned_connection_date ELSE connection_date END')
         ->get();
         // dump($litters);
         foreach ($litters ?? [] as $lt) {
-            $layingday = date('m', strtotime($lt->connection_date ?? $lt->planned_connection_date.' + '.systemConfig('layingDuration').' day'));
+            $dateL = $lt->connection_date ?? $lt->planned_connection_date;
+            $layingday = date('m', strtotime($dateL.' + '.systemConfig('layingDuration').' day'));
             $array[(int) $layingday][] = $lt;
         }
 
@@ -61,13 +66,17 @@ class LittersPlanningController extends Controller
     {
         $array = [];
         $filter = (is_null($id)) ? ['id', '!=',  $id] : ['id', $id];
-        $litters = Litter::whereMonth('planned_connection_date', '<>', null)
+        $litters = Litter::where(function ($query) {
+            $query->whereMonth(DB::raw('IFNULL(connection_date, planned_connection_date)'), '<>', null);
+        })
         ->where([$filter])
-        ->orderBy('planned_connection_date')
+        ->where('season', $this->year)
+        ->orderByRaw('CASE WHEN connection_date IS NULL THEN planned_connection_date ELSE connection_date END')
         ->get();
         // dump($litters);
         foreach ($litters ?? [] as $lt) {
-            $hatchlingday = date('m', strtotime($lt->connection_date ?? $lt->planned_connection_date.' + '.systemConfig('layingDuration') + systemConfig('hatchlingDuration').' day'));
+            $dateH = $lt->connection_date ?? $lt->planned_connection_date;
+            $hatchlingday = date('m', strtotime($dateH.' + '.systemConfig('layingDuration') + systemConfig('hatchlingDuration').' day'));
             $array[(int) $hatchlingday][] = $lt;
         }
 

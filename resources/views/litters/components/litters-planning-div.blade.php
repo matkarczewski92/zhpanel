@@ -19,9 +19,10 @@
     <div class="col-lg mt-1">
         <div class="card bg-dark photobg rounded-1 h-100">
             <div class="card-body text-center text-warning" style="">
-            @foreach ($laying ?? '' as $con)
+            @foreach ($laying ?? [] as $con)
             @php
-                $layingday = date('Y-m-d', strtotime($con->connection_date ?? $con->planned_connection_date.' + '.systemConfig('layingDuration').' day'));
+                $dateL = $con->connection_date ?? $con->planned_connection_date;
+                $layingday = date('Y-m-d', strtotime($dateL.' + '.systemConfig('layingDuration').' day'));
             @endphp
                 <a href="{{ route('litters.show', $con->id)}}"><i class="bi bi-person-circle"></i></a>
                 <a href="?filter={{$con->id}}" data-toggle="tooltip" data-placement="top" title="{{$layingday}}">{{$con->litter_code}}</a>,
@@ -32,9 +33,10 @@
     <div class="col-lg mt-1">
         <div class="card bg-dark photobg rounded-1 h-100">
             <div class="card-body text-center text-danger" style="">
-            @foreach ($hatchling ?? '' as $con)
+            @foreach ($hatchling ?? [] as $con)
             @php
-                $hatchlingday = date('Y-m-d', strtotime($con->connection_date ?? $con->planned_connection_date.' + '.systemConfig('layingDuration') + systemConfig('hatchlingDuration').' day'));
+                $dateH = $con->connection_date ?? $con->planned_connection_date;
+                $hatchlingday = date('Y-m-d', strtotime($dateH.' + '.systemConfig('layingDuration') + systemConfig('hatchlingDuration').' day'));
             @endphp
                 <a href="{{ route('litters.show', $con->id)}}"><i class="bi bi-person-circle"></i></a>
                 <a href="?filter={{$con->id}}" data-toggle="tooltip" data-placement="top" title="{{$hatchlingday}}">{{$con->litter_code}}</a>,
