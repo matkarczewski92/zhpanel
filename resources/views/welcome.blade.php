@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=0.7">
+        <meta name="description" content="Hodowla węży zbożowych">
+        <meta name="keywords" content="węże zbożowe, hodowla węży, scaleless, palmetto, corn snake, hodowla węży zbożowych">
+        <meta name="author" content="Mateusz Karczewski">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="_token" content="{{ csrf_token() }}">
         <link rel="dns-prefetch" href="//fonts.bunny.net">
