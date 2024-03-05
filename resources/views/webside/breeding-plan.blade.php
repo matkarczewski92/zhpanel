@@ -1,5 +1,5 @@
 <section>
-    <div class="parallax-six" id="offer">
+    <div class="parallax-six" id="plans">
       <h2>PLANY HODOWLANE</h2>
     </div>
   </section>
