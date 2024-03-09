@@ -46,6 +46,11 @@ class ProjectsController extends Controller
      */
     public function store(Request $request)
     {
+        $project = new Projects();
+        $project->title = $request->title;
+        $project->save();
+
+        return redirect()->route('projects.index');
     }
 
     /**

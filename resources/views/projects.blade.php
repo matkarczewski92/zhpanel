@@ -2,7 +2,9 @@
 
 @section('content')
 
-
+<div class="text-end me-5 mb-4" style="margin-top:-30px">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProject">Dodaj nowy projekt</button>
+</div>
 <div class="card mb-3 me-4 ms-4 bg-dark photobg rounded-1">
     <div class="card-body " style="">
         <div class="strike mb-2">
@@ -22,5 +24,5 @@
         </table>
     </div>
 </div>
-
+@include('projects.modals.projects-create')
 @endsection
