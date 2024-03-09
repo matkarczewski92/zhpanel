@@ -33,7 +33,7 @@ class ProjectsStagesNfsController extends Controller
             $store = new ProjectsStagesNfs();
             $store->stage_id = $stage->id;
             $store->percent = $posOff->percent;
-            $store->title = $posOff->title_vis.''.$posOff->title_het;
+            $store->title = $posOff->title_vis.' '.$posOff->title_het;
             $store->save();
         } else {
             $store = new ProjectsStagesNfs();
