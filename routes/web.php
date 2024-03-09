@@ -17,6 +17,9 @@ use App\Http\Controllers\LittersPlanningController;
 use App\Http\Controllers\MassDataController;
 use App\Http\Controllers\PossibleOffspringController;
 use App\Http\Controllers\PresentationController;
+use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\ProjectsStagesController;
+use App\Http\Controllers\ProjectsStagesNfsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SoldController;
 use App\Http\Controllers\WebController;
@@ -51,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('winterings', [WinteringController::class, 'index'])->name('winterings');
     Route::get('litters-planning', [LittersPlanningController::class, 'index'])->name('litters-planning');
     Route::get('presentation', PresentationController::class)->name('presentation');
+    Route::get('project/{project}/stages/{stage}/create-litter', [ProjectsStagesController::class, 'createLitter'])->name('project.stages.create-litter');
 
     Route::resource('not-for-sale', LittersNotForSaleController::class);
     Route::resource('availableconnections', AvailableConnectionsController::class)->only(['index', 'show']);
@@ -60,6 +64,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('offers', AnimalOfferController::class);
     Route::resource('litters', LitterController::class);
     Route::resource('litters.gallery', LitterGalleryController::class);
+    Route::resource('projects', ProjectsController::class);
+    Route::resource('projects.stages', ProjectsStagesController::class)->only(['store', 'edit', 'update', 'destroy']);
+    Route::resource('projects.stages.nfs', ProjectsStagesNfsController::class)->only(['store', 'destroy']);
 
     // to refactor to nested resource (dot notation)
     Route::post('offers/reservation', [AnimalOfferController::class, 'destroyReservation'])->name('offers.destroyreservation');

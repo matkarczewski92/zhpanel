@@ -101,6 +101,13 @@ table.detailsTable td.key  {
     top:-15px;
     right: -15px;
 }
+.editmodeB {
+    width:40px;
+    height:40px;
+    position: absolute;
+    bottom:-15px;
+    right: -15px;
+}
 .content-to-show {
     display:none;
  }

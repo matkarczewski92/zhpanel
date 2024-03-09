@@ -25,6 +25,24 @@ class AnimalRepository implements AnimalRepositoryInterface
         })->orderBy('id', 'desc')->get();
     }
 
+    public function getAllInBreedingMales()
+    {
+        return Animal::where(function ($query) {
+            $query->where('animal_category_id', '=', 1)
+            ->orWhere('animal_category_id', '=', 4);
+        })->where('sex', 2)
+        ->orderBy('id')->get();
+    }
+
+    public function getAllInBreedingFemales()
+    {
+        return Animal::where(function ($query) {
+            $query->where('animal_category_id', '=', 1)
+            ->orWhere('animal_category_id', '=', 4);
+        })->where('sex', 3)
+        ->orderBy('id')->get();
+    }
+
     public function getById(int $id)
     {
         return Animal::findOrFail($id);
