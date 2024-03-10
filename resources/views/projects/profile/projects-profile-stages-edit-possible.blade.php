@@ -3,11 +3,11 @@
 @php
     if($litter->where('category', 1)->where('season', $stage->season)->first())
         {
-            $litterData = $litter->where('category', 1)->where('season', $stage->season)->first()->getPossibleOffspring;
+            $litterData = $litter->where('category', 1)->where('season', $stage->season)->first()?->getPossibleOffspring;
         } elseif ($litter->where('category', 2)->where('season', $stage->season)->first()) {
-            $litterData = $litter->where('category', 2)->where('season', $stage->season)->first()->getPossibleOffsprin;
+            $litterData = $litter->where('category', 2)->where('season', $stage->season)->first()?->getPossibleOffsprin;
         } else {
-            $litterData = $litter->where('category', 3)->where('season', null)->first()->getPossibleOffspring;
+            $litterData = $litter->where('category', 3)->where('season', null)->first()?->getPossibleOffspring;
         }
 @endphp
     <div class="card mb-5 me-4 ms-4 bg-dark photobg rounded-1">
