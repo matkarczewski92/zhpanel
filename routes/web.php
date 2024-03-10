@@ -17,6 +17,7 @@ use App\Http\Controllers\LittersPlanningController;
 use App\Http\Controllers\MassDataController;
 use App\Http\Controllers\PossibleOffspringController;
 use App\Http\Controllers\PresentationController;
+use App\Http\Controllers\ProjectAnnotationsController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ProjectsStagesController;
 use App\Http\Controllers\ProjectsStagesNfsController;
@@ -67,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('projects', ProjectsController::class);
     Route::resource('projects.stages', ProjectsStagesController::class)->only(['store', 'edit', 'update', 'destroy']);
     Route::resource('projects.stages.nfs', ProjectsStagesNfsController::class)->only(['store', 'destroy']);
+    Route::resource('project.annotations', ProjectAnnotationsController::class)->only('store', 'update', 'destroy');
 
     // to refactor to nested resource (dot notation)
     Route::post('offers/reservation', [AnimalOfferController::class, 'destroyReservation'])->name('offers.destroyreservation');

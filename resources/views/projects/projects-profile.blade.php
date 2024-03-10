@@ -27,6 +27,6 @@
             </div>
         </div>
     @endforeach
-
+@include('projects.profile.projects-annotations')
 @include('projects.modals.projects-create-stage')
 @endsection
