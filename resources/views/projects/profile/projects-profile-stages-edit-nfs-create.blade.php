@@ -9,8 +9,8 @@
         @if (!is_null($litter))
         @php
         $litterData = ($litter->where(function($lD){$lD->where('category', 1)->orWhere('category', 2);})->where('season', $stage->season)->first())
-            ?  $litter->where(function($lD){$lD->where('category', 1)->orWhere('category', 2);})->where('season', $stage->season)->first()->getPossibleOffspring
-            :  $litter->where('category', 3)->where('season', null)->first()->getPossibleOffspring
+            ?  $litter->where(function($lD){$lD->where('category', 1)->orWhere('category', 2);})->where('season', $stage->season)->first()?->getPossibleOffspring
+            :  $litter->where('category', 3)->where('season', null)->first()?->getPossibleOffspring
         @endphp
         <div class="input-group mb-3">
             <select class="form-select" aria-label="Default select example" name="possibleOff">
