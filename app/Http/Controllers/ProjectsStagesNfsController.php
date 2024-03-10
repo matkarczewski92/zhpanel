@@ -31,16 +31,20 @@ class ProjectsStagesNfsController extends Controller
         if (!is_null($request->possibleOff)) {
             $posOff = LittersPairing::findOrFail($request->possibleOff);
             $store = new ProjectsStagesNfs();
+            $store->sex = $request->sex;
             $store->stage_id = $stage->id;
-            $store->percent = $posOff->percent;
+            $store->percent = $posOff->percent ?? 0;
             $store->title = $posOff->title_vis.' '.$posOff->title_het;
             $store->save();
         } else {
-            $store = new ProjectsStagesNfs();
-            $store->stage_id = $stage->id;
-            $store->percent = $request->percent;
-            $store->title = $request->title;
-            $store->save();
+            if (!is_null($request->title) and !is_null($request->percent)) {
+                $store = new ProjectsStagesNfs();
+                $store->stage_id = $stage->id;
+                $store->sex = $request->sex;
+                $store->percent = $request->percent;
+                $store->title = $request->title;
+                $store->save();
+            }
         }
 
         return redirect()->route('projects.stages.edit', [$project, $stage]);

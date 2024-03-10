@@ -34,6 +34,14 @@
             <input type="text" class="form-control" name="title">
         </div>
 
+        <div class="input-group mb-3">
+            <select class="form-select" name="sex" required>
+                <option value="" selected>Wybierz płeć</option>
+                <option value="2">Samiec</option>
+                <option value="3">Samica</option>
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-success w-100">Dodaj</button>
 
     </form>

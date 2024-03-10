@@ -14,11 +14,17 @@
             <tr>
                 <td style="width: 5%">ID</td>
                 <td>Nazwa</td>
+                <td style="width: 5%"> </td>
             </tr>
             @foreach ($projects as $project)
             <tr>
                 <td><a href="{{ route('projects.show', $project->id) }}">{{$project->id}}</a></td>
                 <td><a href="{{ route('projects.show', $project->id) }}">{{$project->title}}</a></td>
+                <td>
+                    <form action="{{route('projects.destroy', ['project' => $project])}}" method="post">@csrf @method('DELETE')
+                        <button type="submit" class="btn"><i class="bi bi-trash-fill text-danger"></i></button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </table>

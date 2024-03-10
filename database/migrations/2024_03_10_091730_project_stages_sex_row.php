@@ -10,12 +10,8 @@ return new class() extends Migration {
      */
     public function up(): void
     {
-        Schema::create('projects_stages_nfs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('stage_id')->constrained('projects_stages')->onDelete('CASCADE');
-            $table->integer('percent');
-            $table->string('title');
-            $table->timestamps();
+        Schema::table('projects_stages_nfs', function (Blueprint $table) {
+            $table->integer('sex')->nullable()->after('title');
         });
     }
 
@@ -24,6 +20,5 @@ return new class() extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects_stages_nfs');
     }
 };

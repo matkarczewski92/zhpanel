@@ -7,6 +7,7 @@
             <tr>
                 <td style="width:5%">%</td>
                 <td>Nazwa</td>
+                <td>Płeć</td>
                 <td style="width:5%"></td>
 
             </tr>
@@ -14,6 +15,10 @@
             <tr>
                 <td>{{$pO->percent}} %</td>
                 <td>{{$pO->title}}</td>
+                <td>
+                    @if ($pO->sex == 2) Samiec @endif
+                    @if ($pO->sex == 3) Samica @endif
+                </td>
                 <td>
                     <form action="{{route('projects.stages.nfs.destroy', [$project, $stage, $pO])}}" method="post">@csrf @method('DELETE')
                         <button type="submit" class="btn"><i class="bi bi-trash-fill text-danger"></i></button>
