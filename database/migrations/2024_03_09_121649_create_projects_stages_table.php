@@ -13,7 +13,7 @@ return new class() extends Migration {
         Schema::create('projects_stages', function (Blueprint $table) {
             $table->id();
             $table->integer('season');
-            $table->foreignId('project_id')->constrained('projects')->onDelete('CASCADE');
+            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
             $table->foreignId('parent_male_id')->nullable()->constrained('animals')->onDelete('set null');
             $table->string('parent_male_name')->nullable();
             $table->foreignId('parent_female_id')->nullable()->constrained('animals')->onDelete('set null');

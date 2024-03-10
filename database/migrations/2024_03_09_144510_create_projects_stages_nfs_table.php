@@ -12,7 +12,7 @@ return new class() extends Migration {
     {
         Schema::create('projects_stages_nfs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('stage_id')->constrained('projects_stages')->onDelete('CASCADE');
+            $table->foreignId('stage_id')->constrained('projects_stages')->cascadeOnDelete();
             $table->integer('percent');
             $table->string('title');
             $table->timestamps();
