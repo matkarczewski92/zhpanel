@@ -23,6 +23,7 @@
   </head>
   <body>
         @include('layouts.navbar')
+
     <main class="py-4" style="margin-top: 85px">
         @yield('content')
     </main>
