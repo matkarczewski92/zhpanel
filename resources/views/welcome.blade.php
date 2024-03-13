@@ -47,7 +47,7 @@
         </main>
         @stack('scripts')
         @vite(['resources/js/app.js'])
-
+        {{-- @include('cookie-consent::index') --}}
     </body>
 </html>
 
