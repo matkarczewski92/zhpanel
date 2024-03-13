@@ -40,7 +40,7 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
-$app->register(W3designweb\LaravelCookieConsent\LaravelCookieConsentServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
