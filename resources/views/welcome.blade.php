@@ -27,6 +27,7 @@
         </style>
     </head>
     <body>
+        @include('cookie-consent::index')
         @include('webside.navbar')
         <main>
             <div id="parallax-world-of-ugg">
@@ -47,7 +48,7 @@
         </main>
         @stack('scripts')
         @vite(['resources/js/app.js'])
-        {{-- @include('cookie-consent::index') --}}
+
     </body>
 </html>
 
