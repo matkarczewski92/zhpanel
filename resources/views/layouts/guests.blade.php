@@ -22,6 +22,7 @@
 
     </main>
     @stack('scripts')
+    @include('cookie-consent::index')
 </body>
 </html>
 

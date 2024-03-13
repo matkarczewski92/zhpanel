@@ -14,6 +14,7 @@
         "laravel/ui": "^4.2",
         "livewire/livewire": "^3.0",
         "spatie/browsershot": "^3.59",
+        "spatie/laravel-cookie-consent": "^3.3",
         "wire-elements/modal": "^2.0"
     },
     "require-dev": {
