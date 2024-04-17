@@ -30,7 +30,7 @@
                         <thead>
                             <tr>
                                 <td style="min-width:5%">Id</td>
-                                <td style="min-width:50%">Nazwa</td>
+                                <td style="min-width:45%">Nazwa</td>
                                 <td>Płeć</td>
                                 <td class="optWaga">Waga</td>
                                 <td class="optKarma hidden-result">Karma</td>
