@@ -21,4 +21,6 @@ interface LitterRepositoryInterface
     public function templateCount(int $femaleId, $maleId);
 
     public function checkNfs(int $paitngId);
+
+    public function litterValue(int $litterId);
 }

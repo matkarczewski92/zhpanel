@@ -67,6 +67,7 @@ class ProfileDetails extends Component
             'animalsMale' => Animal::where('sex', 2)->where('animal_category_id', 1)->get(),
             'animalsFemale' => Animal::where('sex', 3)->where('animal_category_id', 1)->get(),
             'litterRepo' => $this->litterRepo,
+            'litterValue' => $this->litterRepo->litterValue($this->litterId),
         ]);
     }
 

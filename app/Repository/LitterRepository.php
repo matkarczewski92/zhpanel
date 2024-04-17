@@ -82,4 +82,19 @@ class LitterRepository implements LitterRepositoryInterface
 
         return $nfs ?? 0;
     }
+
+    public function litterValue(int $litterId)
+    {
+        $value = 0;
+        $litter = $this->getById($litterId);
+        $eggs = ($litter->hatching_eggs) ? $litter->hatching_eggs : $litter->laying_eggs_ok;
+        $offspring = LittersPairing::where('litter_id', '=', $litterId)->get();
+
+        foreach ($offspring as $off) {
+            $offspringValue = ($eggs * $off->percent / 100) * $off->value;
+            $value += $offspringValue;
+        }
+
+        return $value;
+    }
 }

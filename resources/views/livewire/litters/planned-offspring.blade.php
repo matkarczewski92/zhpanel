@@ -26,7 +26,7 @@
                 <td>{{ $og->title_vis }}</td>
                 <td>{{ $og->title_het }}</td>
                 <td>@if($litterRepo->checkNfs($og->id)!=0) <a href="{{ route('not-for-sale.index') }}">TAK</a> @endif</td>
-                <td class="text-center"> </td>
+                <td class="text-center">{{ $og->value ?? 0 }} zł </td>
                 <td class="text-end">
                     <a wire:click="edit({{$og->id}})"><i class="fa-solid fa-pen-to-square fa-lg me-2"></i></a>
                     <a wire:click="delete({{$og->id}})"><i class="fa-solid fa-trash"></i></a></td>
@@ -35,9 +35,10 @@
             <tr>
                 <td colspan="5">
                     <div class="row mb-1 mt-1">
-                        <div class="col-2"><div class="input-group mb-3"><input type="number" class="form-control"  wire:model="ofspringEditPercent" r><span class="input-group-text" id="basic-addon1">%</span></div></div>
+                        <div class="col-2"><div class="input-group mb-3"><input type="number" class="form-control"  wire:model="ofspringEditPercent"><span class="input-group-text" id="basic-addon1">%</span></div></div>
                         <div class="col"> <input type="text" class="form-control" placeholder="Wprować geny wizualne" wire:model="ofspringEditVis"></div>
                         <div class="col"><input type="text" class="form-control" placeholder="Wprowadź hety" wire:model="ofspringEditHet"> </div>
+                        <div class="col"><div class="input-group mb-3"><input type="number" class="form-control"  wire:model="ofspringEditValue"><span class="input-group-text" id="basic-addon1">zł</span></div></div>
                         <div class="col-1"><button type="submit" class="btn btn-success" wire:click="update">Dodaj</button></div>
                     </div>
                 </td>
@@ -55,6 +56,7 @@
             <div class="col-2"><div class="input-group mb-3"><input type="number" class="form-control"  wire:model="percent"><span class="input-group-text" id="basic-addon1">%</span></div></div>
             <div class="col"> <input type="text" class="form-control" placeholder="Wprować geny wizualne" wire:model="titleVis"></div>
             <div class="col"><input type="text" class="form-control" placeholder="Wprowadź hety" wire:model="titleHet"> </div>
+            <div class="col"><input type="text" class="form-control" placeholder="Podaj wartość" wire:model="value"> </div>
             <div class="col-1"><button type="submit" class="btn btn-success" wire:click="create">Dodaj</button></div>
         </div>
         @endif
