@@ -17,7 +17,7 @@
         <td><a href="{{ route('animal.profile', $d->parent_male)}}">{!! $d->animalMale->name !!}</td>
         <td><a href="{{ route('animal.profile', $d->parent_female)}}">{!! $d->animalFemale->name !!}</td>
         <td>{{ $litterRepo->litterStatus($d->id) }}</td>
-        <td>{{ $litterRepo->litterValue($d->id) }}</td>
+        <td>{{ $litterRepo->litterValue($d->id) ?? '' }}</td>
         <td> </td>
 </tr>
 @endforeach
