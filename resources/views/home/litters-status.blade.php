@@ -12,7 +12,7 @@
                 @php
                     $layingDay = date('Y-m-d', strtotime($lsL->connection_date.' + '.systemConfig('layingDuration').' day'));
                 @endphp
-                    {{ $lsL->litter_code }} ({{$layingDay}}),
+                    <a href="{{ route('litters.show', $lsL->id)}}">{{ $lsL->litter_code }} ({{$layingDay}}),</a>
                 @endforeach
          </div>
 
@@ -25,7 +25,7 @@
             @php
                 $hatchlingday = date('Y-m-d', strtotime($lsH->connection_date.' + '.systemConfig('layingDuration') + systemConfig('hatchlingDuration').' day'));
             @endphp
-                {{ $lsH->litter_code }} ({{$hatchlingday}}),
+                <a href="{{ route('litters.show', $lsH->id)}}">{{ $lsH->litter_code }} ({{$hatchlingday}}),</a>
             @endforeach
          </div>
     </div>

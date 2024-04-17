@@ -85,12 +85,14 @@ class HomeController extends Controller
         $littersLaying = Litter::where('category', 1)
         ->where('connection_date', '!=', null)
         ->where('laying_date', null)
+        ->orderBy('connection_date')
         ->get();
 
         $littersHatching = Litter::where('category', 1)
         ->where('connection_date', '!=', null)
         ->where('laying_date', '!=', null)
         ->where('hatching_date', null)
+        ->orderBy('connection_date')
         ->get();
 
         return $return = [
