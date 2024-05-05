@@ -74,11 +74,7 @@
           </li>
         </ul>
         <div style="float: right;" class="me-3">
-            <div class="input-group">
-                <label class="input-group-text" for="inputGroupSelect01"><i class="fa-solid fa-magnifying-glass"></i></label>
-                <input type="text" class="form-control hidden-result"  id="search" name="search" />
-              </div>
-            <div class="result hidden-result rounded bg-dark"></div>
+             @livewire('core.search-bar')
         </div>
             <ul class="navbar-nav ms-3">
                     @guest
