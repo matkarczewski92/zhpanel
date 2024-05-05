@@ -9,7 +9,7 @@
           <h3 class="text-center mb-5">Plany hodowlane na bieżący rok  </h3>
         @foreach ($litterPlans as $lP)
             <p>{!! $lP->animalMale->name !!}  <i class="bi bi-arrow-through-heart-fill h4 @if($lP->category == 1) text-danger @endif"></i> {!! $lP->animalFemale->name !!}
-            @if($lP->category == 1) <i class="bi bi-check-lg h4 text-success"></i> @else <i class="bi bi-question-lg h4"></i> @endif
+            -
             (<span>{{ $litterRepo->litterStatus($lP->id) }}</span>)
         </p>
 
