@@ -16,15 +16,15 @@
     </div>
     <div class="col mb-4">
         <div class="row-lg-6">
-
+            @include('home.litters-status')
+        </div>
+        <div class="row-lg-6">
             @include('home.to-weight-animals', ['animal' => $toWeight, 'title' => 'Do ważenia - W hodowli'])
         </div>
         <div class="row-lg-6">
             @include('home.to-weight-animals', ['animal' => $toWeightLitters, 'title' => 'Do ważenia - Mioty'])
         </div>
-        <div class="row-lg-6">
-            @include('home.litters-status')
-        </div>
+
     </div>
     <div class="col mb-4">
         <div class="row-lg">
