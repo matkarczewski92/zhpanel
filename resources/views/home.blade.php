@@ -14,7 +14,8 @@
             </div>
         </div>
     </div>
-    <div class="col mb-4">
+    <div class="col mb-4"> 
+        
         <div class="row-lg-6">
             @include('home.litters-status')
         </div>
