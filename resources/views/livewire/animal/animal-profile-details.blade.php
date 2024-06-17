@@ -48,7 +48,7 @@
         </tr>
         <tr>
             <td class="key">Rodzaj karmy</td>
-            <td class="value">@if(!is_null($feed))<a href="{{ route('feed.profile', $feed->id) }}">{{ $feed?->name }}</a>@endif</td>
+            <td class="value">@if(!is_null($feed))<a href="{{ route('feed.profile', $feed->id ?? 1) }}">{{ $feed?->name ?? '' }}</a>@endif</td>
         </tr>
         <tr>
             <td class="key">Inrerwał karmienia</td>
