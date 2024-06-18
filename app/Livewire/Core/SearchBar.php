@@ -23,7 +23,7 @@ class SearchBar extends Component
         $this->query = '';
         $this->contacts = [];
         $this->highlightIndex = 0;
-        $this->category = 'H';
+        $this->category = 'I';
     }
 
     public function incrementHighlight()
