@@ -60,10 +60,9 @@ class Offspring extends Component
             foreach($pt as $p)
             {
                 $profileTag = $p->id.substr(uniqid(), -5);
-                // $profileTag = str_replace($p->id, "", $profileTag);
                 $profileTagUpdate = $this->animalRepo->getById($p->id);
                 $profileTagUpdate->public_profile_tag = $profileTag;
-                $profileTagUpdate->save();   
+                $profileTagUpdate->save();
             }
         }
 
