@@ -74,6 +74,10 @@ class SearchBar extends Component
                 ->where('animal_category_id', 2)
                 ->get()
                 ->toArray();
+        } elseif ($fn == '/I') {
+            $this->contacts = Animal::where('id', 'like', '%'.$query.'%')
+                ->get()
+                ->toArray();
         } elseif ($fn == '/S') {
             $this->contacts = Animal::where('name', 'like', '%'.$query.'%')
                 ->where('animal_category_id', 3)

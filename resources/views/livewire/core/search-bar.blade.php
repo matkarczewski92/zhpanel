@@ -5,6 +5,7 @@
             wire:model.change="category"
         >
             <option value="">Wszystkie</option>
+            <option value="I">ID</option>
             <option value="H">W hodowli</option>
             <option value="S">Sprzedane</option>
             <option value="N">Na sprzedaż</option>
