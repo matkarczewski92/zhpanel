@@ -55,16 +55,6 @@ class Offspring extends Component
             $profileTagUpdate = $this->animalRepo->getById($animal->id);
             $profileTagUpdate->public_profile_tag = $profileTag;
             $profileTagUpdate->save();
-
-            $pt = $this->animalRepo->all();
-            foreach($pt as $p)
-            {
-                $profileTag = $p->id.substr(uniqid(), -5);
-                $profileTag = substr($profileTag, 2);
-                $profileTagUpdate = $this->animalRepo->getById($p->id);
-                $profileTagUpdate->public_profile_tag = $profileTag;
-                $profileTagUpdate->save();
-            }
         }
 
         return redirect(request()->header('Referer'));
