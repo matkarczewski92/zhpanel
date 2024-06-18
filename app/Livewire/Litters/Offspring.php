@@ -51,6 +51,7 @@ class Offspring extends Component
             $animal->litter_id = $litter->id;
             $animal->save();
             $profileTag = $animal->id.substr(uniqid(), -5);
+            $profileTag = str_replace($animal->id, "", $profileTag);
             $profileTagUpdate = $this->animalRepo->getById($animal->id);
             $profileTagUpdate->public_profile_tag = $profileTag;
             $profileTagUpdate->save();
