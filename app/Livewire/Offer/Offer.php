@@ -3,6 +3,7 @@
 namespace App\Livewire\Offer;
 
 use App\Interfaces\AnimalRepositoryInterface;
+use App\Models\AnimalOffer;
 use Livewire\Component;
 
 class Offer extends Component
@@ -20,6 +21,7 @@ class Offer extends Component
         return view('livewire.offer.offer', [
             'offers' => $this->animalRepo->getUnsoldOffer(),
             'title' => 'Oferty sprzedaży',
+            'sum' => $this->getSumPrice(),
         ]);
     }
 
@@ -29,5 +31,10 @@ class Offer extends Component
         $switch = ($animal->public_profile == '0') ? '1' : '0';
         $animal->public_profile = $switch;
         $animal->save();
+    }
+
+    public function getSumPrice()
+    {
+        return $sum = AnimalOffer::where('sold_date', null)->sum('price');
     }
 }
