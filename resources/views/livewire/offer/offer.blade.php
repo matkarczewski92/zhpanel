@@ -30,6 +30,11 @@
                         </td>
                     </tr>
                 @endforeach
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="6">{{ $sum }} zł</td>
+                    <td colspan="3"></td>
+                </tr>
              </table>
                 </div>
             </div>
