@@ -30,7 +30,7 @@
                         </td>
                     </tr>
                 @endforeach
-                <tr>
+                <tr class="border-top">
                     <td colspan="2"></td>
                     <td colspan="6">{{ $sum }} zł</td>
                     <td colspan="3"></td>
