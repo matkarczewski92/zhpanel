@@ -7,6 +7,7 @@
 
             <table class="detailsTable">
                 <tr class="text-center">
+                    <td class="text-start">ID</td>
                     <td class="text-start">Nazwa</td>
                     <td style="width:10%">Wazenie</td>
                     <td style="width:20%">Karma</td>
@@ -19,6 +20,7 @@
 
                 @endphp
                 <tr class="text-center">
+                    <td class="text-start border-bottom"><a href="{{ route('animal.profile', $a->id) }}">{!! $a->id !!}</a></td>
                     <td class="text-start border-bottom"><a href="{{ route('animal.profile', $a->id) }}">{!! $a->name !!}</a></td>
                     <td>
                         <input type="hidden" name="id" wire:model="mass.{{$a->id}}.id">
