@@ -4,7 +4,7 @@
     $hatchlingDuration = systemConfig('hatchlingDuration');
     $conDate = $litter->connection_date ?? $litter->planned_connection_date;
     $lD = Carbon\Carbon::parse($conDate);
-    $layingDate = ($litter->laying_date) ? $lD->addDays($layingDuration)->format("Y-m-d") : $litter->laying_date ;
+    $layingDate = ($litter->laying_date) ? $litter->laying_date : $lD->addDays($layingDuration)->format("Y-m-d");
 
     $hD = Carbon\Carbon::parse($layingDate);
     $hatchingDate = $hD->addDays($hatchlingDuration)->format("Y-m-d");
