@@ -23,7 +23,7 @@
          <div>
             @foreach ($littersStatus['hatching'] ?? [] as $lsH)
             @php
-                $hatchlingday = date('Y-m-d', strtotime($lsH->laying_date.' + '.systemConfig('layingDuration') + systemConfig('hatchlingDuration').' day'));
+                $hatchlingday = date('Y-m-d', strtotime($lsH->laying_date.' + '.systemConfig('hatchlingDuration').' day'));
             @endphp
                 <a href="{{ route('litters.show', $lsH->id)}}">{{ $lsH->litter_code }} ({{$hatchlingday}}),</a>
             @endforeach
