@@ -16,6 +16,10 @@
 
         <table class="detailsTable" >
             <tr>
+                <td class="key">ID</td>
+                <td class="value" colspan="2">{{ $actual->id }}</td>
+            </tr>
+            <tr>
                 <td class="key">Płeć</td>
                 <td class="value" colspan="2">
                     @if ($presentationOption == 'litters')
