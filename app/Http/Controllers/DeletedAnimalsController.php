@@ -19,7 +19,7 @@ class DeletedAnimalsController extends Controller
     public function index(): View
     {
         return view('for-sale', [
-            'animal' => Animal::where('animal_category_id', '=', 0)->get(),
+            'animal' => Animal::where('animal_category_id', '=', 5)->get(),
             'title' => 'Sprzedane',
             'animalRepo' => $this->animalRepo,
         ]);
