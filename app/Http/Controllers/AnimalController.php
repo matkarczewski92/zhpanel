@@ -114,8 +114,8 @@ class AnimalController extends Controller
     {
         $deleteAnimal = $this->animalRepo->getById($animalId);
 
-        if ($deleteAnimal->animal_category_id != 0) { // if animal is not on category "deleted" then
-            $deleteAnimal->animal_category_id = 0;
+        if ($deleteAnimal->animal_category_id != 5) { // if animal is not on category "deleted" then
+            $deleteAnimal->animal_category_id = 5;
             $deleteAnimal->save();
         } else {
             $deleteAnimal->delete();
