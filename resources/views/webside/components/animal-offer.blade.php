@@ -8,9 +8,9 @@
             <div class="row">
                 <div class="col-lg-6">ur: {{ $o->animalDetails->date_of_birth }}</div>
                 <div class="col-lg-6 text-end">
-                    @if ($o->animalDetails->sex == 2)
+                    @if ($o->animalDetails->sex == 3)
                         <i class="fa-solid fa-venus fa-2xl text-danger"></i>
-                    @elseif ($o->animalDetails->sex == 3)
+                    @elseif ($o->animalDetails->sex == 2)
                         <i class="fa-solid fa-mars fa-2xl text-primary"></i>
                     @else
                         <i class="fa-solid fa-venus-mars fa-2xl"></i>
