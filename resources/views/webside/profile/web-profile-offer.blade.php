@@ -35,6 +35,6 @@
             @endif
 
 
-
+<p class="text-center">Warunkiem rezerwacji jest wpłata zadatku, rezerwujemy zazwyczaj na okres miesiąca (w wyjątkowych sytuacjach na dłuższy okres uzgodniony indywidualnie)</p>
     </div>
 </div>
