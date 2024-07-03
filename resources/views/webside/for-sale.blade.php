@@ -20,8 +20,9 @@
           @else
           <p class="text-center">Brak węży na sprzedaż</p>
         @endif
-      </div>
-      <p class="text-center">Nie wysyłamy węży kurierem czy przesyłką konduktorską. Możliwy dowóz w okolicy Wejherowa (woj.pomorskie) lub na dworzec np. w Gdynii. Nie sprzedajemy zwierząt osobą nieletnim.</p>
+      </div> 
+      <p class="text-center">Nie sprzedajemy zwierząt osobą nieletnim.</p>
+      <p class="text-center">Nie wysyłamy węży kurierem czy przesyłką konduktorską. Możliwy dowóz w okolicy Wejherowa (woj.pomorskie) lub na dworzec np. w Gdynii.
       <p class="text-center">Możliwa rezerwacja, warunkiem rezerwacji jest wpłata zadatku, rezerwujemy zazwyczaj na okres miesiąca (w wyjątkowych sytuacjach na dłuższy okres uzgodniony indywidualnie)</p>
   </section>
 
