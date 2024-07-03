@@ -183,7 +183,7 @@ class AnimalRepository implements AnimalRepositoryInterface
             return $animal->animalCategory?->name;
         }
 
-        if ($this->feedCount($animalId) < 4) {
+        if ($this->feedCount($animalId) < 3) {
             return 'W trakcie wykarmiania';
         } elseif ($offerCount == 1) {
             return 'Wystawiony na sprzedaż';
