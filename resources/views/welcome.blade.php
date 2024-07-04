@@ -35,9 +35,9 @@
 
                 @include('webside.gallery')
 
-                @include('webside.breeding-plan')
-
                 @include('webside.for-sale')
+                
+                @include('webside.breeding-plan')
 
                 @include('webside.animal-profile')
 
