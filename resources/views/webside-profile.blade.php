@@ -29,9 +29,9 @@
                 </div>
                 <div class="col-lg-6">
                     @include('webside.profile.web-profile-offer')
+                    @include('webside.profile.web-profile-info')
                     @include('webside.profile.web-profile-feedings')
                     @include('webside.profile.web-profile-weights')
-                    @include('webside.profile.web-profile-info')
 
                 </div>
                 <div class="col-lg">
