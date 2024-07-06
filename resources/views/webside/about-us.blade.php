@@ -11,7 +11,7 @@
         <div class="w3-large w3-margin-bottom">
             <!-- <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> <br> -->
               <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Email: snake@makssnake.pl<br>
-              {{-- <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> M: 666 304 147<br> --}}
+              <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> M: 666 304 147<br>
               <br> <b>Najszybciej odpowiadamy na facebooku, zapraszamy do kontaktu przez Messenger</b>
             </div>
         </center>
