@@ -46,8 +46,14 @@
                 @endif
             </a>
         </li>
+        <li>
+            <a type="button" href="{{ route('passport', $animal->id) }}" class="nav-link py-3 rounded-0" title="Certyfikat">
+                <i class="fa-solid fa-passport fa-xl" style="color: #c5cad3;"></i>
+                
+            </a>
+        </li>
         </ul>
-
+        
     </div>
 
     <div class="row content-to-show mb-5 bg-dark" style="min-height: 30">

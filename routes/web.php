@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AnimalOfferController;
+use App\Http\Controllers\AnimalPassport;
 use App\Http\Controllers\AnimalProfileController;
 use App\Http\Controllers\AvailableConnectionsController;
 use App\Http\Controllers\DeletedAnimalsController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\WebSideProfile;
 use App\Http\Controllers\WinteringController;
 use App\Http\Controllers\ZHCAccessController;
+use App\Models\Animal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -71,6 +73,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('project.annotations', ProjectAnnotationsController::class)->only('store', 'update', 'destroy');
 
     // to refactor to nested resource (dot notation)
+    Route::get('passport/{id}', [AnimalPassport::class, 'index'])->name('passport');
     Route::post('offers/reservation', [AnimalOfferController::class, 'destroyReservation'])->name('offers.destroyreservation');
     Route::prefix('/animal')->name('animal.')->group(function () {
         Route::get('/{id}', [AnimalProfileController::class, 'index'])->name('profile')->where('id', '[0-9]+');
