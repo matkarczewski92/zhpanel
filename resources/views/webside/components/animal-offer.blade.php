@@ -3,7 +3,7 @@
         <img src="{{ $o->animalDetails->animalMainPhoto?->url }}" class="card-img-top" alt="...">
         <div class="card-body ">
             <div class="row" style="height: 100px">
-                <p class="card-text">{!! $o->animalDetails->name !!} </p>
+                <p class="card-text">{!! $o->animalDetails->id !!} {!! $o->animalDetails->name !!} </p>
             </div>
             <div class="row">
                 <div class="col-lg-6">ur: {{ $o->animalDetails->date_of_birth }}</div>
