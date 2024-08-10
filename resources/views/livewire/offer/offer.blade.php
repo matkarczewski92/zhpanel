@@ -19,8 +19,8 @@
                     <tr>
                         <td>{!!$o->animalDetails->animalLitter?->litter_code!!}</td>
                         <td><a href="{{ route('animal.profile', $o->animalDetails->id) }}">{!!$o->animalDetails->name!!}</a></td>
-                        <td>{{$o->animalDetails->sexName($o->animalDetails->sex)}} zł</td>
-                        <td>{{$o->price}}</td>
+                        <td>{{$o->animalDetails->sex}} </td>
+                        <td>{{$o->price}} zł</td>
                         <td>{{$o->created_at->format("Y-m-d")}}</td>
                         <td>{{$o->offerReservation->booker ?? ''}}</td>
                         <td>
