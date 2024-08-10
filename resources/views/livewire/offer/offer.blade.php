@@ -13,6 +13,7 @@
                     <td>Cena</td>
                     <td>Data</td>
                     <td>Rezerwacja</td>
+                    <td>Data rezerwacji</td>
                     <td>Opcje</td>
                 </tr>
                 @foreach ($offers as $o)
@@ -23,6 +24,7 @@
                         <td>{{$o->price}} zł</td>
                         <td>{{$o->created_at->format("Y-m-d")}}</td>
                         <td>{{$o->offerReservation->booker ?? ''}}</td>
+                        <td>{{$o->offerReservation->expiration_date ?? ''}}</td>
                         <td>
                             <a wire:click="publicProfileSwitch({{$o->animalDetails->id}})" class="nav-link py-3 rounded-0 fa-lg" title="Profil publiczny">
                                 @if($o->animalDetails->public_profile == 0 ) <i class="fa-regular fa-eye-slash  fa-lg" style="color: #c5cad3;"></i> @else
