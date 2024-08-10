@@ -8,7 +8,7 @@
              <table class="detailsTable">
                 <tr>
                     <td colspan="5" class="text-center">Dane węża</td>
-                    <td colspan="2" class="text-center">Rezerwacja</td>
+                    <td colspan="2" class="border-start text-center border-end">Rezerwacja</td>
                     <td></td>
                 </tr>
                 <tr class="border-bottom">
