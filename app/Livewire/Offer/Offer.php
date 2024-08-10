@@ -22,6 +22,7 @@ class Offer extends Component
             'offers' => $this->animalRepo->getUnsoldOffer(),
             'title' => 'Oferty sprzedaży',
             'sum' => $this->getSumPrice(),
+            'repo' => $this->animalRepo,
         ]);
     }
 
