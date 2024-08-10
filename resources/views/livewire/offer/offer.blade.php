@@ -6,13 +6,18 @@
              </div>
 
              <table class="detailsTable">
+                <tr>
+                    <td colspan="5" class="text-center">Dane węża</td>
+                    <td colspan="2" class="text-center">Rezerwacja</td>
+                    <td></td>
+                </tr>
                 <tr class="border-bottom">
                     <td>Kod miotu</td>
                     <td>Zwierzę</td>
                     <td>Płeć</td>
                     <td>Cena</td>
                     <td>Data</td>
-                    <td class="border-start text-center">Rezerwacja</td>
+                    <td class="border-start text-center">Rezerwujący</td>
                     <td class="border-end text-center">Data rezerwacji</td>
                     <td class="text-center">Opcje</td>
                 </tr>
