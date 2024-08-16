@@ -16,7 +16,7 @@
                  $feedInterval = $animalRepo->feedInterval($aF->id);
             @endphp
 
-            @if ($aF->animal_category_id !=0 AND $aF->animal_category_id !=3)
+            @if ($aF->animal_category_id !=5 AND $aF->animal_category_id !=3)
             <tr>
                 <td>{{ $aF->id }} </td>
                 <td><a href="{{ route('animal.profile', $aF->id)}}">{!! $aF->name !!}</a></td>

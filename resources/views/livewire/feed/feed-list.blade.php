@@ -20,7 +20,7 @@
                     <td class="text-center">{{ $f->amount}} szt</td>
                     <td class="text-center">{{ $f->last_price}} zł/szt</td>
                     <td class="text-center">{{ $f->feeding_interval}} </td>
-                    <td class="text-center">{{ $f->animalsFeed?->where('animal_category_id', '<>', '0')->where('animal_category_id', '<>', '3')->count()}} </td>
+                    <td class="text-center">{{ $f->animalsFeed?->where('animal_category_id', '<>', '5')->where('animal_category_id', '<>', '3')->count()}} </td>
                     <td class="text-center"><a href="{{ route('feed.profile', $f->id)}}"><i class="fa-solid fa-circle-info fa-lg"></i></a> </td>
                 </tr>
                 @endforeach
