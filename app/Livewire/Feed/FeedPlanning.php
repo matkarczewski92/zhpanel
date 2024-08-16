@@ -31,14 +31,14 @@ class FeedPlanning extends Component
         $leadTime = systemConfig('feedLeadTime');
         $feed = Feed::all();
         foreach ($feed as $f) {
-            if ($f->animalsFeed?->where('animal_category_id', '<>', '0')->where('animal_category_id', '<>', '3')->count() > 0) $dk = $this->order[$f->id]['dk'] = floor($f->amount / $f->animalsFeed?->where('animal_category_id', '<>', '0')->where('animal_category_id', '<>', '3')->count());
+            if ($f->animalsFeed?->where('animal_category_id', '<>', '5')->where('animal_category_id', '<>', '3')->count() > 0) $dk = $this->order[$f->id]['dk'] = floor($f->amount / $f->animalsFeed?->where('animal_category_id', '<>', '5')->where('animal_category_id', '<>', '3')->count());
             else $dk = 0;
             $dZ = ($dk > 0) ? Carbon::now()->addDays($dk * $f->feeding_interval - $leadTime)->format("Y-m-d") : '';
             $this->order[$f->id]['dz'] = $dZ;
             if (!empty($this->order[$f->id]['qty']) and $this->order[$f->id]['qty'] > 0) {
                 $this->order[$f->id]['price'] = $price = $this->order[$f->id]['qty'] * $f->last_price;
-                $this->order[$f->id]['ndk'] = ($f->animalsFeed?->where('animal_category_id', '<>', '0')->where('animal_category_id', '<>', '3')->count() > 0) ? $ndk = floor(($f->amount + $this->order[$f->id]['qty']) / $f->animalsFeed?->where('animal_category_id', '<>', '0')->where('animal_category_id', '<>', '3')->count()) : '';
-                $this->order[$f->id]['ndz'] = ($f->animalsFeed?->where('animal_category_id', '<>', '0')->where('animal_category_id', '<>', '3')->count() > 0) ? Carbon::now()->addDays($ndk * $f->feeding_interval - $leadTime)->format("Y-m-d") : '';
+                $this->order[$f->id]['ndk'] = ($f->animalsFeed?->where('animal_category_id', '<>', '5')->where('animal_category_id', '<>', '3')->count() > 0) ? $ndk = floor(($f->amount + $this->order[$f->id]['qty']) / $f->animalsFeed?->where('animal_category_id', '<>', '5')->where('animal_category_id', '<>', '3')->count()) : '';
+                $this->order[$f->id]['ndz'] = ($f->animalsFeed?->where('animal_category_id', '<>', '5')->where('animal_category_id', '<>', '3')->count() > 0) ? Carbon::now()->addDays($ndk * $f->feeding_interval - $leadTime)->format("Y-m-d") : '';
                 $this->sum += $price;
             }
         }
