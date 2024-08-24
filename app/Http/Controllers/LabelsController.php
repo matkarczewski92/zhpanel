@@ -32,7 +32,28 @@ class LabelsController extends Controller
     public function index(){
         return view('labels', [
             'animals' => $this->animalRepo->getAllUnsoldAnimals(),
+            
         ]);
+    }
+
+    public function generate()
+    {
+        $animalLabel= [];
+        foreach($_POST['animal'] as $animal => $value)
+            {
+                $animalLabel[$animal]['type'] = $this->animalRepo->getById(($animal))->animalType->name;
+                $animalLabel[$animal]['id'] = $this->animalRepo->getById(($animal))->id;
+                $animalLabel[$animal]['name'] = $this->animalRepo->getById(($animal))->name;
+                $animalLabel[$animal]['sex'] = $this->animalRepo->getById(($animal))->sex;
+                $animalLabel[$animal]['date_of_birth'] = $this->animalRepo->getById(($animal))->date_of_birth;
+                $animalLabel[$animal]['code'] = $this->animalRepo->getById(($animal))->public_profile_tag;
+            }
+
+        return view('labels.labels-generate',[
+            'animals' => $animalLabel ?? [],
+            'repo' => $this->animalRepo,
+        ]);
+
     }
 }
 
