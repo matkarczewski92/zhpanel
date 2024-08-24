@@ -20,7 +20,7 @@ $row = 0
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body><center>
-    <table style="margin-top:37px">
+    <table style="margin-top:30px">
         <tr style="height:99.25pt;">
             @foreach ($animals as $a)
                 <td class="border" style="width:191.3pt; padding-right:0.75pt; padding-left:0.75pt; vertical-align:top;">
@@ -38,7 +38,7 @@ $row = 0
                     }
                     if($row == 8)
                     {
-                        echo('</tr></table><table style="margin-top:-70px"><tr style="height:99.25pt;">');
+                        echo('</tr></table><table style="margin-top:-65px"><tr style="height:99.25pt;">');
                         $row = 0;
                     }
                 @endphp
