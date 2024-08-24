@@ -42,6 +42,14 @@ class AnimalRepository implements AnimalRepositoryInterface
         })->where('sex', 3)
         ->orderBy('id')->get();
     }
+    public function getAllUnsoldAnimals()
+    {
+        return Animal::where(function ($query) {
+            $query->where('animal_category_id', '=', 1)
+            ->orWhere('animal_category_id', '=', 2)
+            ->orWhere('animal_category_id', '=', 4);
+        })->orderBy('id')->get();
+    }
 
     public function getById(int $id)
     {

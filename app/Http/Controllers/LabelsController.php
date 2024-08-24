@@ -31,7 +31,7 @@ class LabelsController extends Controller
 
     public function index(){
         return view('labels', [
-
+            'animals' => $this->animalRepo->getAllUnsoldAnimals(),
         ]);
     }
 }

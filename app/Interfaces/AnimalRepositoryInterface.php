@@ -11,6 +11,8 @@ interface AnimalRepositoryInterface
     public function getAllInBreedingMales();
 
     public function getAllInBreedingFemales();
+    
+    public function getAllUnsoldAnimals();
 
     public function getUnsoldOffer();
 
