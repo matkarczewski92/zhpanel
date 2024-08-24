@@ -10,9 +10,9 @@
         <div class="strike mb-2">
             <span>Etykiety</span>
          </div>
-         @foreach ($animals as $a)
+         {{-- @foreach ($animals as $a)
              {{$a->id}}<br>
-         @endforeach
+         @endforeach --}}
     </div>
 </div>
 @endsection
