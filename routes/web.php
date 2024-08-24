@@ -11,6 +11,7 @@ use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\ForSaleController;
 use App\Http\Controllers\GetApiDataController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LabelsController;
 use App\Http\Controllers\LitterController;
 use App\Http\Controllers\LitterGalleryController;
 use App\Http\Controllers\LittersNotForSaleController;
@@ -57,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('winterings', [WinteringController::class, 'index'])->name('winterings');
     Route::get('litters-planning', [LittersPlanningController::class, 'index'])->name('litters-planning');
     Route::get('presentation', PresentationController::class)->name('presentation');
+    Route::get('labels', [LabelsController::class, 'index'])->name('labels');
     Route::get('project/{project}/stages/{stage}/create-litter', [ProjectsStagesController::class, 'createLitter'])->name('project.stages.create-litter');
 
     Route::resource('not-for-sale', LittersNotForSaleController::class);
