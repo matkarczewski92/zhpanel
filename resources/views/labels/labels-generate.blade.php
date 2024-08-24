@@ -24,7 +24,7 @@ $row = 0
         <tr style="height:99.25pt;">
             @foreach ($animals as $a)
             @php
-                $color = ($a['sex']==3) ? '#f933ff' : '#0000ff';
+                $color = ($a['sex']==3) ? '#ff0f00' : '#0000ff';
             @endphp
                 <td class="border" style="width:191.3pt; padding-right:0.75pt; padding-left:0.75pt; vertical-align:top;">
                     <p class="text-center" style="margin:5.55pt 4.8pt 0pt; font-size:9pt;"><b>{!!$a['type']!!}</b></p>
