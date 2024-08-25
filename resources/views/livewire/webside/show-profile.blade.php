@@ -1,6 +1,6 @@
 <div>
     <div class="input-group mb-3 mt-5">
-        <span class="input-group-text" id="basic-addon1">Podaj ID węża</span>
+        <span class="input-group-text" id="basic-addon1">Podaj KOD węża</span>
         <input type="text" class="form-control" wire:model="animalToken">
         <button type="button" class="btn btn-light" wire:click="checkToken()">WYŚWIETL PROFIL</button>
     </div>
