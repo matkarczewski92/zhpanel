@@ -29,9 +29,9 @@ $row = 0
                 <td class="border" style="width:191.3pt; padding-right:0.75pt; padding-left:0.75pt; vertical-align:top;">
                     <p class="text-center" style="margin:5.55pt 4.8pt 0pt; font-size:9pt;"><b>{!!$a['type']!!}</b></p>
                     <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt;">{!!$a['id']!!}. {!!$a['name']!!}</p>
-                    <table style="border:1">
-                        <tr style="border:1">
-                            <td style="border:1">
+                    <table style="border:1px">
+                        <tr style="border:1px">
+                            <td style="border:1px">
                                 <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt;"><b>Data klucia:</b> {!!$a['date_of_birth']!!}</p>
                                 <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt; color: {{$color}}"><b>Płeć:</b> {{$repo->sexName($a['sex'])}}</p>
                             </td>
