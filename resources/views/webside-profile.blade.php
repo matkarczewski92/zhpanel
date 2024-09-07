@@ -37,6 +37,7 @@
                 <div class="col-lg">
                     @include('webside.profile.web-profile-molts')
                     @include('webside.profile.web-profile-genotype')
+                    @include('webside.profile.web-profile-parents')
                 </div>
             </div>
         </div>
