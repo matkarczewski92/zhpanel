@@ -30,9 +30,17 @@ $row = 0
                     <p class="text-center" style="margin:5.55pt 4.8pt 0pt; font-size:9pt;"><b>{!!$a['type']!!}</b></p>
                     <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt;">{!!$a['id']!!}. {!!$a['name']!!}</p>
                     <table>
-                        <tr><p style="margin:5.55pt 4.8pt 0pt; font-size:9pt;"><b>Data klucia:</b> {!!$a['date_of_birth']!!}</p>
-                            <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt; color: {{$color}}"><b>Płeć:</b> {{$repo->sexName($a['sex'])}}</p></tr>
-                        <tr><img src="https://quickchart.io/qr?text=https%3A%2F%2Fmakssnake.pl%2Fprofile%2Fc4158&size=100" alt="" srcset=""></tr>
+                        <tr>
+                            <td>
+                                <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt;"><b>Data klucia:</b> {!!$a['date_of_birth']!!}</p>
+                                <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt; color: {{$color}}"><b>Płeć:</b> {{$repo->sexName($a['sex'])}}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="https://quickchart.io/qr?text=https%3A%2F%2Fmakssnake.pl%2Fprofile%2Fc4158&size=50" alt="" srcset="">
+                            </td>
+                        </tr>
                     </table>
                     
                 </td>
