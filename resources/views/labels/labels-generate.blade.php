@@ -36,7 +36,7 @@ $row = 0
                                 <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt; color: {{$color}}"><b>Płeć:</b> {{$repo->sexName($a['sex'])}}</p>
                             </td>
                             <td>
-                                <img src="https://quickchart.io/qr?text=https%3A%2F%2Fmakssnake.pl%2Fprofile%2Fc4158&size=75" alt="" srcset="">
+                                <img src="https://quickchart.io/qr?text=https%3A%2F%2Fmakssnake.pl%2Fprofile%2F{{$a['public_profile_tag']}}&size=75" alt="" srcset="">
                             </td>
                         </tr>
 
