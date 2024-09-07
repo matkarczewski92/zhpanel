@@ -25,6 +25,7 @@ $row = 0
             @foreach ($animals as $a)
             @php
                 $color = ($a['sex']==3) ? '#ff0f00' : '#0000ff';
+                $pt = {{$a['public_profile_tag']}};
             @endphp
                 <td class="border" style="width:191.3pt; padding-right:0.75pt; padding-left:0.75pt; vertical-align:top;">
                     <p class="text-center" style="margin:5.55pt 4.8pt 0pt; font-size:9pt;"><b>{!!$a['type']!!}</b></p>
@@ -36,7 +37,7 @@ $row = 0
                                 <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt; color: {{$color}}"><b>Płeć:</b> {{$repo->sexName($a['sex'])}}</p>
                             </td>
                             <td>
-                                <img src="https://quickchart.io/qr?text=https%3A%2F%2Fmakssnake.pl%2Fprofile%2F{{$a['public_profile_tag']}}&size=75" alt="" srcset="">
+                                <img src="https://quickchart.io/qr?text=https%3A%2F%2Fmakssnake.pl%2Fprofile%2F{{$pt}}&size=75" alt="" srcset="">
                             </td>
                         </tr>
 
