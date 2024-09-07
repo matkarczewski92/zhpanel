@@ -16,7 +16,7 @@ $row = 0
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>ZH Panel </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body><center>
@@ -29,8 +29,12 @@ $row = 0
                 <td class="border" style="width:191.3pt; padding-right:0.75pt; padding-left:0.75pt; vertical-align:top;">
                     <p class="text-center" style="margin:5.55pt 4.8pt 0pt; font-size:9pt;"><b>{!!$a['type']!!}</b></p>
                     <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt;">{!!$a['id']!!}. {!!$a['name']!!}</p>
-                    <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt;"><b>Data klucia:</b> {!!$a['date_of_birth']!!}</p>
-                    <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt; color: {{$color}}"><b>Płeć:</b> {{$repo->sexName($a['sex'])}}</p>
+                    <table>
+                        <tr><p style="margin:5.55pt 4.8pt 0pt; font-size:9pt;"><b>Data klucia:</b> {!!$a['date_of_birth']!!}</p>
+                            <p style="margin:5.55pt 4.8pt 0pt; font-size:9pt; color: {{$color}}"><b>Płeć:</b> {{$repo->sexName($a['sex'])}}</p></tr>
+                        <tr><img src="https://quickchart.io/qr?text=https%3A%2F%2Fmakssnake.pl%2Fprofile%2Fc4158&size=100" alt="" srcset=""></tr>
+                    </table>
+                    
                 </td>
                 @php
                     $col++;
