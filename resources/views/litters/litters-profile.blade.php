@@ -21,7 +21,8 @@
 
         </div>
         <div class="col-lg-6">
-            @livewire('litters.planned-offspring', ['litterId' => $litter->id])
+            {{-- @livewire('litters.planned-offspring', ['litterId' => $litter->id]) --}}
+            @livewire('litters.planned-offspring-algoritm', ['litterId' => $litter->id])
         </div>
         <div class="col-lg-3">
             @livewire('litters.planning')
