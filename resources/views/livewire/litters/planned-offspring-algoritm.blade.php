@@ -15,6 +15,7 @@
             @php
                 $main_genes = $row['main_genes'];
                 $additional_genes = $row['additional_genes']; 
+                $dominant = $row['dominant']; 
                 
                 $hets = explode(", ", $additional_genes);
                 rsort($hets);
@@ -38,9 +39,15 @@
                 foreach ($mains as $h) {
                     $newMains[] = '<span class="badge text-bg-success">'.$h.'</span>';
                 }
+                $dom = explode(", ", $dominant ?? '');
+                sort($mains);
+                $newDom = [];
+                foreach ($dom as $h) {
+                    $newDom[] = '<span class="badge text-bg-danger">'.$h.'</span>';
+                }
                 
             @endphp
-        <tr><td>{{number_format($row['percentage'], 2)}}%</td><td>@foreach($newMains as $mains) {!!$mains!!} @endforeach</td><td>@foreach($newHets as $hets) {!!$hets!!} @endforeach</td></tr>
+        <tr><td>{{number_format($row['percentage'], 2)}}%</td><td>@foreach($newDom as $dom) {!!$dom!!} @endforeach @foreach($newMains as $mains) {!!$mains!!} @endforeach</td><td>@foreach($newHets as $hets) {!!$hets!!} @endforeach</td></tr>
         @endforeach
         </table>
 

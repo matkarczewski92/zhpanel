@@ -161,8 +161,9 @@ function translate_phenotype($combination, $dictionary) {
 
         $matches = 0;
         $uppercase_count = 0;
-
+       
         foreach ($combination as $allele) {
+            
             if (strtolower($allele) === $gene) {
                 $matches++;
                 if (ctype_upper(substr($allele, 0, 1))) {
@@ -170,14 +171,17 @@ function translate_phenotype($combination, $dictionary) {
                 }
             }
         }
-
+        
         if ($matches === 2) {
             if ($uppercase_count === 0) {
                 $phenotypes[] = $phenotype_name;
+                
             } elseif ($uppercase_count === 1) {
                 $phenotypes[] = "het. " . $phenotype_name;
-            }
+                // dump($phenotype_name);
+            } 
         }
+        
     }
 
     return implode(", ", $phenotypes);
@@ -214,6 +218,14 @@ function find_gene_code($gene_name, $dictionary) {
     }
     return "Gen nie znaleziony";
 }
+function find_gene_name($gene_code, $dictionary) {
+    foreach ($dictionary as $entry) {
+        if (strtolower($entry[0]) === strtolower($gene_code)) {
+            return $entry[1];
+        }
+    }
+    return "Gen nie znaleziony";
+}
 
 // Funkcja do zliczania ilości wystąpień elementów w tablicy tablic
 function count_occurrences($nested_array) {
@@ -230,6 +242,23 @@ function count_occurrences($nested_array) {
 
     return $occurrences;
 }
+
+function check_both_parents_dominant_genes($maleGens, $femaleGens) {
+    $dominant_genes = [];
+    foreach ($maleGens as $male) {
+        foreach ($femaleGens as $female) {
+            if (is_string($male[0]) && is_string($male[1]) && is_string($female[0]) && is_string($female[1]) && 
+                ctype_upper($male[0]) && ctype_upper($male[1]) && 
+                ctype_upper($female[0]) && ctype_upper($female[1])) {
+                $dominant_genes[] = $male;
+            }
+        }
+    }
+    
+    return $dominant_genes;
+
+}
+
 
 function getGenotypeFinale($maleGens, $femaleGens, $dictionary) {
     $unmatched_parents = find_unmatched_elements_and_filter($femaleGens, $maleGens);
@@ -254,11 +283,12 @@ function getGenotypeFinale($maleGens, $femaleGens, $dictionary) {
     $second_table = [];
     foreach ($counts as $combination => $count) {
         $phenotype = translate_phenotype(explode(", ", $combination), $dictionary);
-    
+        
         // Oddziel geny główne od dodatkowych (het.)
         $main_genes = [];
         $additional_genes = [];
         $genes = explode(", ", $phenotype);
+
         foreach ($genes as $gene) {
             if (strpos($gene, 'het.') === false) {
                 $main_genes[] = $gene;
@@ -321,6 +351,16 @@ function getGenotypeFinale($maleGens, $femaleGens, $dictionary) {
     
     // Sumowanie i łączenie wartości dla zgrupowanych wierszy
     $final_table = [];
+
+
+
+
+    
+
+
+    if(count(check_both_parents_dominant_genes($maleGens, $femaleGens)[0] ?? [])==2) {
+        $dominant = (find_gene_name(check_both_parents_dominant_genes($maleGens, $femaleGens)[0][0], $dictionary));
+    }
     foreach ($second_table as $main_genes => $data) {
         $combined_additional_genes = [];
         foreach ($data['additional_genes'] as $additional_genes => $add_data) {
@@ -330,7 +370,12 @@ function getGenotypeFinale($maleGens, $femaleGens, $dictionary) {
         }
         $combined_additional_genes = array_unique($combined_additional_genes); // Usuwanie powtórzeń
         $combined_additional_genes_str = implode(", ", $combined_additional_genes);
+
+
+
+
         $final_table[] = [
+            'dominant' => $dominant ?? '',
             'main_genes' => $main_genes,
             'additional_genes' => $combined_additional_genes_str,
             'count' => $data['count'],
