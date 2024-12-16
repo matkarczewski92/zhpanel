@@ -28,8 +28,14 @@ class LitterController extends Controller
             'littersActual' => Litter::where('category', 1)->orderBy('created_at', 'desc')->paginate(15),
             'littersPlan' => Litter::where('category', 2)->orderBy('season', 'desc')->paginate(15),
             'littersClose' => Litter::where('category', 4)->orderBy('season', 'desc')->paginate(15),
-            'animalsMale' => Animal::where('sex', 2)->where('animal_category_id', '!=', 2)->where('animal_category_id', '!=', 3)->where('animal_category_id', '!=', 5)->get(),
-            'animalsFemale' => Animal::where('sex', 3)->where('animal_category_id', '!=', 2)->where('animal_category_id', '!=', 3)->where('animal_category_id', '!=', 5)->get(),
+            'animalsMale' => Animal::where('sex', 2)->where(function ($query) {
+                $query->where('animal_category_id', 1)
+                ->orWhere('animal_category_id', 4);
+            })->get(),
+            'animalsFemale' => Animal::where('sex', 3)->where(function ($query) {
+                $query->where('animal_category_id', 1)
+                ->orWhere('animal_category_id', 4);
+            })->get(),
             'animalRepo' => $this->animalRepo,
             'litterRepo' => $this->litterRepo,
         ]);
