@@ -28,7 +28,12 @@ class AvailableConnectionsController extends Controller
                 ->orWhere('animal_category_id', 4);
             })
             ->get(),
-            'males' => Animal::where('sex', 2)->where('animal_category_id', 1)->get(),
+            'males' => Animal::where('sex', 2)            
+            ->where(function ($query) {
+                $query->where('animal_category_id', 1)
+                ->orWhere('animal_category_id', 4);
+            })
+            ->get(),
         ]);
     }
 
