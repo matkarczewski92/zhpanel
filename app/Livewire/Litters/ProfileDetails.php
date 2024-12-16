@@ -64,8 +64,8 @@ class ProfileDetails extends Component
             'status' => $this->litterRepo->litterStatus($this->litterId),
             'category' => $this->litterRepo->litterCategory($litter->category),
             'animals' => Animal::where('litter_id', $litter->id)->get(),
-            'animalsMale' => Animal::where('sex', 2)->where('animal_category_id', 1)->get(),
-            'animalsFemale' => Animal::where('sex', 3)->where('animal_category_id', 1)->get(),
+            'animalsMale' => Animal::where('sex', 2)->where('animal_category_id', '!=', 2)->where('animal_category_id', '!=', 3)->where('animal_category_id', '!=', 5)->get(),
+            'animalsFemale' => Animal::where('sex', 3)->where('animal_category_id', '!=', 2)->where('animal_category_id', '!=', 3)->where('animal_category_id', '!=', 5)->get(),
             'litterRepo' => $this->litterRepo,
             'litterValue' => $this->litterRepo->litterValue($this->litterId),
         ]);
