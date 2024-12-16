@@ -17,8 +17,8 @@ class CreateFromTemplate extends Component
     public function render()
     {
         return view('livewire.litters.create-from-template', [
-            'females' => Animal::where('sex', 3)->where('animal_category_id', 1)->get(),
-            'males' => Animal::where('sex', 2)->where('animal_category_id', 1)->get(),
+            'females' => Animal::where('sex', 3)->where('animal_category_id', '!=', 2)->where('animal_category_id', '!=', 3)->where('animal_category_id', '!=', 5)->get(),
+            'males' => Animal::where('sex', 2)->where('animal_category_id', '!=', 2)->where('animal_category_id', '!=', 3)->where('animal_category_id', '!=', 5)->get(),
             'list' => $this->list(),
         ]);
     }
