@@ -140,3 +140,12 @@ table.detailsTable td.key  {
 
 
 
+ .avatar {
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: -45px;
+    margin-left: 10px;
+    object-fit: cover;  /* Zachowa proporcje i wypełni okrąg */
+}
