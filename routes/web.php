@@ -18,6 +18,7 @@ use App\Http\Controllers\LittersNotForSaleController;
 use App\Http\Controllers\LittersPlanningController;
 use App\Http\Controllers\MassDataController;
 use App\Http\Controllers\PossibleOffspringController;
+use App\Http\Controllers\PossOffspringController;
 use App\Http\Controllers\PresentationController;
 use App\Http\Controllers\ProjectAnnotationsController;
 use App\Http\Controllers\ProjectsController;
@@ -54,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('deleted', [DeletedAnimalsController::class, 'index'])->name('deleted');
     Route::get('animals.sell/{id}', [AnimalOfferController::class, 'sell'])->name('sell');
     Route::get('possibleoffspring', [PossibleOffspringController::class, 'index'])->name('possibleoffspring');
+    Route::get('possoffspring', [PossOffspringController::class, 'index'])->name('possoffspring');
     Route::get('massdata', [MassDataController::class, 'index'])->name('massdata');
     Route::get('winterings', [WinteringController::class, 'index'])->name('winterings');
     Route::get('litters-planning', [LittersPlanningController::class, 'index'])->name('litters-planning');
