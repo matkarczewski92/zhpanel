@@ -61,7 +61,7 @@
   
                                 <tr>
                                     <td>{{$litterData->id}}</td> 
-                                    <td>{{$litterData->litter_code}}</td> 
+                                    <td><a href="{{ route('litters.show', $litterData->id)}}">{{$litterData->litter_code}}</a></td> 
                                     <td>{{$litterData->season}}</td> 
                                     <td>@foreach($newDom as $dom) {!!$dom!!} @endforeach @foreach($newMains as $mains) {!!$mains!!} @endforeach</td>
                                     <td>@foreach($newHets as $hets) {!!$hets!!} @endforeach</td>
