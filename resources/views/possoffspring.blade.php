@@ -25,14 +25,47 @@
                                 @foreach ($litter as $lt)
                                 @php
                                 $litterData = $litterRepo->getById($key);
+                                $main_genes = $lt['main_genes'];
+                                $additional_genes = $lt['additional_genes']; 
+                                $dominant = $lt['dominant']; 
+                                
+                                $hets = explode(", ", $additional_genes);
+                                rsort($hets);
+                                $newHets = [];
+                                foreach ($hets as $h) {
+                                    if(strpos($h, "50%")!== false){
+                                        $newHets[] = '<span class="badge text-bg-secondary">'.$h.'</span>';
+                                        
+                                    } else if(strpos($h, "66%")!== false){
+                                        $newHets[] = '<span class="badge text-bg-info">'.$h.'</span>';
+                                        
+                                    } else if(strpos($h, "1/2")!== false){
+                                        $newHets[] = '<span class="badge text-bg-danger">'.$h.'</span>';
+                                        
+                                    } else $newHets[] = '<span class="badge text-bg-primary">'.$h.'</span>';
+                                }
+
+                                $mains = explode(", ", $main_genes);
+                                sort($mains);
+                                $newMains = [];
+                                foreach ($mains as $h) {
+                                    $newMains[] = '<span class="badge text-bg-success">'.$h.'</span>';
+                                }
+                                $dom = explode(", ", $dominant ?? '');
+                                sort($mains);
+                                $newDom = [];
+                                foreach ($dom as $h) {
+                                    $newDom[] = '<span class="badge text-bg-danger">'.$h.'</span>';
+                                }
                                 @endphp
+  
                                 <tr>
                                     <td>{{$litterData->id}}</td> 
                                     <td>{{$litterData->litter_code}}</td> 
                                     <td>{{$litterData->season}}</td> 
-                                    <td>{{$lt['main_genes']}}</td>
-                                    <td>{{$lt['additional_genes']}}</td>
-                                    <td>{{$lt['percentage']}}%</td>
+                                    <td>@foreach($newDom as $dom) {!!$dom!!} @endforeach @foreach($newMains as $mains) {!!$mains!!} @endforeach</td>
+                                    <td>@foreach($newHets as $hets) {!!$hets!!} @endforeach</td>
+                                    <td>{{number_format($lt['percentage'], 2)}}%</td>
                                 </tr>
                                 @endforeach
                             @endforeach

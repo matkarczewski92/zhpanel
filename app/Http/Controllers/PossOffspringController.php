@@ -41,7 +41,18 @@ class PossOffspringController extends Controller
             $female = $this->getAnimalArray($this->litterRepo->getById($lt->id)->animalFemale); 
             $genotypeArray = getGenotypeFinale($male, $female, $dictionary);
             foreach($genotypeArray as $gA){
-                $finale[$lt->id][] = $gA;
+                if (strpos($gA['additional_genes'], "1/2 Tessera") !== false) {        
+                    $gA['additional_genes'] = str_replace("1/2 Tessera", "", $gA['additional_genes']);
+                    $gA['percentage'] = $gA['percentage']/2;
+                    $finale[$lt->id][] = $gA;
+
+                    $gA['dominant'] .= ", Tessera";
+                    $finale[$lt->id][] = $gA;
+
+                } else {
+                    $finale[$lt->id][] = $gA;
+                }
+                
             }
             
         }
