@@ -16,7 +16,7 @@
                 </tr>
                 @foreach ($animal as $a)
                 <tr class="@if($animalRepo->timeToFeed($a->id)<0) text-danger @elseif ($animalRepo->timeToFeed($a->id)==0)text-success @endif">
-                    <td><a href="{{ route('animal.profile', $a->id) }}">{!!$a->name!!}</a></td>
+                    <td>{{$a->id}}. <a href="{{ route('animal.profile', $a->id) }}">{!!$a->name!!}</a></td>
                     <td>{{$a->animalFeed?->name}}</td>
                     <td>{{$animalRepo->nextFeed($a?->id ?? '')}}</td>
                     <td class="text-center">{{$animalRepo->timeToFeed($a?->id) ?? ''}}</td>
