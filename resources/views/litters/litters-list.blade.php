@@ -14,8 +14,8 @@
 @php
     $layingDuration = systemConfig('layingDuration');
     $hatchlingDuration = systemConfig('hatchlingDuration');
-    $date = new DateTime($d->connection_date);
-    $date->modify($layingDuration.' days');
+    // $date = new DateTime($d->connection_date);
+    // $date->modify($layingDuration.' days');
 @endphp
     <tr>
         <td><a href="{{ route('litters.show', $d->id)}}">{{ $d->litter_code }}</a></td>
