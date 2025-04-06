@@ -11,7 +11,7 @@ class AnimalPhotobar extends Component
 
     public function render()
     {
-        $this->animalBannerPossition = $this->animal->animalMainPhoto->banner_possition;
+        $this->animalBannerPossition = $this->animal->animalMainPhoto?->banner_possition;
 
         return view('livewire.animal.animal-photobar', [
             'animal' => $this->animal

@@ -1,6 +1,6 @@
 <div>
     <div class="container-fluid background-opacity rounded-bottom-3 div-bg" 
-style="height: 17rem; width: 90%; background: url('https://makssnake.pl/{{$animal->animalMainPhoto->url ?? 'public/Image/1_20241118051656.jpg'}}'); background-size: cover; background-position: center {{$animal->animalMainPhoto->banner_possition ?? 10}}%; margin-top: -55px;">
+style="height: 17rem; width: 90%; background: url('https://makssnake.pl/{{$animal->animalMainPhoto->url ?? 'public/Image/1_20241118051656.jpg'}}'); background-size: cover; background-position: center {{$animal->animalMainPhoto?->banner_possition ?? 10}}%; margin-top: -55px;">
     <div class="container-fluid h-100 " style="width: 100%;">
         <div class="row h-100 ">
             <div class="col-8">
