@@ -30,7 +30,6 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\WebSideProfile;
 use App\Http\Controllers\WinteringController;
 use App\Http\Controllers\ZHCAccessController;
-use App\Models\Animal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -77,7 +76,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('projects.stages.nfs', ProjectsStagesNfsController::class)->only(['store', 'destroy']);
     Route::resource('project.annotations', ProjectAnnotationsController::class)->only('store', 'update', 'destroy');
 
-    // to refactor to nested resource (dot notation)
     Route::get('passport/{id}', [AnimalPassport::class, 'index'])->name('passport');
     Route::post('offers/reservation', [AnimalOfferController::class, 'destroyReservation'])->name('offers.destroyreservation');
     Route::prefix('/animal')->name('animal.')->group(function () {

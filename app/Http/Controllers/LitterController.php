@@ -25,7 +25,7 @@ class LitterController extends Controller
     public function index(): View
     {
         return view('litters', [
-            'littersActual' => Litter::where('category', 1)->orderBy('created_at', 'desc')->paginate(25),
+            'littersActual' => Litter::where('category', 1)->orderBy('connection_date', 'desc')->paginate(25),
             'littersPlan' => Litter::where('category', 2)->orderByRaw('COALESCE(connection_date, planned_connection_date) ASC')->paginate(50),
             'littersClose' => Litter::where('category', 4)->orderBy('season', 'desc')->paginate(15),
             'animalsMale' => Animal::where('sex', 2)->where(function ($query) {
