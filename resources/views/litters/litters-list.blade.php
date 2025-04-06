@@ -26,8 +26,8 @@
         <td><a href="{{ route('litters.show', $d->id)}}">{{ $d->litter_code }}</a></td>
         <td>{{ $d->season }}</td>
         <td class="@if(!$d->connection_date) text-secondary @endif">{{ $d->connection_date ?? $d->planned_connection_date }}</td>
-        <td class="text-secondary">{{$layingDate}}</td>
-        <td class="text-secondary">{{$hatchingDate}}</td>
+        <td class="@if(!$d->laying_date) text-secondary @endif">{{$layingDate}}</td>
+        <td class="@if(!$d->hatching_date) text-secondary @endif">{{$hatchingDate}}</td>
         <td><a href="{{ route('animal.profile', $d->parent_male)}}">{!! $d->animalMale->name !!}</td>
         <td><a href="{{ route('animal.profile', $d->parent_female)}}">{!! $d->animalFemale->name !!}</td>
         <td>{{ $litterRepo->litterStatus($d->id) }}</td>
