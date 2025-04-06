@@ -25,16 +25,20 @@
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link {{ (request()->segment(1) == 'litters' || request()->segment(1) == 'forsale' || request()->segment(1) == 'sold') ? 'active' : '' }} dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Hodowla</a>
-            <ul class="dropdown-menu">
+            <a class="nav-link {{ (request()->segment(1) == 'litters' || request()->segment(1) == 'forsale' || request()->segment(1) == 'sold') ? 'active' : '' }} dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Hodowla
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{{ route('litters.index') }}">Mioty</a></li>
                 <li><a class="dropdown-item" href="{{ route('litters-planning') }}">Mioty - planowane</a></li>
                 <li><a class="dropdown-item" href="{{ route('forsale') }}">Maluchy</a></li>
-              <li><a class="dropdown-item" href="{{ route('sold') }}">Sprzedane</a></li>
-              <li><a class="dropdown-item" href="{{ route('deleted') }}">Usunięte</a></li>
-              <li><a class="dropdown-item" href="{{ route('winterings') }}">Zimowania</a></li>
+                <li><a class="dropdown-item" href="{{ route('sold') }}">Sprzedane</a></li>
+                <li><a class="dropdown-item" href="{{ route('deleted') }}">Usunięte</a></li>
+                <li><a class="dropdown-item" href="{{ route('winterings') }}">Zimowania</a></li>
             </ul>
-          </li>
+        </li>
+        
+        
 
           <li class="nav-item dropdown">
             <a class="nav-link {{ (request()->segment(1) == 'availableconnections' || request()->segment(1) == 'possibleoffspring') ? 'active' : '' }} dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Planowanie</a>
