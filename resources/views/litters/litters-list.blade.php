@@ -8,7 +8,7 @@
         <td>Samiec</td>
         <td>Samica</td>
         <td style="width:10%">Status</td>
-        <td style="width:5%">Wartość</td>
+        {{-- <td style="width:5%">Wartość</td> --}}
         <td style="width:5%"></td>
     </tr>
 @foreach ($data as $d)
@@ -35,7 +35,7 @@
         <td><a href="{{ route('animal.profile', $d->parent_male)}}">{!! $d->animalMale->name !!}</td>
         <td><a href="{{ route('animal.profile', $d->parent_female)}}">{!! $d->animalFemale->name !!}</td>
         <td>{{ $litterRepo->litterStatus($d->id) }}</td>
-        <td>{{ $litterRepo->litterValue($d->id) ?? '' }} zł</td>
+        {{-- <td>{{ $litterRepo->litterValue($d->id) ?? '' }} zł</td> --}}
         <td> </td>
 </tr>
 @endforeach
