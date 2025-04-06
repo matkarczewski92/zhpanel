@@ -21,7 +21,7 @@
                             $tooltip = "W realizacji";
                         } 
                     @endphp
-                    <a href="{{route('litters.show', $litter->id)}}"><span class="badge {{$color}} mt-2" data-bs-toggle="tooltip" data-bs-title="{{$tooltip}}" style="font-size: 10pt;">{{$litter->litter_code}}</span></a>
+                    <a href="{{route('litters.show', $litter->id)}}"><span class="badge {{$color}} mt-2" data-bs-toggle="tooltip" data-bs-title="{{$tooltip}}" style="font-size: 9pt;">{{$litter->litter_code}}</span></a>
                 @endforeach
             </p>
         </div>
