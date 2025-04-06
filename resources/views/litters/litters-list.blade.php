@@ -2,9 +2,9 @@
     <tr class="border-bottom">
         <td style="width:5%">Kod miotu</td>
         <td style="width:5%">Sezon</td>
-        <td style="width:5%">Data łączenia</td>
-        <td style="width:5%">Data zniosu</td>
-        <td style="width:5%">Data klucia</td>
+        <td style="width:7%">Data łączenia</td>
+        <td style="width:7%">Data zniosu</td>
+        <td style="width:7%">Data klucia</td>
         <td>Samiec</td>
         <td>Samica</td>
         <td style="width:10%">Status</td>
