@@ -53,8 +53,8 @@ class NavbarAnimalPrev extends Component
         }
     }
     public function getAnimalArray(){
-        $category = $this->getActualAnimalCategoriId($this->secondSegment);
-        return $this->animalRepo->getAllByCategory($category)->pluck('id')->toArray();
+        $arrayAnimalCategory = $this->getActualAnimalCategoriId($this->secondSegment);
+        return $this->animalRepo->getAllByCategory($arrayAnimalCategory)->pluck('id')->toArray();
     }
 
     public function getActualAnimalCategoriId(?int $animalId){
