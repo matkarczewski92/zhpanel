@@ -1,49 +1,30 @@
 <div class="card mb-3 bg-dark photobg rounded-1">
-    <div class="card-body " style="">
-        <div class="strike mb-2">
-            <span>Mioty</span>
+    <div class="row">
+        <div class="col m-1">
+        <div class="strike mb-2 mt-2 me-1"><span>Mioty</span></div>
+
         </div>
-            <table class="detailsTable">
-
-                <tr>
-                    <td><div class="strike mb-2 text-warning"><span>Zrealizowane</span></div></td>
-                </tr>
-                <tr>
-                    <td>
-                    @foreach ($litters as $lt)
-                        @if ($lt->category == 4)
-                            <a href="{{route('litters.show', $lt->id)}}" class="me-2">{{$lt->litter_code}} </a>
-                        @endif
-                    @endforeach
-                    </td>
-                </tr>
-                <tr>
-                    <td><div class="strike mb-2 text-danger"><span>W realizacji</span></div></td>
-                </tr>
-                <tr>
-                    <td>
-                    @foreach ($litters as $lt)
-                        @if ($lt->category == 1)
-                            <a href="{{route('litters.show', $lt->id)}}" class="me-2">{{$lt->litter_code}} </a>
-                        @endif
-                    @endforeach
-                    </td>
-                </tr>
-                <tr>
-                    <td><div class="strike mb-2 text-secondary"><span>Planowane</span></div></td>
-                </tr>
-                <tr>
-                    <td>
-                    @foreach ($litters as $lt)
-                        @if ($lt->category == 2)
-                           <a href="{{route('litters.show', $lt->id)}}" class="me-2">{{$lt->litter_code}} </a>
-                        @endif
-
-                    @endforeach
-                    </td>
-                </tr>
-
-            </table>
-
     </div>
+    <div class="row">
+        <div class="col m-1">
+            <p class="ms-2 badge-group">
+                @foreach ($litters->where('category', '!=', 3)->sortBy('category') as $litter)
+                    @php
+                        if($litter->category == 4){
+                            $color = 'text-bg-success';
+                            $tooltip = "Zrealizowane";
+                        } elseif($litter->category == 2){
+                            $color = 'text-bg-warning';
+                            $tooltip = "Planowane";
+                        } elseif($litter->category == 1){
+                            $color = 'text-bg-danger';
+                            $tooltip = "W realizacji";
+                        } 
+                    @endphp
+                    <a href="{{route('litters.show', $litter->id)}}"><span class="badge {{$color}} mt-2" data-bs-toggle="tooltip" data-bs-title="{{$tooltip}}">{{$litter->litter_code}}</span></a>
+                @endforeach
+            </p>
+        </div>
+    </div>
+    
 </div>

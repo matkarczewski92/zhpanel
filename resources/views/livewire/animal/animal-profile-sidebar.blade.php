@@ -1,5 +1,7 @@
 <div>
-
+                <a href="{{ url()->previous() }}" class="p-2" aria-current="page" title="Wróć">
+                    <i class="fa-solid fa-circle-arrow-left fa-xl" style="color: #297f3f;"></i>
+                </a>
             <a type="button" class="p-2" title="Karmienie" >
                <i class="fa-solid fa-utensils fa-xl {{$feedIndicator}}" style="color: {{$feedIndicatorColor}};"></i>
                 {{-- fa-bounce --}}

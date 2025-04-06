@@ -6,44 +6,51 @@
         </button>
         @endauth
         <div class="card-body " style="">
-            <div class="strike mb-2">
-                <span>Genetyka</span>
-             </div>
-
-             <div class="row mb-2">
-                <div class="col-lg"><div class="strike mb-1 text-secondary"><span>Vis</span></div>
-                    @foreach ($genotypeVis as $vis)
-                    @if ($editMode == 1)
-                    <a wire:click="delete({{$vis->id}})">{{$vis->genotypeCategory->name}}</a>,
-                    @else
-                    {{$vis->genotypeCategory->name}},
-                    @endif
-                    @endforeach
-
-                </div>
-                <div class="col-lg"><div class="strike mb-1 text-warning"><span>Het</span></div>
-                    @foreach ($genotypeHet as $het)
-                    @if ($editMode == 1)
-                    <a wire:click="delete({{$het->id}})">{{$het->genotypeCategory->name}}</a>,
-                    @else
-                    {{$het->genotypeCategory->name}},
-                    @endif
-                    @endforeach
-
-                </div>
-                <div class="col-lg"><div class="strike mb-1 text-danger"><span>Poss</span></div>
-                    @foreach ($genotypePos as $pos)
-                    @if ($editMode == 1)
-                    <a wire:click="delete({{$pos->id}})">{{$pos->genotypeCategory->name}}</a>,
-                    @else
-                    {{$pos->genotypeCategory->name}},
-                    @endif
-                    @endforeach
-                </div>
+            <div class="col m-1 ">
+                <div class="strike mb-2 mt-2 me-1"><span>Genetyka</span></div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col ms-3">
+            <p>
+                @php
+                    $sortedGenotypes = $animal->animalGenotype->sortBy(function($item) {
+                    return match($item->type) {
+                            'v' => 0,
+                            'h' => 1,
+                            default => 2,
+                        };
+                    });
+                @endphp
+                @foreach ($sortedGenotypes as $genotype)
+                    @php
+                        if(ctype_upper($genotype->genotypeCategory->gene_code)){
+                            $color = "text-bg-danger";
+                            $tooltip = "Dominant";
+                        } elseif($genotype->type == "v") {
+                            $color = "text-bg-success";
+                            $tooltip = "Homozygota - wizualny";
+                        } elseif($genotype->type == "h") {
+                            $color = "text-bg-primary";
+                            $tooltip = "Heterozygota";
+                        } else {
+                            $color = "text-bg-secondary";
+                            $tooltip = "Possible het.";
+                        }
+                    @endphp
+                    @if ($editMode == 1)
+                    <a wire:click="delete({{$genotype->id}})">
+                        <span class="badge {{$color}}" data-bs-toggle="tooltip" data-bs-title="{{$tooltip}}" style="font-size: 10pt;">{{$genotype->genotypeCategory->name}}</span>
+                    </a>
+                    @else
+                    <span class="badge {{$color}}" data-bs-toggle="tooltip" data-bs-title="{{$tooltip}}" style="font-size: 10pt;">{{$genotype->genotypeCategory->name}}</span>
+                    @endif
+                @endforeach
+            </p>
+        </div> 
             @if ($editMode == 1)
             <form wire:submit="addGenotypeToProfile">
-                <div class="input-group mt-5">
+                <div class="input-group mt-2">
                     <span class="input-group-text" id="basic-addon1">Genotyp</span>
                     <input class="form-control" autoComplete="on" wire:model.live="name" list="suggestions"/>
                     <select class="form-select" wire:model="typeInput" required>
@@ -67,7 +74,4 @@
             @endif
         </div>
     </div>
-
-
-
 </div>
