@@ -78,7 +78,7 @@
             <a class="nav-link" aria-current="page" href="{{ route('presentation') }}">Tryb Prezentacji</a>
           </li>
         </ul>
-        @if (request()->segment(1) == 'animal')
+        @if (in_array(request()->segment(1), ['animal', 'sold', 'forsale', 'deleted', 'winterings']))
           @livewire('core.navbar-animal-prev')
         @endif
    
