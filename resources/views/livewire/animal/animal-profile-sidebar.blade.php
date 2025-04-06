@@ -2,14 +2,13 @@
                 {{-- <a href="{{ url()->previous() }}" class="p-2" aria-current="page" title="Wróć">
                     <i class="fa-solid fa-circle-arrow-left fa-xl" style="color: #297f3f;"></i>
                 </a> --}}
-            <a type="button" class="p-2" title="Karmienie" >
+            {{-- <a type="button" class="p-2" title="Karmienie" >
                <i class="fa-solid fa-utensils fa-xl {{$feedIndicator}}" style="color: {{$feedIndicatorColor}};"></i>
-                {{-- fa-bounce --}}
-            </a>
+            </a> --}}
         
-            <a type="button" class="p-2" title="Ważenie" data-id="123">
+            {{-- <a type="button" class="p-2" title="Ważenie" data-id="123">
                 <i class="fa-solid fa-scale-unbalanced fa-xl {{ $weightIndicator }}" style="color: {{$weightIndicatorColor}};"></i>
-            </a>
+            </a> --}}
         
             {{-- <a href="{{ route('animals.edit', $animal->id) }}" class="p-2" aria-current="page" title="Edytuj">
                 <i class="fa-solid fa-gear fa-xl" style="color: #c5cad3;"></i>
