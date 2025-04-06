@@ -51,6 +51,10 @@ class AnimalRepository implements AnimalRepositoryInterface
         })->orderBy('id')->get();
     }
 
+    public function getAllByCategory(int $category){
+        return Animal::where('animal_category_id', $category)->orderBy('id')->get();
+    }
+
     public function getById(int $id)
     {
         return Animal::findOrFail($id);

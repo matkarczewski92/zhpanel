@@ -78,6 +78,8 @@
             <a class="nav-link" aria-current="page" href="{{ route('presentation') }}">Tryb Prezentacji</a>
           </li>
         </ul>
+        @livewire('core.navbar-animal-prev')
+   
         <div style="float: right;" class="me-3">
              @livewire('core.search-bar')
         </div>
