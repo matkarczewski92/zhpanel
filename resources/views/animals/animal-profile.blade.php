@@ -19,11 +19,11 @@ style="height: 15rem; width: 90%; background: url('https://makssnake.pl/{{$anima
             <div class="col">
                 <div class="mt-3 text-end me-4 ">
                     <a href="{{ url()->previous() }}" class="h3 p-2 ms-5" aria-current="page" title="Wróć">
-                        <i class="fa-solid fa-circle-arrow-left" style="color: #bbcfe2;"></i>
+                        <i class="fa-solid fa-circle-arrow-left" style="color: #edf3f8;"></i>
                     </a>
                     {{-- <a class="h3 disabled p-2" href="" role="button"><i class="bi bi-plus-square"></i></a> --}}
                     <a href="{{ route('animals.edit', $animal->id) }}" class="h3 p-2" aria-current="page" title="Edytuj">
-                        <i class="bi bi-pencil-square" style="color: #bbcfe2;"></i>
+                        <i class="bi bi-pencil-square" style="color: #edf3f8;"></i>
                     </a>
                 </div>
             </div>
