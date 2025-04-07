@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\AnimalGenotypeTraits;
 use App\Models\SystemConfig;
 
 function systemConfig(string $key)
@@ -259,8 +260,55 @@ function check_both_parents_dominant_genes($maleGens, $femaleGens) {
 
 }
 
+function getGenotypeTraitsDictionary()
+{
+    $traits = AnimalGenotypeTraits::orderBy('number_of_traits')->get();
+    $array = [];
 
-function getGenotypeFinale($maleGens, $femaleGens, $dictionary) {
+    foreach($traits as $trait){
+        foreach($trait->getTraitsDictionary as $tr){
+            $array[$trait->number_of_traits][$trait->name][] = $tr->genotypeCategory->name;
+        }
+    }
+    krsort($array);
+    return $array;
+}
+
+
+function matchTraitSet(array $main_genes_array, array $traitsDictionary)
+{
+    // Usuwamy spacje
+    $main_genes_array = array_map('trim', $main_genes_array);
+
+    // 1. Szukamy pełnego dopasowania (wszystkie geny muszą się zgadzać)
+    foreach ($traitsDictionary as $traitGroup) {
+        foreach ($traitGroup as $traitName => $requiredGenes) {
+            $matched = array_intersect($main_genes_array, $requiredGenes);
+
+            if (count($matched) === count($requiredGenes)) {
+                return $traitName;
+            }
+        }
+    }
+
+    // 2. Szukamy częściowego dopasowania TYLKO dla zestawów z dokładnie 2 genami
+    foreach ($traitsDictionary as $traitGroup) {
+        foreach ($traitGroup as $traitName => $requiredGenes) {
+            if (count($requiredGenes) === 2) {
+                $matched = array_intersect($main_genes_array, $requiredGenes);
+
+                if (count($matched) === 2) {
+                    return $traitName;
+                }
+            }
+        }
+    }
+
+    return null;
+}
+
+
+function getGenotypeFinale($maleGens, $femaleGens, $dictionary, $genotypeTraitsDictionary = null) {
     $unmatched_parents = find_unmatched_elements_and_filter($femaleGens, $maleGens);
     $female = getAllelCombination($femaleGens);
     $male = getAllelCombination($maleGens);
@@ -268,6 +316,7 @@ function getGenotypeFinale($maleGens, $femaleGens, $dictionary) {
     $combined_result = $combined_data[0];
     $unmatched_result = $combined_data[1];
     $total_combinations = count($combined_result);
+    $traitsDictionary = getGenotypeTraitsDictionary();
     
     // Liczenie ilości wystąpień każdej kombinacji
     $counts = array();
@@ -373,13 +422,15 @@ function getGenotypeFinale($maleGens, $femaleGens, $dictionary) {
 
 
 
-
+        $main_genes_array = explode(',', $main_genes);
+        $result = matchTraitSet($main_genes_array, $traitsDictionary);
         $final_table[] = [
             'dominant' => $dominant ?? '',
             'main_genes' => $main_genes,
             'additional_genes' => $combined_additional_genes_str,
             'count' => $data['count'],
             'percentage' => $data['percentage'],
+            'traits_name' => $result,
         ];
     }
     
@@ -391,5 +442,6 @@ function getGenotypeFinale($maleGens, $femaleGens, $dictionary) {
     // }
     // echo "</table>";
     
+    // dump($final_table);
     return $final_table;
 }

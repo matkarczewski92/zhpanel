@@ -15,6 +15,7 @@
                                 <td>Id</td>
                                 <td>Kod miotu</td>
                                 <td>Sezon</td>
+                                <td>Nazwa</td>
                                 <td>Hom</td>
                                 <td>Het</td>
                                 <td>Percent</td>
@@ -57,12 +58,14 @@
                                 foreach ($dom as $h) {
                                     $newDom[] = '<span class="badge text-bg-danger">'.$h.'</span>';
                                 }
+                                
                                 @endphp
   
                                 <tr>
                                     <td>{{$litterData->id}}</td> 
                                     <td><a href="{{ route('litters.show', $litterData->id)}}">{{$litterData->litter_code}}</a></td> 
                                     <td>{{$litterData->season}}</td> 
+                                    <td><span class="badge text-bg-light">{{$lt['traits_name']}}</span></td>
                                     <td>@foreach($newDom as $dom) {!!$dom!!} @endforeach @foreach($newMains as $mains) {!!$mains!!} @endforeach</td>
                                     <td>@foreach($newHets as $hets) {!!$hets!!} @endforeach</td>
                                     <td>{{number_format($lt['percentage'], 2)}}%</td>

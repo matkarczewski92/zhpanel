@@ -16,11 +16,8 @@
     </div>
 
     <div class="row mt-4">
-        <div class="col-lg-3">
-            @livewire('litters.adnotations', ['litterId' => $litter->id])
 
-        </div>
-        <div class="col-lg-6">
+        <div class="col-lg-9">
             {{-- @livewire('litters.planned-offspring', ['litterId' => $litter->id]) --}}
             @livewire('litters.planned-offspring-algoritm', ['litterId' => $litter->id])
         </div>
@@ -35,8 +32,11 @@
         <div class="col-lg-4">
             @include('litters.components.litters-main-photo')
         </div>
-
-
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-3">
+            @livewire('litters.adnotations', ['litterId' => $litter->id])
+        </div>
     </div>
 </div>
 @include('litters.profile.litters-profile-gallery')

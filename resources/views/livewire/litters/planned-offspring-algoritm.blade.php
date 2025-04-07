@@ -7,13 +7,15 @@
         <table class="detailsTable">
             <tr class="border-bottom">
                 <td style="width:8%">Procent</td>
+                <td style="width:10%">Nazwa</td>
                 <td style="width:30%">Homozygota</td>
-                <td style="width:62%">Heterozygota</td>
+                <td style="width:52%">Heterozygota</td>
             </tr>
             
         @foreach ($finale as $row)
             @php
                 $main_genes = $row['main_genes'];
+                $traits = $row['traits_name'];
                 $additional_genes = $row['additional_genes']; 
                 $dominant = $row['dominant']; 
                 
@@ -47,7 +49,12 @@
                 }
                 
             @endphp
-        <tr><td>{{number_format($row['percentage'], 2)}}%</td><td>@foreach($newDom as $dom) {!!$dom!!} @endforeach @foreach($newMains as $mains) {!!$mains!!} @endforeach</td><td>@foreach($newHets as $hets) {!!$hets!!} @endforeach</td></tr>
+        <tr>
+            <td>{{number_format($row['percentage'], 2)}}%</td>
+            <td><span class="badge text-bg-light">{{$traits}}</span></td>
+            <td>@foreach($newDom as $dom) {!!$dom!!} @endforeach @foreach($newMains as $mains) {!!$mains!!} @endforeach</td>
+            <td>@foreach($newHets as $hets) {!!$hets!!} @endforeach</td>
+        </tr>
         @endforeach
         </table>
 

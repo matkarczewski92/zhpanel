@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interfaces\AnimalRepositoryInterface;
 use App\Interfaces\LitterRepositoryInterface;
 use App\Models\AnimalGenotypeCategory;
+use App\Models\AnimalGenotypeTraits;
 use App\Models\Litter;
 use Illuminate\Http\Request;
 
@@ -24,6 +25,7 @@ class PossOffspringController extends Controller
     public function index()
     {
         $dictionary = $this->getDictionary();
+        $this->getGenotypeTraitsDictionary();
 
         return view('possoffspring',[
             'animalRepo' => $this->animalRepo,
@@ -65,6 +67,18 @@ class PossOffspringController extends Controller
         $array=[];
         foreach($gens as $gen){
             $array[] = [$gen->gene_code, $gen->name];
+        }
+        return $array;
+    }
+
+    public function getGenotypeTraitsDictionary()
+    {
+        $traits = AnimalGenotypeTraits::orderBy('number_of_traits')->get();
+
+        foreach($traits as $trait){
+            foreach($trait->getTraitsDictionary as $tr){
+                $array[$trait->number_of_traits][$trait->name][] = $tr->genotypeCategory->name;
+            }
         }
         return $array;
     }
