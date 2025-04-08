@@ -108,6 +108,7 @@
                                     <span class="dropdown-item">Witaj <b>{{ Auth::user()->name }}</b></span>
                                     <a class="dropdown-item" href="{{ route('settings.index')}}" >Ustawienia panelu</a>
                                     <a class="dropdown-item" href="{{ route('settings.web')}}" >Ustawienia strony</a>
+                                    <a class="dropdown-item" href="{{ route('settings.genotype')}}" >Ustawienia traits</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('settings')->name('settings.')->group(function () {
         Route::get('/', [SettingsController::class, 'index'])->name('index');  // Settings of Dashboard
         Route::get('/web', [SettingsController::class, 'webIndex'])->name('web'); // Setiings of webpage
+        Route::get('/genotype', [SettingsController::class, 'settingsGenotype'])->name('genotype'); // Setiings of webpage
     });
 
     Route::get('forsale', [ForSaleController::class, 'index'])->name('forsale');

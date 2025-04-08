@@ -36,6 +36,11 @@ class SettingsController extends Controller
         ]);
     }
 
+    public function settingsGenotype(): View
+    {
+        return view('settings-genotype');
+    }
+
 
 
 
