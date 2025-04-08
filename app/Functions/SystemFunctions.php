@@ -346,15 +346,18 @@ function matchTraitSet(array $main_genes_array, array $traitsDictionary, array $
         $resultParts[] = $dominant;
     }
 
-    // 7. Zastępujemy Ultramel i Caramel na Gold Dust, jeśli są obecne w wyniku
+    // 7. Sprawdzamy, czy Ultramel i Caramel występują razem i dodajemy "Gold Dust"
     $resultString = implode(' ', $resultParts);
     if (strpos($resultString, 'Ultramel') !== false && strpos($resultString, 'Caramel') !== false) {
-        // Jeśli Ultramel i Caramel są obecne, zamieniamy je na Gold Dust
-        $resultString = str_replace(['Ultramel', 'Caramel'], 'Gold Dust', $resultString);
+        // Jeśli Ultramel i Caramel występują razem, zastępujemy je tylko raz na "Gold Dust"
+        $resultString = preg_replace('/(Ultramel|Caramel)/', '', $resultString); // Usuwamy Ultramel i Caramel
+        $resultString = trim($resultString); // Usuwamy zbędne spacje
+        $resultString = "Gold Dust " . $resultString; // Dodajemy Gold Dust na początku
     }
 
     return $resultString;
 }
+
 
 
 
