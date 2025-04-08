@@ -36,6 +36,13 @@ class SettingsGenotypeTraitsDictionary extends Component
         $newTrait->save();
 
     }
+    public function addTrait()
+    {
+        $trait = new AnimalGenotypeTraits();
+        $trait->name = $this->traitName;
+        $trait->save();
+    }
+
     public function deleteTraitFromDictionary($traitId)
     {
         // dd($traitId);
@@ -45,12 +52,11 @@ class SettingsGenotypeTraitsDictionary extends Component
         $trait = AnimalGenotypeTraitsDictionary::findOrFail($traitId['id'])->delete();
     }
 
-    public function addTrait()
+    public function deleteTraid($traitId)
     {
-        $trait = new AnimalGenotypeTraits();
-        $trait->name = $this->traitName;
-        $trait->save();
+        $trait = AnimalGenotypeTraits::findOrFail($traitId)->delete();
     }
+
 
 
 }

@@ -15,7 +15,7 @@
                     $rowspan = ($trait->number_of_traits != 0) ? $trait->number_of_traits+1 : 2
                 @endphp
                   <tr>
-                    <td rowspan="{{$rowspan}}">{{$trait->id}}</td>
+                    <td rowspan="{{$rowspan}}"><a href="#" wire:click="deleteTrait({{$trait->id}})"><i class="bi bi-trash3-fill"></i></a> {{$trait->id}}</td>
                     <td rowspan="{{$rowspan}}">{{$trait->number_of_traits}}</td>
                     <td rowspan="{{$rowspan}}">{{$trait->name}}</td>
                     <td>@if ($trait->number_of_traits != 0) <a href="#" wire:click="deleteTraitFromDictionary({{$trait->getTraitsDictionary->first()}})"><i class="bi bi-trash3-fill"></i></a>@endif {{$trait?->getTraitsDictionary->first()?->genotypeCategory->name ?? 'nie dodano'}}</td>
