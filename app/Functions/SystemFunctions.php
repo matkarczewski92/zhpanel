@@ -360,12 +360,6 @@ function matchTraitSet(array $main_genes_array, array $traitsDictionary, array $
 
 
 
-
-
-
-
-
-
 function getGenotypeFinale($maleGens, $femaleGens, $dictionary, $genotypeTraitsDictionary = null) {
     $unmatched_parents = find_unmatched_elements_and_filter($femaleGens, $maleGens);
     $female = getAllelCombination($femaleGens);
@@ -423,7 +417,7 @@ function getGenotypeFinale($maleGens, $femaleGens, $dictionary, $genotypeTraitsD
                     if (ctype_upper($unmatched_gene[0]) && ctype_upper($unmatched_gene[1])) {
                         $additional_genes[] = "1/2 " . $gene_name;
                     } elseif (ctype_upper($unmatched_gene[0]) && ctype_lower($unmatched_gene[1])) {
-                        $prefix = in_array(strtolower($gene_name), ['amel', 'ultra']) ? "het." : "50% het.";
+                        $prefix = in_array(strtolower($gene_name), ['aamel', 'ultra']) ? "het." : "50% het.";
                         $additional_genes[] = "$prefix $gene_name";
                     } elseif (ctype_lower($unmatched_gene[0]) && ctype_lower($unmatched_gene[1])) {
                         $additional_genes[] = "het. " . $gene_name;
