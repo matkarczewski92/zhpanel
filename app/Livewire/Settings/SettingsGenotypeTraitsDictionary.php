@@ -52,7 +52,7 @@ class SettingsGenotypeTraitsDictionary extends Component
         $trait = AnimalGenotypeTraitsDictionary::findOrFail($traitId['id'])->delete();
     }
 
-    public function deleteTraid($traitId)
+    public function deleteTrait($traitId)
     {
         $trait = AnimalGenotypeTraits::findOrFail($traitId)->delete();
     }
