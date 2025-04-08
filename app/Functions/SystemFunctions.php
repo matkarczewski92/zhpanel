@@ -275,37 +275,84 @@ function getGenotypeTraitsDictionary()
 }
 
 
-function matchTraitSet(array $main_genes_array, array $traitsDictionary)
+function matchTraitSet(array $main_genes_array, array $traitsDictionary, array $combined_additional_genes_str_array = null, $dominant = '') 
 {
-    // Usuwamy spacje
+    // Usuwamy spacje z genów głównych
     $main_genes_array = array_map('trim', $main_genes_array);
 
-    // 1. Szukamy pełnego dopasowania (wszystkie geny muszą się zgadzać)
+    $prefix = '';
+    $hasUltramel = false;
+
+    // Sprawdzamy obecność "het. amel" i "het. ultra"
+    if ($combined_additional_genes_str_array !== null) {
+        $normalized_additional_genes = array_map(function($gene) {
+            return strtolower(trim($gene));
+        }, $combined_additional_genes_str_array);
+
+        if (in_array('het. amel', $normalized_additional_genes) && in_array('het. ultra', $normalized_additional_genes)) {
+            $hasUltramel = true;
+            $prefix = 'Ultramel';
+        }
+    }
+
+    $usedGenes = [];  // geny użyte w traitach
+    $baseName = null;
+
+    // 1. Pełne dopasowanie
     foreach ($traitsDictionary as $traitGroup) {
         foreach ($traitGroup as $traitName => $requiredGenes) {
             $matched = array_intersect($main_genes_array, $requiredGenes);
-
             if (count($matched) === count($requiredGenes)) {
-                return $traitName;
+                $usedGenes = array_merge($usedGenes, $matched);
+                $baseName = $traitName;
+                break 2;
             }
         }
     }
 
-    // 2. Szukamy częściowego dopasowania TYLKO dla zestawów z dokładnie 2 genami
-    foreach ($traitsDictionary as $traitGroup) {
-        foreach ($traitGroup as $traitName => $requiredGenes) {
-            if (count($requiredGenes) === 2) {
-                $matched = array_intersect($main_genes_array, $requiredGenes);
-
-                if (count($matched) === 2) {
-                    return $traitName;
+    // 2. Częściowe dopasowanie (dla 2-genowych)
+    if (!$baseName) {
+        foreach ($traitsDictionary as $traitGroup) {
+            foreach ($traitGroup as $traitName => $requiredGenes) {
+                if (count($requiredGenes) === 2) {
+                    $matched = array_intersect($main_genes_array, $requiredGenes);
+                    if (count($matched) === 2) {
+                        $usedGenes = array_merge($usedGenes, $matched);
+                        $baseName = $traitName;
+                        break 2;
+                    }
                 }
             }
         }
     }
 
-    return null;
+    // 3. Jeśli nie ma dopasowania ani Ultramela → null
+    if (!$baseName && !$hasUltramel) {
+        return null;
+    }
+
+    // 4. Zbieramy nieużyte geny
+    $unusedGenes = array_diff($main_genes_array, $usedGenes);
+
+    // 5. Budujemy wynik
+    $resultParts = [];
+
+    if ($prefix) $resultParts[] = $prefix;
+    if ($baseName) $resultParts[] = $baseName;
+    $resultParts = array_merge($resultParts, $unusedGenes);
+
+    // 6. Dodajemy dominujący gen na końcu (jeśli podany)
+    if (!empty($dominant)) {
+        $resultParts[] = $dominant;
+    }
+
+    return implode(' ', $resultParts);
 }
+
+
+
+
+
 
 
 function getGenotypeFinale($maleGens, $femaleGens, $dictionary, $genotypeTraitsDictionary = null) {
@@ -365,7 +412,8 @@ function getGenotypeFinale($maleGens, $femaleGens, $dictionary, $genotypeTraitsD
                     if (ctype_upper($unmatched_gene[0]) && ctype_upper($unmatched_gene[1])) {
                         $additional_genes[] = "1/2 " . $gene_name;
                     } elseif (ctype_upper($unmatched_gene[0]) && ctype_lower($unmatched_gene[1])) {
-                        $additional_genes[] = "50% het. " . $gene_name;
+                        $prefix = in_array(strtolower($gene_name), ['amel', 'ultra']) ? "het." : "50% het.";
+                        $additional_genes[] = "$prefix $gene_name";
                     } elseif (ctype_lower($unmatched_gene[0]) && ctype_lower($unmatched_gene[1])) {
                         $additional_genes[] = "het. " . $gene_name;
                     }
@@ -421,9 +469,10 @@ function getGenotypeFinale($maleGens, $femaleGens, $dictionary, $genotypeTraitsD
         $combined_additional_genes_str = implode(", ", $combined_additional_genes);
 
 
-
+        $dominant = isset($dominant) ? $dominant : '';
+        $combined_additional_genes_str_array = explode(',', $combined_additional_genes_str);
         $main_genes_array = explode(',', $main_genes);
-        $result = matchTraitSet($main_genes_array, $traitsDictionary);
+        $result = matchTraitSet($main_genes_array, $traitsDictionary, $combined_additional_genes_str_array, $dominant);
         $final_table[] = [
             'dominant' => $dominant ?? '',
             'main_genes' => $main_genes,
@@ -433,14 +482,6 @@ function getGenotypeFinale($maleGens, $femaleGens, $dictionary, $genotypeTraitsD
             'traits_name' => $result,
         ];
     }
-    
-    // Wyświetlanie finalnej tabeli
-    // echo "<hr><table border='1'>";
-    // echo "<tr><th>Geny główne</th><th>Geny dodatkowe</th><th>Ilość wystąpień</th><th>% Wystąpień</th></tr>";
-    // foreach ($final_table as $row) {
-    //     echo "<tr><td>{$row['main_genes']}</td><td>{$row['additional_genes']}</td><td>{$row['count']}</td><td>" . number_format($row['percentage'], 2) . "%</td></tr>";
-    // }
-    // echo "</table>";
     
     // dump($final_table);
     return $final_table;
