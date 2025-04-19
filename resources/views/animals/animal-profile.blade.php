@@ -15,7 +15,7 @@
         </div>
         <div class="col-5">
             <div class="position-relative top-50 translate-middle-y">
-                <p class="h6 sub-menu fw-bold title-name d-none d-xl-block">"{{$animal->second_name}}"" {{strip_tags($animal->name)}}</p>
+                <p class="h6 sub-menu fw-bold title-name d-none d-xl-block">@if ($animal->second_name)"{{$animal->second_name}}"@endif {{strip_tags($animal->name)}}</p>
 
             </div>
         </div>
