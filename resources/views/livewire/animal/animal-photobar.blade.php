@@ -6,7 +6,7 @@ style="height: 17rem; width: 90%; background: url('https://makssnake.pl/{{$anima
             <div class="col-8">
                 <div class="position-relative top-50 start-0 translate-middle-y" style="margin-top: -10px;">
                     <!-- <p class="h2 title fw-bold">Profil węża</p> -->
-                    <p class="h2 title fw-bold">{{strip_tags($animal->name)}}</p>
+                    <p class="h2 title fw-bold">"{{$animal->second_name}}" {{strip_tags($animal->name)}}</p>
                     <p class="title ms-1" style="margin-top:-15px">{{ $animal->animalCategory?->name }}</p>
                 </div>
             </div>
