@@ -64,6 +64,10 @@
                     <span class="input-group-text" id="basic-addon1" style="width:25%">Nazwa</span>
                     <input type="text" class="form-control {{$errors->first('name') ? 'border-danger' : null}}" name="name" aria-describedby="basic-addon1" value="{{ $profil->name }}">
                 </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1" style="width:25%">Imie</span>
+                    <input type="text" class="form-control {{$errors->first('second_name') ? 'border-danger' : null}}" name="second_name" aria-describedby="basic-addon1" value="{{ $profil->second_name }}">
+                </div>
 
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1" style="width:25%">Płeć</span>

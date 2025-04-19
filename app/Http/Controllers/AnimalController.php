@@ -94,6 +94,7 @@ class AnimalController extends Controller
     {
         $newAnimal = $this->animalRepo->getById($request->animalId);
         $newAnimal->name = $request->name;
+        $newAnimal->second_name = $request->second_name;
         $newAnimal->sex = $request->sex;
         $newAnimal->date_of_birth = $request->date_of_birth;
         $newAnimal->litter_id = $request->litter_id;
