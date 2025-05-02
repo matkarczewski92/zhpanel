@@ -5,10 +5,10 @@
                 <span>Rodzice</span>
              </div>
                 <div class="col-lg"><div class="strike mb-1 text-secondary"><span>Ojciec</span></div>
-                {!!$animal->animalLitter->animalMale->name!!}
+                {!!$animal?->animalLitter->animalMale?->name ?? '' !!}
                 </div>
                 <div class="col-lg"><div class="strike mb-1 text-warning"><span>Matka</span></div>
-                {!!$animal->animalLitter->animalFemale->name!!}
+                {!!$animal?->animalLitter->animalFemale?->name ?? '' !!}
                 </div>
         </div>
     </div>
