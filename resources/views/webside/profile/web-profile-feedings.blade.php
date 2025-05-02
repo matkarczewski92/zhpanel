@@ -16,7 +16,7 @@
             @foreach ($animalFeedings as $fd)
                     <tr>
                         <td>{{$fd->created_at->format("Y-m-d")}}</td>
-                        <td>{{$fd->feedType->name}}</td>
+                        <td>{{$fd->feedType?->name ?? ''}}</td>
                         <td>{{$fd->amount}}</td>
                     </tr>
             @endforeach
