@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="row ms-2 me-1 mb-5">
-    <div class="col col-1 stGtx" style="">
+    <div class="col col-1 stGtx" style="  ">
         {{-- @include('animals.profile.sidebar') --}}
         @livewire('animal.animal-profile-sidebar', ['animalId' => $animal->id])
     </div>
