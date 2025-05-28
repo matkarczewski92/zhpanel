@@ -29,6 +29,7 @@ class HomeController extends Controller
             'summaryLittersPast' => $this->animalToFeedSummary($this->animalToFeed(2), 1),
             'littersStatus' => $this->litterStatus(),
             'animalRepo' => $this->animalRepo,
+            'summary' => $this->info_data(),
         ]);
     }
 
@@ -99,5 +100,20 @@ class HomeController extends Controller
                     'laying' => $littersLaying,
                     'hatching' => $littersHatching,
                 ];
+    }
+
+    public function info_data(){
+
+            
+            $summary['litter_count'] = Litter::where('category', 1)->count();
+            $summary['eggs_count'] = Litter::whereNotNull('laying_date')->whereNull('hatching_date')->sum('laying_eggs_ok');
+            $summary['for_sale'] = Animal::where(function ($query) {
+                $query->where('animal_category_id', '=', 1)
+                ->orWhere('animal_category_id', '=', 2)
+                ->orWhere('animal_category_id', '=', 4);
+            })->orderBy('id')->count();
+    
+            return $summary;
+        
     }
 }

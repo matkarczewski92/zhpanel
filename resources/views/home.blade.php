@@ -16,6 +16,9 @@
     </div>
     <div class="col mb-4">
         <div class="row-lg-6 mb-2">
+            @include('home.info')
+        </div>
+        <div class="row-lg-6 mb-2">
             @include('home.litters-status')
         </div>
         <div class="row-lg-6">
