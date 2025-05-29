@@ -29,7 +29,7 @@ class HomeController extends Controller
             'summaryLittersPast' => $this->animalToFeedSummary($this->animalToFeed(2), 1),
             'littersStatus' => $this->litterStatus(),
             'animalRepo' => $this->animalRepo,
-            'summary' => $this->info_data(),
+            'summary_info' => $this->info_data(),
         ]);
     }
 
