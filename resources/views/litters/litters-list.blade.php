@@ -20,7 +20,7 @@
     $layingDate = ($d->laying_date) ? $d->laying_date : $lD->addDays($layingDuration)->format("Y-m-d");
 
     $hD = Carbon\Carbon::parse($layingDate);
-    $hatchingDate = ($d->hatching_date) ? $d->hatching_date : $lD->addDays($hatchlingDuration)->format("Y-m-d");
+    $hatchingDate = ($d->hatching_date) ? $d->hatching_date : $hD->addDays($hatchlingDuration)->format("Y-m-d");
     // $hatchingDate = $hD->addDays($hatchlingDuration)->format("Y-m-d");
     $connection = Carbon\Carbon::parse($d->connection_date);
     $laying = Carbon\Carbon::parse($layingDate);
