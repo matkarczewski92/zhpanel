@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Animal extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'second_name', 'sex ', 'date_of_birth', 'animal_type_id', 'litter_id', 'feed_id', 'feed_interval', 'animal_category_id', 'public_profile', 'public_profile_tag', 'web_galery'];
+    protected $fillable = ['name', 'second_name', 'sex', 'date_of_birth', 'animal_type_id', 'litter_id', 'feed_id', 'feed_interval', 'animal_category_id', 'public_profile', 'public_profile_tag', 'web_gallery'];
 
     public function animalCategory(): HasOne
     {
