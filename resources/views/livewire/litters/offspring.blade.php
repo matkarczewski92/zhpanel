@@ -4,6 +4,14 @@
             <button type="button" data-bs-toggle="modal" data-bs-target="#addAnimals" class="btn btn-success rounded-circle editmode">
                 <i class="fa-solid fa-pen"></i>
             </button>
+            <button type="button" wire:click="editModeSwitch" class="btn btn-{{$editBtnMode}} rounded-circle editmode" style="margin-right: 50px">
+                <i class="fa fa-pencil-square" aria-hidden="true"></i>
+            </button>
+            @if($editMode==1)
+            <button type="button" wire:click="saveEdit" class="btn btn-{{$editBtnMode}} rounded-circle editmode" style="margin-right: 100px">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            </button>
+            @endif
             <div class="strike mb-2">
                 <span>Potomstwo</span>
              </div>
@@ -16,16 +24,36 @@
                     <td class="text-center">Data wyklucia</td>
                     <td class="text-center">Status</td>
                 </tr>
-                    @foreach ($animals as $animal)
-                    <tr>
-                        <td><a href="{{ route('animal.profile', $animal->id)}} ">{!! $animal->name !!}</td>
-                        <td class="text-center">{{ $animalRepo->sexName($animal->sex) }}</td>
-                        <td class="text-center">{{ $animalRepo->lastWeight($animal->id) }}</td>
-                        <td class="text-center">{{ $animalRepo->feedCount($animal->id) }}</td>
-                        <td class="text-center">{{ $animal->date_of_birth }}</td>
-                        <td class="text-center">{{ $animalRepo->animalStatus($animal->id) }}</td>
-                    </tr>
-                    @endforeach
+                @foreach ($animals as $animal)
+                <tr>
+                    <td>
+                        
+                        @if($editMode == 0)
+                            <a href="{{ route('animal.profile', $animal->id) }}">{!! $animal->name !!}</a>
+                        @else
+                            <input type="text" class="form-control"
+                                  wire:model="editAnimals.{{ $animal->id }}.name"
+                                  value="{!! $animal->name !!}">
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        @if($editMode == 0)
+                            {{ $animalRepo->sexName($animal->sex) }}
+                        @else 
+                          <select wire:model="editAnimals.{{ $animal->id }}.sex" class="form-select">
+                              <option value="1">N/sex</option>
+                              <option value="2">Samiec</option>
+                              <option value="3">Samica</option>
+                          </select>
+                        @endif
+                    </td>
+                    <td class="text-center">{{ $animalRepo->lastWeight($animal->id) }}</td>
+                    <td class="text-center">{{ $animalRepo->feedCount($animal->id) }}</td>
+                    <td class="text-center">{{ $animal->date_of_birth }}</td>
+                    <td class="text-center">{{ $animalRepo->animalStatus($animal->id) }}</td>
+                </tr>
+                @endforeach
+
             </table>
         </div>
     </div>

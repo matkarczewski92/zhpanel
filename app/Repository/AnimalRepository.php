@@ -76,19 +76,14 @@ class AnimalRepository implements AnimalRepositoryInterface
     }
 
     public function sexName(int $value): string
-    {
-        switch ($value) {
-            case 1:
-                return 'N/sex';
-                break;
-            case 2:
-                return '♂ Samiec';
-                break;
-            case 3:
-                return '♀ Samica';
-                break;
+        {
+            return [
+                0 => 'N/sex',
+                1 => 'N/sex',
+                2 => '♂ Samiec',
+                3 => '♀ Samica',
+            ][$value] ?? 'b/d';
         }
-    }
 
     public function feedInterval(int $animalId): int
     {

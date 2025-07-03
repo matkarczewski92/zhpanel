@@ -16,6 +16,11 @@ class Offspring extends Component
 
     public $litterId;
     public $createAmount = 1;
+    public $editBtnMode = 'success';
+    public $editMode = 0;
+    public $editSex;
+    public $editName;
+    public array $editAnimals = [];
 
     public function boot(
         AnimalRepositoryInterface $animalRepo,
@@ -24,7 +29,16 @@ class Offspring extends Component
         $this->animalRepo = $animalRepo;
         $this->litterRepo = $litterRepo;
     }
+    public function mount($litterId)
+    {
+        $this->litterId = $litterId;
 
+        $this->editAnimals = $this->animalRepo->getByLitter($litterId)
+            ->mapWithKeys(fn($a) => [
+                $a->id => ['name' => $a->name, 'sex' => $a->sex]
+            ])
+            ->toArray();
+    }
     #[On('render')]
     public function render()
     {
@@ -59,4 +73,32 @@ class Offspring extends Component
 
         return redirect(request()->header('Referer'));
     }
+
+    public function editModeSwitch()
+    {
+        if ($this->editMode == 0) {
+            $this->editMode = 1;
+            $this->editBtnMode = 'danger';
+        } else {
+            $this->editMode = 0;
+            $this->editBtnMode = 'success';
+        }
+    }
+
+    public function saveEdit()
+    {
+        foreach ($this->editAnimals as $id => $eA) {
+            $animal = Animal::findOrFail($id);
+            if (isset($eA['name'])) $animal->name = $eA['name'];
+            if (isset($eA['sex']))  $animal->sex  = (int) $eA['sex'];
+            $animal->save();
+        }
+
+        // Odśwież dane w komponencie (bez reloadu strony)
+        $this->mount($this->litterId);
+
+        // Wyłącz tryb edycji, jeśli chcesz
+        $this->editModeSwitch();
+    }
+
 }
