@@ -2,8 +2,8 @@
     <div class="col">
         <div class="card bg-dark photobg rounded-1" >
             <div class="text-center">
-                <h5 class="m-2 mt-2">{{ $summary_info['eggs_count'] }}</h5>
-                <h6 class="m-2">Ilość jaj w inkubacji</h5>
+                <h5 class="m-2 mt-2">{{ $summary_info['eggs_count'] }}/{{ $summary_info['this_year'] }}</h5>
+                <h6 class="m-2">Ilość jaj w inkubacji/ogólnie</h5>
             </div>
         </div>
     </div>
