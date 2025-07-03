@@ -18,6 +18,7 @@
              </div>
              <table class="detailsTable">
                 <tr class="border-bottom">
+                    <td style="width:5%">ID</td>
                     <td style="width:45%">Nazwa</td>
                     <td class="text-center">Płeć</td>
                     <td class="text-center">Waga</td>
@@ -27,6 +28,7 @@
                 </tr>
                 @foreach ($animals as $animal)
                 <tr>
+                   <td class="text-center">{{$animal->id }}</td>
                     <td>
                         
                         @if($editMode == 0)
