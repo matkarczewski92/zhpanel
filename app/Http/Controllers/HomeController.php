@@ -108,7 +108,7 @@ class HomeController extends Controller
             $summary['litter_count'] = Litter::where('category', 1)->count();
             $summary['eggs_count'] = Litter::whereNotNull('laying_date')->whereNull('hatching_date')->sum('laying_eggs_ok');
             $summary['for_sale'] = Animal::where('animal_category_id', '=', 2)->count();
-            $summary['this_year'] = Litter::whereNotNull('laying_date')->whereNull('hatching_date')->sum('laying_eggs_ok')+Litter::whereNotNull('laying_date')->whereNotNull('hatching_date')->sum('laying_eggs_ok');
+            $summary['this_year'] = Litter::where('category', 1)->whereNotNull('laying_date')->whereNull('hatching_date')->sum('laying_eggs_ok')+Litter::where('category', 1)->whereNotNull('laying_date')->whereNotNull('hatching_date')->sum('laying_eggs_ok');
     
             return $summary;
         
