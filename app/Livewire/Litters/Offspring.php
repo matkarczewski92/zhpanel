@@ -8,7 +8,6 @@ use App\Models\Animal;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use App\Models\AnimalWeight;
 
 class Offspring extends Component
 {
@@ -89,7 +88,7 @@ class Offspring extends Component
     public function saveEdit()
     {
         foreach ($this->editAnimals as $id => $eA) {
-            // Aktualizacja zwierzęcia
+            // Aktualizacja podstawowych danych
             $animal = Animal::findOrFail($id);
             if (isset($eA['name'])) {
                 $animal->name = $eA['name'];
@@ -99,25 +98,23 @@ class Offspring extends Component
             }
             $animal->save();
 
-            // Ustal datę — jeśli sex pusty, użyj dzisiaj
-            $date = empty($eA['sex']) ? Carbon::now()->format('Y-m-d') : $this->inputDate;
+            // Zapisz wagę tylko, jeśli została uzupełniona
+            if (!empty($eA['weight'])) {
+                $date = empty($eA['sex']) ? Carbon::now()->format('Y-m-d') : $this->inputDate;
 
-            // Zapis wagi
-            $weight = new \App\Models\AnimalWeight();
-            $weight->animal_id = $id;
-            $weight->created_at = $date;
-            $weight->value = $eA['weight'] ?? null;
-            $weight->save();
+                $weight = new \App\Models\AnimalWeight();
+                $weight->animal_id = $id;
+                $weight->created_at = $date;
+                $weight->value = $eA['weight'];
+                $weight->save();
+            }
         }
 
-        // Odśwież dane bez przeładowania strony
         $this->mount($this->litterId);
-
-        // Wyłącz tryb edycji (opcjonalnie)
         $this->editModeSwitch();
 
-        // Komunikat (opcjonalnie)
         session()->flash('message', 'Zapisano zmiany.');
     }
+
 
 }
