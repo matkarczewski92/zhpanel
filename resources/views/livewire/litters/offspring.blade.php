@@ -18,7 +18,7 @@
              </div>
              <table class="detailsTable">
                 <tr class="border-bottom">
-                    <td style="width:5%">ID</td>
+                    <td style="width:5%" class="text-center">ID</td>
                     <td style="width:45%">Nazwa</td>
                     <td class="text-center">Płeć</td>
                     <td class="text-center">Waga</td>
