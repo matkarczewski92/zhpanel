@@ -118,7 +118,7 @@ class Offspring extends Component
                     $weight->animal_id = $id;
                     $weight->created_at = $date;
                     $weight->value = $newWeight;
-                    // $weight->save();
+                    $weight->save();
                 }
             }
         }
