@@ -20,6 +20,7 @@ class Offspring extends Component
     public $editMode = 0;
     public $editSex;
     public $editName;
+    public $inputDate;
     public array $editAnimals = [];
 
     public function boot(
