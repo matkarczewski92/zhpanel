@@ -2,10 +2,11 @@
     <div class="card mb-3 bg-dark photobg rounded-1">
         <div class="card-body " style="">
             <button type="button" data-bs-toggle="modal" data-bs-target="#addAnimals" class="btn btn-success rounded-circle editmode">
-                <i class="fa-solid fa-pen"></i>
+                <i class="fa fa-plus" aria-hidden="true"></i>
+
             </button>
             <button type="button" wire:click="editModeSwitch" class="btn btn-{{$editBtnMode}} rounded-circle editmode" style="margin-right: 50px">
-                <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                <i class="fa-solid fa-pen"></i>
             </button>
             @if($editMode==1)
             <button type="button" wire:click="saveEdit" class="btn btn-{{$editBtnMode}} rounded-circle editmode" style="margin-right: 100px">
