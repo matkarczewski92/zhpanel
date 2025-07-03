@@ -42,7 +42,7 @@
                         @if($editMode == 0)
                             {{ $animalRepo->sexName($animal->sex) }}
                         @else 
-                          <select wire:model="editAnimals.{{ $animal->id }}.sex" class="form-select">
+                          <select wire:model="editAnimals.{{ $animal->id }}.sex" class="form-select" style="width: 5ch;">
                               <option value="1">N/sex</option>
                               <option value="2">Samiec</option>
                               <option value="3">Samica</option>
