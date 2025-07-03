@@ -8,6 +8,7 @@ use App\Models\Animal;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use App\Models\AnimalWeight;
 
 class Offspring extends Component
 {
@@ -35,7 +36,7 @@ class Offspring extends Component
 
         $this->editAnimals = $this->animalRepo->getByLitter($litterId)
             ->mapWithKeys(fn($a) => [
-                $a->id => ['name' => $a->name, 'sex' => $a->sex]
+                $a->id => ['name' => $a->name, 'sex' => $a->sex, 'weight' => $this->animalRepo->lastWeight($a->id)]
             ])
             ->toArray();
     }
@@ -88,17 +89,35 @@ class Offspring extends Component
     public function saveEdit()
     {
         foreach ($this->editAnimals as $id => $eA) {
+            // Aktualizacja zwierzęcia
             $animal = Animal::findOrFail($id);
-            if (isset($eA['name'])) $animal->name = $eA['name'];
-            if (isset($eA['sex']))  $animal->sex  = (int) $eA['sex'];
+            if (isset($eA['name'])) {
+                $animal->name = $eA['name'];
+            }
+            if (isset($eA['sex'])) {
+                $animal->sex = (int) $eA['sex'];
+            }
             $animal->save();
+
+            // Ustal datę — jeśli sex pusty, użyj dzisiaj
+            $date = empty($eA['sex']) ? Carbon::now()->format('Y-m-d') : $this->inputDate;
+
+            // Zapis wagi
+            $weight = new \App\Models\AnimalWeight();
+            $weight->animal_id = $id;
+            $weight->created_at = $date;
+            $weight->value = $eA['weight'] ?? null;
+            $weight->save();
         }
 
-        // Odśwież dane w komponencie (bez reloadu strony)
+        // Odśwież dane bez przeładowania strony
         $this->mount($this->litterId);
 
-        // Wyłącz tryb edycji, jeśli chcesz
+        // Wyłącz tryb edycji (opcjonalnie)
         $this->editModeSwitch();
+
+        // Komunikat (opcjonalnie)
+        session()->flash('message', 'Zapisano zmiany.');
     }
 
 }

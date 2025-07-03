@@ -33,8 +33,7 @@
                             <a href="{{ route('animal.profile', $animal->id) }}">{!! $animal->name !!}</a>
                         @else
                             <input type="text" class="form-control"
-                                  wire:model="editAnimals.{{ $animal->id }}.name"
-                                  value="{!! $animal->name !!}">
+                                  wire:model="editAnimals.{{ $animal->id }}.name">
                         @endif
                     </td>
                     <td class="text-center">
@@ -48,7 +47,15 @@
                           </select>
                         @endif
                     </td>
-                    <td class="text-center">{{ $animalRepo->lastWeight($animal->id) }}</td>
+                    <td class="text-center">
+                      @if($editMode == 0)
+                       {{ $animalRepo->lastWeight($animal->id) }}
+                      @else
+                        <input type="text" class="form-control"
+                        wire:model="editAnimals.{{ $animal->id }}.weight">
+                      @endif
+
+                    </td>
                     <td class="text-center">{{ $animalRepo->feedCount($animal->id) }}</td>
                     <td class="text-center">{{ $animal->date_of_birth }}</td>
                     <td class="text-center">{{ $animalRepo->animalStatus($animal->id) }}</td>
