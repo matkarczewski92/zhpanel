@@ -112,13 +112,13 @@ class Offspring extends Component
                 $lastWeight = (float) $this->animalRepo->lastWeight($id);
 
                 if ($newWeight !== $lastWeight) {
-                    $date = empty($eA['sex']) ? Carbon::now()->format('Y-m-d') : $this->inputDate;
+                    $date = empty($eA['weight']) ? Carbon::now()->format('Y-m-d') : $this->inputDate;
 
-                    $weight = new \App\Models\AnimalWeight();
+                    $weight = new AnimalWeight();
                     $weight->animal_id = $id;
                     $weight->created_at = $date;
                     $weight->value = $newWeight;
-                    $weight->save();
+                    // $weight->save();
                 }
             }
         }
