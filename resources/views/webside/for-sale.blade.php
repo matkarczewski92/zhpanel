@@ -18,11 +18,11 @@
             @endforeach
           </div>
           @else
-          <p class="text-center">Brak węży na sprzedaż</p>
+          <p class="text-center">Aktualnie nie posiadamy nadwyżek hodowlanych.</p>
         @endif
       </div> 
-      <p class="text-center fw-bold">Nie sprzedajemy zwierząt osobom nieletnim.</p>
-      <p class="text-center">Nie wysyłamy węży kurierem czy przesyłką konduktorską. Możliwy dowóz w okolicy Wejherowa (woj.pomorskie).
-      <p class="text-center mb-4">Możliwa rezerwacja, warunkiem rezerwacji jest wpłata zadatku, rezerwujemy zazwyczaj na okres miesiąca (w wyjątkowych sytuacjach na dłuższy okres uzgodniony indywidualnie)</p>
+      <p class="text-center fw-bold">Nie wydajemy zwierząt osobom nieletnim.</p>
+      <p class="text-center">Nie wysyłamy węży kurierem czy przesyłką konduktorską.
+      <p class="text-center mb-4">Osobniki prezentowane na stronie nie stanowią oferty handlowej w rozumieniu art. 66 Kodeksu cywilnego.</p>
   </section>
 

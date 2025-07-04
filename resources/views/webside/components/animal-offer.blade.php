@@ -30,7 +30,7 @@
                         @elseif ($animalRepo->animalStatus($o->animal_id) == "W trakcie wykarmiania")
                             W trakcie wykarmiania
                         @endif</small></td>
-                    <td class="text-end"><small class="text-body-secondary ">CENA: {{$o->price}} zł </small></td>
+                    <td class="text-end"><small class="text-body-secondary ">Wartość hodowlana orientacyjna: {{$o->price}} zł </small></td>
                 </tr>
             </table>
         </div>
