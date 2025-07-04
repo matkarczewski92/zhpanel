@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('litters_gallery', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('litter_id')->constrained('litters');
+            $table->foreignId('litter_id')->constrained('litters')->cascadeOnDelete();
             $table->text('url');
             $table->integer('main_photo')->default('0');
             $table->timestamps();
