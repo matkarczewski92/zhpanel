@@ -24,8 +24,8 @@
       </div> 
       <p class="text-center fw-bold">Nie wydajemy zwierząt osobom nieletnim.</p>
       <p class="text-center">Nie wysyłamy węży kurierem czy przesyłką konduktorską.
-      <p class="text-center mb-4">Osobniki prezentowane na stronie nie stanowią oferty handlowej w rozumieniu art. 66 Kodeksu cywilnego.</p>
-      <p class="text-center mb-4">Prezentowane w profilach informacje mają charakter dokumentacyjny i nie są ofertą w rozumieniu przepisów prawa cywilnego ani handlowego. Ewentualne przekazanie osobników odbywa się wyłącznie na zasadzie prywatnego uzgodnienia, bez intencji zarobkowej.</p>
+      <p class="text-center">Osobniki prezentowane na stronie nie stanowią oferty handlowej w rozumieniu art. 66 Kodeksu cywilnego.</p>
+      <p class="text-center mb-4">Prezentowane w profilach informacje mają charakter dokumentacyjny i nie są ofertą w rozumieniu przepisów prawa cywilnego ani handlowego. Ewentualne przekazanie osobników odbywa się wyłącznie na zasadzie prywatnego uzgodnienia.</p>
       
 
   </section>
