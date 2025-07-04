@@ -8,7 +8,6 @@
       <div class="block" style="min-height: 300px">
           <h3 class="text-center mb-5">Nadwyżki hodowlane</h3>
           <h3 class="text-center mb-3">osobniki wyłączone z dalszych planów hodowlanych – dostępne do przekazania pasjonatom</h3>
-          <h3 class="text-center mb-5">przeznaczone do sprzedaży </h3>
 
           @if (!empty($offers[0]))
           <div class="row row-cols-1 row-cols-lg-5 g-4">
