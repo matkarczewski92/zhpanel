@@ -28,7 +28,7 @@
                     <td>{{ $animal->animalOffer?->sold_date }}</td>
                 </tr> --}}
             </table>
-            <p class="text-center">Osobniki prezentowane na stronie nie stanowią oferty handlowej w rozumieniu art. 66 Kodeksu cywilnego.</p>
+            <p class="text-center" class="mt-3">Osobniki prezentowane na stronie nie stanowią oferty handlowej w rozumieniu art. 66 Kodeksu cywilnego.</p>
             @if(!is_null($animal->animalOffer?->offerReservation?->booker))
                 <div class="strike mb-2 text-danger">
                     <span>Rezerwacja</span>
