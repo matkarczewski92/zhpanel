@@ -24,9 +24,18 @@ class WebController extends Controller
     public function index()
     {
         $actualYear = date('Y');
+        $offers = AnimalOffer::with('animalDetails')
+            ->whereNull('sold_date')
+            ->get()
+            ->filter(function ($offer) {
+                return $offer->animalDetails && $offer->animalDetails->public_profile == 1;
+            })
+            ->groupBy(function ($offer) {
+                return $offer->animalDetails->litter_id;
+            });
 
         return view('welcome', [
-            'offers' => AnimalOffer::where('sold_date', null)->get(),
+            'offers' => $offers,
             'gallery' => AnimalPhotoGallery::where('webside', '=', 1)->get(),
             'litterPlans' => Litter::where('season', $actualYear)->orderBy('category')->get(),
             'animalRepo' => $this->animalRepo,
