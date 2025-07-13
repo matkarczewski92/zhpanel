@@ -25,7 +25,7 @@
                         @include('webside.components.animal-offer', ['offer' => $o])
                     @endforeach
                 </div>
-                <hr class="mb-3">
+                <hr>
             @endforeach
         @else
             <p class="text-center">Aktualnie nie posiadamy nadwyżek hodowlanych.</p>
