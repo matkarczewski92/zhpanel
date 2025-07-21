@@ -21,7 +21,7 @@
 
                          @include('livewire.webside.components.gallery')
                          @include('livewire.webside.components.details')
-                         @include('livewire.webside.components.genotype')
+                         {{-- @include('livewire.webside.components.genotype') --}}
 
                     </div>
                     <div class="col-lg-6">
