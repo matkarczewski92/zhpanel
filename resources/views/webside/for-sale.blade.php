@@ -6,8 +6,8 @@
 
   <section>
       <div class="block" style="min-height: 300px">
-          <h3 class="text-center mb-5">Nadwyżki hodowlane</h3>
-          <h3 class="text-center mb-3">osobniki wyłączone z dalszych planów hodowlanych – dostępne do przekazania pasjonatom</h3>
+          <h3 class="text-center mb-5 text-break">Nadwyżki hodowlane</h3>
+          <h3 class="text-center mb-3 text-break">osobniki wyłączone z dalszych planów hodowlanych – dostępne do przekazania pasjonatom</h3>
           <br/>
         @if ($offers->isNotEmpty())
             @foreach ($offers as $litterId => $group)
@@ -16,7 +16,7 @@
                 $litter = $firstOffer->animalDetails->litter ?? null;
             @endphp
                        
-                <h3 class="mt-5 mb-4"> <u>{{ $firstOffer->animalDetails->animalLitter->litter_code ?? 'Redukcja hodowli' }}</u> 
+                <h3 class="mt-5 mb-4 text-break"> <u>{{ $firstOffer->animalDetails->animalLitter->litter_code ?? 'Redukcja hodowli' }}</u> 
                   {!! $firstOffer->animalDetails->animalLitter->animalMale->name ?? '' !!} x 
                   {!! $firstOffer->animalDetails->animalLitter->animalFemale->name ?? '' !!} </h3>
 
