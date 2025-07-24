@@ -16,7 +16,8 @@
                 $litter = $firstOffer->animalDetails->litter ?? null;
             @endphp
                        
-                <h3 class="mt-5 mb-4 text-break" style="word-break: break-word @important;" > <u>{{ $firstOffer->animalDetails->animalLitter->litter_code ?? 'Redukcja hodowli' }}</u> <br>
+                <h3 class="mt-5 mb-4"> <u>{{ $firstOffer->animalDetails->animalLitter->litter_code ?? 'Redukcja hodowli' }}</u> </h3> 
+                <h3 class="mt-5 mb-4">
                   {!! $firstOffer->animalDetails->animalLitter->animalMale->name ?? '' !!} x 
                   {!! $firstOffer->animalDetails->animalLitter->animalFemale->name ?? '' !!} </h3>
 
