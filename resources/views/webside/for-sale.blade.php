@@ -16,10 +16,10 @@
                 $litter = $firstOffer->animalDetails->litter ?? null;
             @endphp
                        
-                <h3 class="mt-5 "> <u>{{ $firstOffer->animalDetails->animalLitter->litter_code ?? 'Redukcja hodowli' }}</u> </h3> 
-                <h3 class="">
+                <h3 class="mt-5 mb-4"> <u>{{ $firstOffer->animalDetails->animalLitter->litter_code ?? 'Redukcja hodowli' }}</u> </h3> 
+                <h3 class="mt-5 mb-4">
                   {!! $firstOffer->animalDetails->animalLitter->animalMale->name ?? '' !!} </h3> 
-                <h3 class="mb-4"> 
+                <h3 class="mt-5 mb-4"> 
                   {!! $firstOffer->animalDetails->animalLitter->animalFemale->name ?? '' !!} </h3>
 
                 <div class="row row-cols-1 row-cols-lg-5 g-4">
