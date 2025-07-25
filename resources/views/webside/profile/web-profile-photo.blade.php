@@ -1,16 +1,19 @@
 <div class="card mb-3 @if($animal->animal_category_id == 4) bg-info @else bg-dark @endif photobg rounded-1">
-  @foreach ($animal->animalGallery as $gallery)
-  <div class="card-body">
-        @isset($gallery->url)
-            <a href="#" 
-               data-bs-toggle="modal" 
-               data-bs-target="#photo_profil" 
-               data-photo-url="{{ $gallery->url }}">
-               <img src="{{ $gallery->url }}" class="img-fluid" alt="">
-            </a>
-        @endisset
-    </div>
-    @endforeach
+  @if(!empty($animal->animalGallery) && $animal->animalGallery->isNotEmpty())
+      @foreach ($animal->animalGallery as $gallery)
+          <div class="card-body">
+              @isset($gallery->url)
+                  <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#photo_profil"
+                    data-photo-url="{{ $gallery->url }}">
+                      <img src="{{ $gallery->url }}" class="img-fluid" alt="">
+                  </a>
+              @endisset
+          </div>
+      @endforeach
+  @endif
+
 
 </div>
 
