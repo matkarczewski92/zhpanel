@@ -31,10 +31,10 @@
                     @include('webside.profile.web-profile-info')
                     @include('webside.profile.web-profile-details')
                     @include('webside.profile.web-profile-feedings')
-                    @include('webside.profile.web-profile-weights')
-
+                    
                 </div>
                 <div class="col-lg">
+                    @include('webside.profile.web-profile-weights')
                     @include('webside.profile.web-profile-molts')
                     {{-- @include('webside.profile.web-profile-genotype') --}}
                     @include('webside.profile.web-profile-parents')
