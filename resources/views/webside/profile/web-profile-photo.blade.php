@@ -1,15 +1,17 @@
 <div class="card mb-3 @if($animal->animal_category_id == 4) bg-info @else bg-dark @endif photobg rounded-1">
-    <div class="card-body">
-      @dd($animal->animalGallery)
-        @isset($animal->animalMainPhoto->url)
+  @foreach ($animal->animalGallery as $gallery)
+  <div class="card-body">
+        @isset($gallery->url)
             <a href="#" 
                data-bs-toggle="modal" 
                data-bs-target="#photo_profil" 
-               data-photo-url="{{ $animal->animalMainPhoto->url }}">
-               <img src="{{ $animal->animalMainPhoto->url }}" class="img-fluid" alt="">
+               data-photo-url="{{ $gallery->url }}">
+               <img src="{{ $gallery->url }}" class="img-fluid" alt="">
             </a>
         @endisset
     </div>
+    @endforeach
+
 </div>
 
 <div class="modal fade" id="photo_profil" tabindex="-1" aria-labelledby="photo_profil" aria-hidden="true">
