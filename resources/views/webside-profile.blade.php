@@ -28,12 +28,12 @@
                 </div>
                 <div class="col-lg-6">
                     @include('webside.profile.web-profile-offer')
-                    @include('webside.profile.web-profile-info')
                     @include('webside.profile.web-profile-details')
                     @include('webside.profile.web-profile-feedings')
                     
                 </div>
                 <div class="col-lg">
+                    @include('webside.profile.web-profile-info')
                     @include('webside.profile.web-profile-weights')
                     @include('webside.profile.web-profile-molts')
                     {{-- @include('webside.profile.web-profile-genotype') --}}
