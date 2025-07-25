@@ -59,7 +59,7 @@ class Animal extends Model
 
     public function animalGallery(): HasMany
     {
-        return $this->hasMany(AnimalPhotoGallery::class, 'animal_id', 'id')->orderBy('created_at', 'asc');;
+        return $this->hasMany(AnimalPhotoGallery::class, 'animal_id', 'id')->orderBy('created_at', 'desc');;
     }
 
     public function animalGenotype(): HasMany
