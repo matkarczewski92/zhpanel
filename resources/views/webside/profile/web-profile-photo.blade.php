@@ -4,6 +4,11 @@
            <a href="#" data-bs-toggle="modal" data-bs-target="#photo_profil"><img src="{{ $animal->animalMainPhoto->url }}" class="img-fluid " alt=""></a>
        @endisset
    </div>
+    <div class="card-body " style="">
+      @isset($animal->animalMainPhoto->url)
+           <a href="#" data-bs-toggle="modal" data-bs-target="#photo_profil"><img src="{{ $animal->animalMainPhoto->url }}" class="img-fluid " alt=""></a>
+       @endisset
+   </div>
 </div>
 <div class="modal fade" id="photo_profil" tabindex="-1" aria-labelledby="photo_profil" aria-hidden="true">
    <div class="modal-dialog modal-xl ">
