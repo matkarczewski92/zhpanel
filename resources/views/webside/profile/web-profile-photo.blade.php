@@ -1,11 +1,12 @@
 <div class="card mb-3 @if($animal->animal_category_id == 4) bg-info @else bg-dark @endif photobg rounded-1">
     <div class="card-body">
-        @isset($animal->animalGallery)
+      @dd($animal->animalGallery)
+        @isset($animal->animalMainPhoto->url)
             <a href="#" 
                data-bs-toggle="modal" 
                data-bs-target="#photo_profil" 
-               data-photo-url="{{ $animal->animalGallery->url }}">
-               <img src="{{ $animal->animalGallery->url }}" class="img-fluid" alt="">
+               data-photo-url="{{ $animal->animalMainPhoto->url }}">
+               <img src="{{ $animal->animalMainPhoto->url }}" class="img-fluid" alt="">
             </a>
         @endisset
     </div>
