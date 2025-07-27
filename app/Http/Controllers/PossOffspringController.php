@@ -26,6 +26,12 @@ class PossOffspringController extends Controller
     {
         $dictionary = $this->getDictionary();
         $this->getGenotypeTraitsDictionary();
+        $yearArray = Litter::select('season')
+                    ->distinct()
+                    ->orderBy('season', 'asc')
+                    ->pluck('season')
+                    ->toArray();
+
 
         // Pobranie roku z parametru GET 'year' lub użycie aktualnego roku
         $year = $request->input('year', date("Y"));
@@ -35,6 +41,7 @@ class PossOffspringController extends Controller
             'litterRepo' => $this->litterRepo,
             'litters' => $this->createArray($year),
             'dictionary' => $dictionary,
+            'yearArray' => $yearArray,
         ]);
     }
 
