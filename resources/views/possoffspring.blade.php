@@ -6,11 +6,11 @@
         <div class="row text-center">
             <div class="btn-group" role="group" aria-label="Basic example">
                 @php
-                    $year = $request->input('year', date("Y"));
+                    $yearURL = $request->input('year', date("Y"));
                 @endphp
             @foreach ($yearArray as $year)
                 <a href="{{ url()->current() }}?year={{ $y }}"
-                class="btn {{ $year == $y ? 'btn-primary' : 'btn-success' }} me-2 mb-2">
+                class="btn {{ $yearURL == $y ? 'btn-primary' : 'btn-success' }} me-2 mb-2">
                     {{ $y }}
                 </a>
             @endforeach
