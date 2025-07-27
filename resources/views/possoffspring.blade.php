@@ -5,6 +5,10 @@
     <div class="col " style="margin-top: -20px">
         <div class="row text-center">
             <div class="btn-group" role="group" aria-label="Basic example">
+                @php
+                    $year = $request->input('year', date("Y"));
+                    $color = (isset($year)) ? 'btn-primary' : 'btn-success';
+                @endphp
             @foreach ($yearArray as $year)
                 <a href="{{ url()->current() }}?year={{ $year }}" class="btn btn-success me-2 mb-2">
                     {{ $year }}
