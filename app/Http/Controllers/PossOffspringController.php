@@ -22,15 +22,18 @@ class PossOffspringController extends Controller
         $this->litterRepo = $litterRepo;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $dictionary = $this->getDictionary();
         $this->getGenotypeTraitsDictionary();
 
-        return view('possoffspring',[
+        // Pobranie roku z parametru GET 'year' lub użycie aktualnego roku
+        $year = $request->input('year', date("Y"));
+
+        return view('possoffspring', [
             'animalRepo' => $this->animalRepo,
             'litterRepo' => $this->litterRepo,
-            'litters' => $this->createArray(date("Y")),
+            'litters' => $this->createArray($year),
             'dictionary' => $dictionary,
         ]);
     }
