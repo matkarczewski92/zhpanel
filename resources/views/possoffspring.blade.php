@@ -3,8 +3,10 @@
 @section('content')
 <div class="row ms-2 me-1 mb-5">
     <div class="col " style="margin-top: -20px">
-        <div class="row">
-            ss
+        <div class="row text-center">
+            @foreach ($yearArray as $years)
+                <button class="btn">{{ $years }}</button>
+            @endforeach
         </div>
         <div class="row">
             <div class="card mb-3 bg-dark photobg rounded-1 h-100">
