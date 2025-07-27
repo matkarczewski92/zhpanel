@@ -5,13 +5,9 @@
     <div class="col " style="margin-top: -20px">
         <div class="row text-center">
             <div class="btn-group" role="group" aria-label="Basic example">
-                @php
-                    $yearURL = $request->input('year', date("Y"));
-                @endphp
             @foreach ($yearArray as $year)
-                <a href="{{ url()->current() }}?year={{ $y }}"
-                class="btn {{ $yearURL == $y ? 'btn-primary' : 'btn-success' }} me-2 mb-2">
-                    {{ $y }}
+                <a href="{{ url()->current() }}?year={{ $year }}" class="btn btn-success me-2 mb-2">
+                    {{ $year }}
                 </a>
             @endforeach
             </div>
