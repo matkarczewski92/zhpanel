@@ -4,13 +4,25 @@
 <div class="row ms-2 me-1 mb-5">
     <div class="col " style="margin-top: -20px">
         <div class="row text-center">
-            <div class="btn-group" role="group" aria-label="Basic example">
-            @foreach ($yearArray as $year)
-                <a href="{{ url()->current() }}?year={{ $year }}" class="btn btn-success me-2 mb-2">
-                    {{ $year }}
-                </a>
-            @endforeach
-            </div>
+@php
+    // Sprawdzamy, czy year został podany w żądaniu (POST lub GET)
+    $selectedYear = request()->input('year'); // działa dla GET i POST
+    $defaultYear = date('Y');
+@endphp
+
+<div class="btn-group" role="group" aria-label="Wybór roku">
+    @foreach ($yearArray as $year)
+        @php
+            $isSelected = ($selectedYear && $selectedYear == $year) || (!$selectedYear && $year == $defaultYear);
+            $btnClass = $isSelected ? 'btn-primary' : 'btn-success';
+        @endphp
+
+        <a href="{{ url()->current() }}?year={{ $year }}" class="btn {{ $btnClass }} me-2 mb-2">
+            {{ $year }}
+        </a>
+    @endforeach
+</div>
+
         </div>
         <div class="row">
             <div class="card mb-3 bg-dark photobg rounded-1 h-100">
