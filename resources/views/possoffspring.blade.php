@@ -7,11 +7,11 @@
             <div class="btn-group" role="group" aria-label="Basic example">
                 @php
                     $year = $request->input('year', date("Y"));
-                    $color = (isset($year)) : 'btn-primary' ? 'btn-success';
                 @endphp
             @foreach ($yearArray as $year)
-                <a href="{{ url()->current() }}?year={{ $year }}" class="btn btn-success me-2 mb-2">
-                    {{ $year }}
+                <a href="{{ url()->current() }}?year={{ $y }}"
+                class="btn {{ $year == $y ? 'btn-primary' : 'btn-success' }} me-2 mb-2">
+                    {{ $y }}
                 </a>
             @endforeach
             </div>
