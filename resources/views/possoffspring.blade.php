@@ -4,6 +4,9 @@
 <div class="row ms-2 me-1 mb-5">
     <div class="col " style="margin-top: -20px">
         <div class="row">
+            ss
+        </div>
+        <div class="row">
             <div class="card mb-3 bg-dark photobg rounded-1 h-100">
                 <div class="card-body " style="">
                     <div class="strike mb-2">
