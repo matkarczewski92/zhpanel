@@ -44,7 +44,7 @@
         </tr>
         <tr>
             <td>Dane kontakt</td>
-            <td class="text-end">tel. 666 304 147</td>
+            <td class="text-end">tel. 533 913 602</td>
         </tr>
         <tr>
             <td>E-mail</td>
