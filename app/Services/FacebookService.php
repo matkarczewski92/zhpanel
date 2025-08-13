@@ -1,115 +1,63 @@
-<?php
-
-namespace App\Services;
-
+// app/Services/FacebookService.php
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 
-class FacebookService
+private function guard(Http\Response $resp, string $context): array
 {
-    private string $pageId;
-    private string $accessToken;
-    private string $baseUrl = 'https://graph.facebook.com/v20.0';
+    if ($resp->failed()) {
+        Log::error("FB API FAILED ({$context})", ['status' => $resp->status(), 'body' => $resp->body()]);
+        throw new RuntimeException("Facebook API error ({$context}): " . $resp->body());
+    }
+    $data = $resp->json();
+    if (isset($data['error'])) {
+        Log::error("FB API ERROR FIELD ({$context})", ['error' => $data['error']]);
+        throw new RuntimeException("Facebook API error ({$context}): " . json_encode($data['error']));
+    }
+    return $data;
+}
 
-    public function __construct()
-    {
-        // Page ID nadal z .env (albo też możesz pobrać z bazy: systemConfig('fbPageId'))
-        $this->pageId = (string) env('FB_PAGE_ID');
+public function postText(string $message): array
+{
+    $resp = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/feed", [
+        'message'      => $message,
+        'access_token' => $this->accessToken,
+    ]);
+    return $this->guard($resp, 'postText'); // rzuci wyjątek jeśli coś nie tak
+}
 
-        // <-- KLUCZOWA ZMIANA: token z bazy
-        $token = (string) (systemConfig('fbToken') ?? '');
+public function postImage(?string $message, string $url): array
+{
+    $resp = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/photos", [
+        'url'          => $url,
+        'caption'      => $message ?? '',
+        'access_token' => $this->accessToken,
+    ]);
+    return $this->guard($resp, 'postImage');
+}
 
-        if ($token === '') {
-            throw new RuntimeException('Brak Page Access Token w systemConfig("fbToken").');
+public function postMultipleImages(?string $message, array $urls): array
+{
+    $attached = [];
+    foreach ($urls as $url) {
+        $r = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/photos", [
+            'url'          => $url,
+            'published'    => false,
+            'access_token' => $this->accessToken,
+        ]);
+        $photo = $this->guard($r, 'uploadPhoto(unpublished)');
+        if (!empty($photo['id'])) {
+            $attached[] = ['media_fbid' => $photo['id']];
         }
-
-        $this->accessToken = $token;
+    }
+    if (empty($attached)) {
+        throw new RuntimeException('Brak załączonych zdjęć (attached_media jest puste).');
     }
 
-    /** Post tekstowy */
-    public function postText(string $message): array
-    {
-        return Http::asForm()->post(
-            "{$this->baseUrl}/{$this->pageId}/feed",
-            [
-                'message'      => $message,
-                'access_token' => $this->accessToken,
-            ]
-        )->json();
-    }
-
-    /** Pojedynczy obrazek (po URL) */
-    public function postImage(?string $message, string $url): array
-    {
-        return Http::asForm()->post(
-            "{$this->baseUrl}/{$this->pageId}/photos",
-            [
-                'url'          => $url,
-                'caption'      => $message ?? '',
-                'access_token' => $this->accessToken,
-            ]
-        )->json();
-    }
-
-    /** Wiele obrazów po URL (unpublished -> attached_media) */
-    public function postMultipleImages(?string $message, array $urls): array
-    {
-        $attachedMedia = [];
-
-        foreach ($urls as $url) {
-            $res = Http::asForm()->post(
-                "{$this->baseUrl}/{$this->pageId}/photos",
-                [
-                    'url'          => $url,
-                    'published'    => false,
-                    'access_token' => $this->accessToken,
-                ]
-            )->json();
-
-            if (!empty($res['id'])) {
-                $attachedMedia[] = ['media_fbid' => $res['id']];
-            }
-        }
-
-        return Http::asForm()->post(
-            "{$this->baseUrl}/{$this->pageId}/feed",
-            [
-                'message'        => $message ?? '',
-                'attached_media' => json_encode($attachedMedia),
-                'access_token'   => $this->accessToken,
-            ]
-        )->json();
-    }
-
-    /** (Opcjonalnie) upload wielu plików z dysku */
-    public function postMultipleUploads(?string $message, array $files): array
-    {
-        $attachedMedia = [];
-
-        foreach ($files as $file) {
-            /** @var \Illuminate\Http\UploadedFile|\Illuminate\Http\File $file */
-            $path = method_exists($file, 'getRealPath') ? $file->getRealPath() : (string) $file;
-            $name = method_exists($file, 'getClientOriginalName') ? $file->getClientOriginalName() : basename($path);
-
-            $res = Http::attach('source', fopen($path, 'r'), $name)
-                ->asMultipart()
-                ->post("{$this->baseUrl}/{$this->pageId}/photos", [
-                    'published'    => false,
-                    'access_token' => $this->accessToken,
-                ])->json();
-
-            if (!empty($res['id'])) {
-                $attachedMedia[] = ['media_fbid' => $res['id']];
-            }
-        }
-
-        return Http::asForm()->post(
-            "{$this->baseUrl}/{$this->pageId}/feed",
-            [
-                'message'        => $message ?? '',
-                'attached_media' => json_encode($attachedMedia),
-                'access_token'   => $this->accessToken,
-            ]
-        )->json();
-    }
+    $resp = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/feed", [
+        'message'        => $message ?? '',
+        'attached_media' => json_encode($attached),
+        'access_token'   => $this->accessToken,
+    ]);
+    return $this->guard($resp, 'createFeedWithMedia');
 }
