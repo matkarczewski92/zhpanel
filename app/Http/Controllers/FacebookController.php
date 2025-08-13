@@ -51,24 +51,7 @@ class FacebookController extends Controller
         }
     }
 
-    public function postMultipleUploads(Request $request)
-{
-    try {
-        $data = $request->validate([
-            'message'   => 'nullable|string|max:63206',
-            'photos'    => 'required',
-            'photos.*'  => 'file|mimes:jpg,jpeg,png,webp|max:10240', // 10 MB/szt.
-        ]);
+    
 
-        /** @var \Illuminate\Http\UploadedFile[] $files */
-        $files = $request->file('photos');
-
-        $this->fb->postMultipleUploads($data['message'] ?? '', $files);
-
-        return redirect(url()->previous() . '?OK');
-    } catch (\Throwable $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
-    }
-}
 
 }
