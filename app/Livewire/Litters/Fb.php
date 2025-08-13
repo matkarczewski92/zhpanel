@@ -28,31 +28,32 @@ class Fb extends Component
         ]);
     }
 
-public function save()
-{
-    $message = str_replace(["\r\n", "\r", "\n"], "\\n", (string) $this->adnotation);
-    $litter = Litter::find($this->litterId);
-    $urlsString = (string) $this->createUrls($litter);
-    $urlsString = preg_replace('/,\s*$/', '', $urlsString);
-    $urlsArray = array_values(array_filter(
-        array_map('trim', explode(',', $urlsString)),
-        fn ($u) => $u !== '' && (str_starts_with($u, 'http://') || str_starts_with($u, 'https://'))
-    ));
+    public function save()
+    {
+        $message = (string) $this->adnotation; // bez zamiany na \\n
 
-    try {
-        // Jeśli masz dłuższe wysyłki – podnieś limit, żeby nie wywalało po 30 s
-        @set_time_limit(120);
+        $litter = Litter::find($this->litterId);
+        $urlsString = (string) $this->createUrls($litter);
 
-        app(\App\Services\FacebookService::class)
-            ->postMultipleImages($message, $urlsArray);
+        $urlsString = preg_replace('/,\s*$/', '', $urlsString);
+        $urlsArray = array_values(array_filter(
+            array_map('trim', explode(',', $urlsString)),
+            fn ($u) => $u !== '' && (str_starts_with($u, 'http://') || str_starts_with($u, 'https://'))
+        ));
 
-        return redirect(url()->previous() . '?OK');
-    } catch (\Throwable $e) {
-        return response()->json([
-            'error' => $e->getMessage(),
-        ], 500);
+        try {
+            @set_time_limit(120);
+            app(\App\Services\FacebookService::class)
+                ->postMultipleImages($message, $urlsArray);
+
+            return redirect(url()->previous() . '?OK');
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
-}
+
 
 
     public function createUrls(Litter $litter)
