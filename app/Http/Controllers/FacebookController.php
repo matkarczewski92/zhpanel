@@ -16,21 +16,59 @@ class FacebookController extends Controller
 
     public function postText(Request $request)
     {
-        return $this->fb->postText($request->message);
+        try {
+            $this->fb->postText($request->message);
+            return redirect(url()->previous() . '?OK');
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function postImage(Request $request)
     {
-        return $this->fb->postImage($request->message, $request->url);
+        try {
+            $this->fb->postImage($request->message, $request->url);
+            return redirect(url()->previous() . '?OK');
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function postMultipleImages(Request $request)
     {
-        // Rozdzielenie URL-i po przecinku i usunięcie spacji
-        $urlsArray = array_map('trim', explode(',', $request->urls));
-
-        return $this->fb->postMultipleImages($request->message, $urlsArray);
+        try {
+            $urlsArray = array_map('trim', explode(',', $request->urls));
+            $this->fb->postMultipleImages($request->message, $urlsArray);
+            return redirect(url()->previous() . '?OK');
+        } catch (\Throwable $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
+    public function postMultipleUploads(Request $request)
+{
+    try {
+        $data = $request->validate([
+            'message'   => 'nullable|string|max:63206',
+            'photos'    => 'required',
+            'photos.*'  => 'file|mimes:jpg,jpeg,png,webp|max:10240', // 10 MB/szt.
+        ]);
+
+        /** @var \Illuminate\Http\UploadedFile[] $files */
+        $files = $request->file('photos');
+
+        $this->fb->postMultipleUploads($data['message'] ?? '', $files);
+
+        return redirect(url()->previous() . '?OK');
+    } catch (\Throwable $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
 
 }

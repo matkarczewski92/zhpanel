@@ -90,7 +90,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/fb/post-text', [FacebookController::class, 'postText']);
     Route::post('/fb/post-image', [FacebookController::class, 'postImage']);
     Route::post('/fb/post-multi', [FacebookController::class, 'postMultipleImages']);
-    Route::get('/fb/form', function() {
-    return view('facebook_form');
-});
+    Route::post('/fb/post-multi-upload', [FacebookController::class, 'postMultipleUploads']);
+    Route::get('/fb/form', function() { return view('facebook_form');})->name('fb.form');
 });

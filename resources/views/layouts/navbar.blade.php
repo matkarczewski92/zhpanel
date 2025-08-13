@@ -75,7 +75,7 @@
             <a class="nav-link" aria-current="page" href="{{ route('webpage') }}">Web</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{{ route('presentation') }}">Tryb Prezentacji</a>
+            <a class="nav-link" aria-current="page" href="{{ route('fb.form') }}">Publikacja na FB</a>
           </li>
         </ul>
         @if (in_array(request()->segment(1), ['animal', 'sold', 'forsale', 'deleted', 'winterings']))

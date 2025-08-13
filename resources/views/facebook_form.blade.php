@@ -1,40 +1,80 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <title>Facebook Post Tool</title>
-</head>
-<body>
-    <h1>📢 Publikacja na Facebooku</h1>
+@extends('layouts.app')
 
-    {{-- Formularz — post tekstowy --}}
-    <h2>Post tekstowy</h2>
-    <form action="{{ url('/fb/post-text') }}" method="POST">
-        @csrf
-        <textarea name="message" placeholder="Treść posta" rows="3" required></textarea><br>
-        <button type="submit">Opublikuj tekst</button>
-    </form>
+@section('content')
+<div class="container mt-4">
 
-    <hr>
+    {{-- Post tekstowy --}}
+    <div class="card mb-4 bg-dark text-white">
+        <div class="card-body">
+            <h5 class="card-title border-bottom pb-2">Post tekstowy</h5>
+            <form action="{{ url('/fb/post-text') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="messageText" class="form-label">Treść posta</label>
+                    <textarea id="messageText" name="message" class="form-control" rows="3" placeholder="Treść posta" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Opublikuj tekst</button>
+            </form>
+        </div>
+    </div>
 
-    {{-- Formularz — post z jednym zdjęciem --}}
-    <h2>Post ze zdjęciem</h2>
-    <form action="{{ url('/fb/post-image') }}" method="POST">
-        @csrf
-        <textarea name="message" placeholder="Treść posta" rows="3" required></textarea><br>
-        <input type="text" name="url" placeholder="URL zdjęcia" required><br>
-        <button type="submit">Opublikuj zdjęcie</button>
-    </form>
+    {{-- Post ze zdjęciem --}}
+    <div class="card mb-4 bg-dark text-white">
+        <div class="card-body">
+            <h5 class="card-title border-bottom pb-2">Post ze zdjęciem</h5>
+            <form action="{{ url('/fb/post-image') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="messageImage" class="form-label">Treść posta</label>
+                    <textarea id="messageImage" name="message" class="form-control" rows="3" placeholder="Treść posta" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="url" class="form-label">URL zdjęcia</label>
+                    <input type="text" id="url" name="url" class="form-control" placeholder="https://example.com/photo.jpg" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Opublikuj zdjęcie</button>
+            </form>
+        </div>
+    </div>
 
-    <hr>
+    {{-- Post z wieloma zdjęciami --}}
+    <div class="card mb-4 bg-dark text-white">
+        <div class="card-body">
+            <h5 class="card-title border-bottom pb-2">Post z wieloma zdjęciami</h5>
+            <form action="{{ url('/fb/post-multi') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="messageMulti" class="form-label">Treść posta</label>
+                    <textarea id="messageMulti" name="message" class="form-control" rows="3" placeholder="Treść posta" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="urls" class="form-label">URL-e zdjęć</label>
+                    <textarea id="urls" name="urls" class="form-control" rows="3" placeholder="Podaj adresy URL oddzielone przecinkami" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Opublikuj wiele zdjęć</button>
+            </form>
+        </div>
+    </div>
+    {{-- Post z wieloma zdjęciami (upload z dysku) --}}
+    <div class="card mb-4 bg-dark text-white">
+        <div class="card-body">
+            <h5 class="card-title border-bottom pb-2">Post z wieloma zdjęciami (upload z dysku)</h5>
+            <form action="{{ url('/fb/post-multi-upload') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label for="messageUpload" class="form-label">Treść posta (opcjonalnie)</label>
+                    <textarea id="messageUpload" name="message" class="form-control" rows="3" placeholder="Treść posta"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="photos" class="form-label">Wybierz zdjęcia</label>
+                    <input id="photos" type="file" name="photos[]" class="form-control" accept=".jpg,.jpeg,.png,.webp" multiple required>
+                    <div class="form-text">Możesz zaznaczyć kilka plików (do 10 MB każdy).</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Opublikuj zdjęcia</button>
+            </form>
+        </div>
+    </div>
 
-    {{-- Formularz — post z wieloma zdjęciami --}}
-    <h2>Post z wieloma zdjęciami</h2>
-    <form action="{{ url('/fb/post-multi') }}" method="POST">
-        @csrf
-        <textarea name="message" placeholder="Treść posta" rows="3" required></textarea><br>
-        <textarea name="urls" placeholder="Wpisz URL-e zdjęć oddzielone przecinkami" rows="3" required></textarea><br>
-        <button type="submit">Opublikuj wiele zdjęć</button>
-    </form>
-</body>
-</html>
+
+</div>
+@endsection

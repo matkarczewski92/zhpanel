@@ -37,6 +37,9 @@
         <div class="col-lg-3">
             @livewire('litters.adnotations', ['litterId' => $litter->id])
         </div>
+        <div class="col-lg-3">
+            @livewire('litters.fb', ['litterId' => $litter->id])
+        </div>
     </div>
 </div>
 @include('litters.profile.litters-profile-gallery')
