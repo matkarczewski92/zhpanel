@@ -13,7 +13,12 @@ class Fb extends Component
     public string $adnotation = '';
     public string $status = '';
 
-    // USTAW startowe dane TYLKO raz
+    // Nowe pola do sterowania UI
+    public bool $submitted = false;     // czy formularz został wysłany
+    public bool $apiOk      = false;    // czy API się udało
+    public array|null $apiPayload = null; // odpowiedź z API (jeśli sukces)
+    public string|null $error = null;   // treść błędu
+
     public function mount($litterId): void
     {
         $this->litterId = $litterId;
@@ -31,43 +36,58 @@ class Fb extends Component
         ]);
     }
 
-    public function save()
+    public function save(): void
     {
+        $this->resetFeedback();
+
         $litter = Litter::find($this->litterId);
         if (!$litter) {
-            return response()->json(['error' => 'Brak miotu.'], 404);
+            $this->error = 'Brak miotu.';
+            $this->submitted = true;
+            return;
         }
 
         $message = $this->prepareFacebookMessage($this->adnotation);
+        $urls    = $this->createUrls($litter); // array
 
-        // URL-e jako TABLICA
-        $urls = $this->createUrls($litter); // <- zwraca array
         try {
             /** @var FacebookService $fb */
             $fb = app(FacebookService::class);
 
             if (empty($urls)) {
-                $fb->postText($message);
+                $resp = $fb->postText($message);
             } elseif (count($urls) === 1) {
-                $fb->postImage($message, $urls[0]);
+                $resp = $fb->postImage($message, $urls[0]);
             } else {
-                $fb->postMultipleImages($message, $urls);
+                $resp = $fb->postMultipleImages($message, $urls);
             }
 
-            // LIVEWIRE v3:
-            return $this->redirect(request()->url().'?OK', navigate: true);
-
-            // Jeśli masz Livewire v2, użyj zamiast powyższego:
-            // return redirect()->to(url()->current().'?OK');
-
+            $this->apiOk      = true;
+            $this->apiPayload = is_array($resp) ? $resp : ['raw' => $resp];
         } catch (\Throwable $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            $this->apiOk = false;
+            $this->error = $e->getMessage();
+        }
+
+        // Przełącz na ekran „wynik”
+        $this->submitted = true;
+    }
+
+    public function resetForm(): void
+    {
+        $this->submitted = false;
+        $this->apiOk = false;
+        $this->apiPayload = null;
+        $this->error = null;
+
+        // odśwież treść (opcjonalnie)
+        if ($litter = Litter::find($this->litterId)) {
+            $this->adnotation = $this->prepare_message($litter);
         }
     }
 
-    /**
-     * Zwróć TABLICĘ absolutnych URL-i zdjęć (bez pustych).
-     */
+    /** ====================== pomocnicze ====================== */
+
     public function createUrls(Litter $litter): array
     {
         $urls = [];
@@ -93,29 +113,25 @@ class Fb extends Component
         return "Miot: $litter_code\nData klucia: $hatch_date\nRodzice:\n$parent_male\nx\n$parent_female";
     }
 
-    /**
-     * Zwraca tekst z DOSŁOWNYMI \n (np. do logów/preview) – zgodnie z Twoją wcześniejszą prośbą.
-     * Jeśli wolisz realne entery do FB, zamień '\\n' na "\n".
-     */
     public function prepareFacebookMessage(string $text): string
     {
-        // Zamień typowe łamania z HTML na entery zanim usuniemy tagi
+        // HTML → entery
         $text = preg_replace(['#<br\s*/?>#i', '#</p>#i'], "\n", $text);
         $text = preg_replace('#<p[^>]*>#i', '', $text);
 
-        // Usuń pozostały HTML
         $clean = strip_tags($text);
-
-        // Ujednolić końce linii do UNIX i zostawić prawdziwe \n
         $clean = preg_replace('/\r\n|\r|\n/', "\n", $clean);
-
-        // Znormalizować spacje/taby
         $clean = preg_replace('/[ \t]+/', ' ', $clean);
-
-        // Zredukować nadmiar pustych linii (opcjonalnie)
         $clean = preg_replace("/\n{3,}/", "\n\n", $clean);
 
         return trim($clean);
     }
 
+    private function resetFeedback(): void
+    {
+        $this->apiOk = false;
+        $this->apiPayload = null;
+        $this->error = null;
+        $this->submitted = false;
+    }
 }
