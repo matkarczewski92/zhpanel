@@ -59,7 +59,7 @@ class Fb extends Component
 
             // Jeśli masz Livewire v2, użyj zamiast powyższego:
             // return redirect()->to(url()->current().'?OK');
-            dd('d'); // Debugging, usuń w produkcji
+
         } catch (\Throwable $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -99,11 +99,23 @@ class Fb extends Component
      */
     public function prepareFacebookMessage(string $text): string
     {
-        $clean = strip_tags($text);
-        $clean = preg_replace('/\r\n|\r|\n/', '\\n', $clean);  // zamień realne entery na dosłowne \n
-        $clean = preg_replace('/[ \t]+/', ' ', $clean);        // znormalizuj spacje
-        $clean = trim($clean, "\\n ");
+        // Zamień typowe łamania z HTML na entery zanim usuniemy tagi
+        $text = preg_replace(['#<br\s*/?>#i', '#</p>#i'], "\n", $text);
+        $text = preg_replace('#<p[^>]*>#i', '', $text);
 
-        return $clean;
+        // Usuń pozostały HTML
+        $clean = strip_tags($text);
+
+        // Ujednolić końce linii do UNIX i zostawić prawdziwe \n
+        $clean = preg_replace('/\r\n|\r|\n/', "\n", $clean);
+
+        // Znormalizować spacje/taby
+        $clean = preg_replace('/[ \t]+/', ' ', $clean);
+
+        // Zredukować nadmiar pustych linii (opcjonalnie)
+        $clean = preg_replace("/\n{3,}/", "\n\n", $clean);
+
+        return trim($clean);
     }
+
 }
