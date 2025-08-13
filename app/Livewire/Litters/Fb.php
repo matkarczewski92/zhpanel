@@ -59,7 +59,7 @@ class Fb extends Component
 
             // Jeśli masz Livewire v2, użyj zamiast powyższego:
             // return redirect()->to(url()->current().'?OK');
-
+            dd('d'); // Debugging, usuń w produkcji
         } catch (\Throwable $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
