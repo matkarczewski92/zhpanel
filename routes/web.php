@@ -6,6 +6,7 @@ use App\Http\Controllers\AnimalPassport;
 use App\Http\Controllers\AnimalProfileController;
 use App\Http\Controllers\AvailableConnectionsController;
 use App\Http\Controllers\DeletedAnimalsController;
+use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FinancesController;
 use App\Http\Controllers\ForSaleController;
@@ -85,4 +86,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/imagedelete/{id}', [AnimalProfileController::class, 'imagedelete'])->name('imagedelete')->where('id', '[0-9]+');
         Route::get('/imagesetmain/{id}', [AnimalProfileController::class, 'imagesetmain'])->name('imagesetmain')->where('id', '[0-9]+');
     });
+
+    Route::post('/fb/post-text', [FacebookController::class, 'postText']);
+    Route::post('/fb/post-image', [FacebookController::class, 'postImage']);
+    Route::post('/fb/post-multi', [FacebookController::class, 'postMultipleImages']);
+    Route::get('/fb/form', function() {
+    return view('facebook_form');
+});
 });
