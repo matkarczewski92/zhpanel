@@ -78,7 +78,7 @@ class Fb extends Component
             $parent_male   = strip_tags(optional($litter->animalMale)->name);
             $parent_female = strip_tags(optional($litter->animalFemale)->name);
 
-            return "Miot: $litter_code\nData klucia: $hatch_date\nRodzice:\n$parent_male\nx\n$parent_female";
+            return "Miot: $litter_code\nData klucia: $hatch_date\nRodzice:\n$parent_male\nx\n$parent_female\n\nhttps://www.makssnake.pl
         }
 
 }
