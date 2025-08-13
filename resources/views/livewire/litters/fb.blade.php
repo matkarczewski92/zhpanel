@@ -7,9 +7,6 @@
             <span>Publikuj post na FB</span>
          </div>
          <textarea class="adnotations h-75" wire:model="adnotation"></textarea>
-         {{-- @if ($status == 'ok')
-         <p class="text-center text-success">Zapisano pomyślnie</p>
-        @endif --}}
     </div>
 </div>
 
