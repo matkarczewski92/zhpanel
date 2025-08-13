@@ -9,40 +9,115 @@ use RuntimeException;
 
 class FacebookService
 {
-    /**
-     * Bazowy endpoint Graph API (ustawiony na v20.0)
-     */
-    protected string $baseUrl = 'https://graph.facebook.com/v20.0';
+    /** Wersja Graph API (z .env albo domyślnie v20.0) */
+    protected string $apiVersion;
 
-    /**
-     * ID strony (Page ID), na którą publikujemy
-     */
+    /** Bazowy endpoint Graph API */
+    protected string $baseUrl;
+
+    /** ID strony (Page ID), na którą publikujemy */
     protected string $pageId;
 
-    /**
-     * Page Access Token (z bazy lub .env)
-     */
+    /** APP ID i SECRET z .env (do debugowania/appsecret_proof) */
+    protected ?string $appId;
+    protected ?string $appSecret;
+
+    /** Token, którego użyjemy do wywołań publikujących (finalnie: PAGE TOKEN) */
     protected string $accessToken;
 
     public function __construct()
     {
-        $this->pageId = (string) env('FB_PAGE_ID');
+        $this->apiVersion = (string) env('FB_API_VERSION', 'v20.0');
+        $this->baseUrl    = "https://graph.facebook.com/{$this->apiVersion}";
+        $this->pageId     = (string) env('FB_PAGE_ID');
+        $this->appId      = env('FB_APP_ID');
+        $this->appSecret  = env('FB_APP_SECRET');
 
-        // Jeśli korzystasz z tokenu zapisanego w bazie:
-        // Upewnij się, że helper systemConfig() jest autoloadowany
-        $this->accessToken = (string) (function_exists('systemConfig')
-            ? (systemConfig('fbToken') ?? '')
-            : '');
-
-        // Fallback na .env jeśli z bazy nic nie przyszło
-        if ($this->accessToken === '') {
-            $this->accessToken = (string) env('FB_PAGE_TOKEN', '');
+        // WYMAGANIE: token tylko z systemConfig('fbToken')
+        if (!function_exists('systemConfig')) {
+            throw new RuntimeException("Brak helpera systemConfig(). Nie mogę pobrać fbToken.");
         }
+
+        $rawToken = (string) (systemConfig('fbToken') ?? '');
+        if ($rawToken === '') {
+            throw new RuntimeException("Brak fbToken w systemConfig('fbToken'). Wklej tam user/page token.");
+        }
+
+        // Jeżeli to USER TOKEN, zamień na PAGE TOKEN dla FB_PAGE_ID
+        $this->accessToken = $this->resolvePageToken($rawToken, $this->pageId);
+    }
+
+    /**
+     * Jeśli podano USER TOKEN – pobierz PAGE TOKEN dla wskazanej strony.
+     * Jeśli podano już PAGE TOKEN – zwróci go bez zmian (weryfikujemy po /debug_token).
+     */
+    protected function resolvePageToken(string $token, string $pageId): string
+    {
+        // Spróbujmy sprawdzić, do jakiej aplikacji/token jest i czy to page token:
+        try {
+            $debugParams = [
+                'input_token' => $token,
+            ];
+
+            // Jeśli mamy APP_ID|APP_SECRET – użyjemy ich do debug_token (bezpieczniej i stabilniej)
+            if ($this->appId && $this->appSecret) {
+                $debugParams['access_token'] = "{$this->appId}|{$this->appSecret}";
+            } else {
+                // fallback – sam token (mniej idealne, ale zadziała do podstawowej walidacji)
+                $debugParams['access_token'] = $token;
+            }
+
+            $debug = Http::get("{$this->baseUrl}/debug_token", $debugParams);
+            $info  = $this->guard($debug, 'debug_token');
+
+            $isPageToken = false;
+            if (!empty($info['data']['type'])) {
+                // Facebook zwraca czasem 'USER' / 'PAGE' w data.type – jeśli jest, użyj.
+                $isPageToken = strtoupper((string)$info['data']['type']) === 'PAGE';
+            }
+
+            // Jeśli to PAGE TOKEN – zwracamy od razu
+            if ($isPageToken) {
+                return $token;
+            }
+        } catch (\Throwable $e) {
+            // Nie przerywamy – spróbujemy i tak wymienić przez /me/accounts jeśli to user token.
+            Log::warning('FB debug_token warning (continue anyway): ' . $e->getMessage());
+        }
+
+        // Na tym etapie traktujemy go jako USER TOKEN – spróbujmy pobrać PAGE TOKEN
+        $r = Http::get("{$this->baseUrl}/me/accounts", [
+            'fields'       => 'id,name,access_token',
+            'access_token' => $token,
+        ]);
+
+        $data = $this->guard($r, 'me/accounts');
+
+        $page = collect($data['data'] ?? [])->firstWhere('id', $pageId);
+        if (!$page || empty($page['access_token'])) {
+            Log::error('Nie udało się pobrać PAGE TOKEN dla wskazanego FB_PAGE_ID.', [
+                'page_id' => $pageId,
+                'me.accounts' => $data,
+            ]);
+            throw new RuntimeException('Nie udało się uzyskać Page Access Tokenu. Upewnij się, że fbToken to USER TOKEN z uprawnieniami pages_*, a konto ma rolę na stronie.');
+        }
+
+        return $page['access_token'];
+    }
+
+    /**
+     * Dodaje appsecret_proof, jeśli mamy APP_SECRET (zalecane w produkcji).
+     */
+    protected function withSecurity(array $params): array
+    {
+        if ($this->appSecret && !empty($params['access_token'])) {
+            $params['appsecret_proof'] = hash_hmac('sha256', $params['access_token'], $this->appSecret);
+        }
+        return $params;
     }
 
     /**
      * Wspólna walidacja odpowiedzi z Graph API.
-     * Rzuca wyjątek i loguje szczegóły, jeśli coś poszło nie tak.
      */
     private function guard(Response $resp, string $context): array
     {
@@ -65,35 +140,36 @@ class FacebookService
     }
 
     /**
-     * Post tekstowy na /{pageId}/feed
+     * Post tekstowy na /{pageId}/feed (wymaga PAGE TOKEN).
      */
     public function postText(string $message): array
     {
-        $resp = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/feed", [
+        $payload = $this->withSecurity([
             'message'      => $message,
             'access_token' => $this->accessToken,
         ]);
 
+        $resp = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/feed", $payload);
         return $this->guard($resp, 'postText');
     }
 
     /**
-     * Post ze zdjęciem (/photos) – jedno zdjęcie, opcjonalny caption
+     * Post ze zdjęciem (/photos) – jedno zdjęcie, opcjonalny caption.
      */
     public function postImage(?string $message, string $url): array
     {
-        $resp = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/photos", [
+        $payload = $this->withSecurity([
             'url'          => $url,
             'caption'      => $message ?? '',
             'access_token' => $this->accessToken,
         ]);
 
+        $resp = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/photos", $payload);
         return $this->guard($resp, 'postImage');
     }
 
     /**
-     * Post z wieloma zdjęciami – najpierw upload unpublished photos,
-     * potem publikacja posta z attached_media.
+     * Post z wieloma zdjęciami: upload unpublished + feed z attached_media.
      */
     public function postMultipleImages(?string $message, array $urls): array
     {
@@ -104,12 +180,13 @@ class FacebookService
                 continue;
             }
 
-            $r = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/photos", [
+            $uploadPayload = $this->withSecurity([
                 'url'          => $url,
                 'published'    => false,
                 'access_token' => $this->accessToken,
             ]);
 
+            $r = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/photos", $uploadPayload);
             $photo = $this->guard($r, 'uploadPhoto(unpublished)');
 
             if (!empty($photo['id'])) {
@@ -121,13 +198,13 @@ class FacebookService
             throw new RuntimeException('Brak załączonych zdjęć (attached_media jest puste).');
         }
 
-        // UWAGA: attached_media musi być przekazane jako JSON string
-        $resp = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/feed", [
+        $feedPayload = $this->withSecurity([
             'message'        => $message ?? '',
             'attached_media' => json_encode($attached),
             'access_token'   => $this->accessToken,
         ]);
 
+        $resp = Http::asForm()->post("{$this->baseUrl}/{$this->pageId}/feed", $feedPayload);
         return $this->guard($resp, 'createFeedWithMedia');
     }
 }
