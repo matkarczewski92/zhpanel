@@ -30,12 +30,28 @@ class WebController extends Controller
             ->filter(function ($offer) {
                 return $offer->animalDetails && $offer->animalDetails->public_profile == 1;
             })
+            ->filter(function ($offer) {
+                return $offer->animalDetails && $offer->animalDetails->animal_category_id != 1;
+            })
+            ->groupBy(function ($offer) {
+                return $offer->animalDetails->litter_id;
+            });
+        $offersOurs = AnimalOffer::with('animalDetails')
+            ->whereNull('sold_date')
+            ->get()
+            ->filter(function ($offer) {
+                return $offer->animalDetails && $offer->animalDetails->public_profile == 1;
+            })
+            ->filter(function ($offer) {
+                return $offer->animalDetails && $offer->animalDetails->animal_category_id == 1;
+            })
             ->groupBy(function ($offer) {
                 return $offer->animalDetails->litter_id;
             });
 
         return view('welcome', [
             'offers' => $offers,
+            'offersOurs' => $offersOurs,
             'gallery' => AnimalPhotoGallery::where('webside', '=', 1)->get(),
             'litterPlans' => Litter::where('season', $actualYear)->orderBy('category')->get(),
             'animalRepo' => $this->animalRepo,

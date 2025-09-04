@@ -55,25 +55,7 @@
             </form>
         </div>
     </div>
-    {{-- Post z wieloma zdjęciami (upload z dysku) --}}
-    <div class="card mb-4 bg-dark text-white">
-        <div class="card-body">
-            <h5 class="card-title border-bottom pb-2">Post z wieloma zdjęciami (upload z dysku)</h5>
-            <form action="{{ url('/fb/post-multi-upload') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="mb-3">
-                    <label for="messageUpload" class="form-label">Treść posta (opcjonalnie)</label>
-                    <textarea id="messageUpload" name="message" class="form-control" rows="3" placeholder="Treść posta"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="photos" class="form-label">Wybierz zdjęcia</label>
-                    <input id="photos" type="file" name="photos[]" class="form-control" accept=".jpg,.jpeg,.png,.webp" multiple required>
-                    <div class="form-text">Możesz zaznaczyć kilka plików (do 10 MB każdy).</div>
-                </div>
-                <button type="submit" class="btn btn-primary">Opublikuj zdjęcia</button>
-            </form>
-        </div>
-    </div>
+
 
 
 </div>

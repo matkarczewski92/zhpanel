@@ -9,6 +9,21 @@
           <h3 class="text-center mb-5 text-break">Nadwyżki hodowlane</h3>
           <h3 class="text-center mb-3 text-break">osobniki wyłączone z dalszych planów hodowlanych</h3>
           <br/>
+        @if ($offersOurs->isNotEmpty())
+        <h3 class="mt-5 mb-4"> <u>Redukcja hodowli - dorosłe osobniki</u> </h3> 
+        <div class="row row-cols-1 row-cols-lg-5 g-4">
+            @foreach ($offersOurs as $litterId)
+            @php
+                $firstOffer = $litterId->first();
+                $litter = $firstOffer->animalDetails->litter ?? null;
+            @endphp    
+                    @foreach ($litterId as $o)
+                        @include('webside.components.animal-offer', ['offer' => $o])
+                    @endforeach
+            @endforeach
+        </div>
+        <hr>
+        @endif
         @if ($offers->isNotEmpty())
             @foreach ($offers as $litterId => $group)
             @php
