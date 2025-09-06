@@ -66,7 +66,7 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="{{ route('labels') }}">Etykiety</a></li>
               <li><a class="dropdown-item" href="{{ route('massdata') }}">Masowe dane</a></li>
-              <li><a class="dropdown-item" href="{{ route('pricelist') }}">Cennik</a></li>
+              <li><a class="dropdown-item" href="{{ route('pricelist.index') }}">Cennik</a></li>
               </ul>
           </li>
           <li class="nav-item">
