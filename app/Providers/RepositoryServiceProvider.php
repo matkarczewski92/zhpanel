@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Interfaces\AnimalCategoryRepositoryInterface;
+use App\Interfaces\AnimalOfferRepositoryInterface;
 use App\Interfaces\AnimalRepositoryInterface;
 use App\Interfaces\AnimalTypeRepositoryInterface;
 use App\Interfaces\AnimalWinteringRepositoryInterface;
@@ -12,6 +13,7 @@ use App\Interfaces\LitterRepositoryInterface;
 use App\Interfaces\ProjectsRepositoryInterface;
 use App\Interfaces\ProjectsStagesRepositoryInterface;
 use App\Repository\AnimalCategoryRepository;
+use App\Repository\AnimalOfferRepository;
 use App\Repository\AnimalRepository;
 use App\Repository\AnimalTypeRepository;
 use App\Repository\AnimalWinteringRepository;
@@ -38,6 +40,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ApiDataRepositoryInterface::class, ApiDataRepository::class);
         $this->app->bind(ProjectsRepositoryInterface::class, ProjectsRepository::class);
         $this->app->bind(ProjectsStagesRepositoryInterface::class, ProjectsStagesRepository::class);
+        $this->app->bind(AnimalOfferRepositoryInterface::class, AnimalOfferRepository::class);
     }
 
     /**

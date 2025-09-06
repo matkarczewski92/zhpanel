@@ -21,6 +21,7 @@ use App\Http\Controllers\MassDataController;
 use App\Http\Controllers\PossibleOffspringController;
 use App\Http\Controllers\PossOffspringController;
 use App\Http\Controllers\PresentationController;
+use App\Http\Controllers\PriceListController;
 use App\Http\Controllers\ProjectAnnotationsController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ProjectsStagesController;
@@ -74,6 +75,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('litters', LitterController::class);
     Route::resource('litters.gallery', LitterGalleryController::class);
     Route::resource('projects', ProjectsController::class);
+    Route::resource('pricelist', PriceListController::class);
     Route::resource('projects.stages', ProjectsStagesController::class)->only(['store', 'edit', 'update', 'destroy']);
     Route::resource('projects.stages.nfs', ProjectsStagesNfsController::class)->only(['store', 'destroy']);
     Route::resource('project.annotations', ProjectAnnotationsController::class)->only('store', 'update', 'destroy');
