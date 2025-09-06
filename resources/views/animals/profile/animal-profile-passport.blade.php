@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <td>Nazwa</td>
-            <td class="text-end">{!! $animal->name !!}</td>
+            <td class="text-end">{{ $animal->id }}. {!! $animal->name !!}</td>
         </tr>
             <td>Płeć</td>
             <td class="text-end">{{ $sexName ?? '' }}</td>
