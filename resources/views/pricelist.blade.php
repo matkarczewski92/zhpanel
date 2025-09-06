@@ -14,7 +14,7 @@
                 <thead>
                     <tr>
                         <td>Id</td>
-                        <td>Cena</td>
+                        <td>W</td>
                         <td>Nazwa</td>
                         <td></td>
                     </tr>
