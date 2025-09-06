@@ -57,6 +57,10 @@
             <td>KOD WĘŻA</td>
             <td class="text-end text-dark">{{$animal->public_profile_tag}}</td>
         </tr>
+        <tr>
+            <td>ID WĘŻA</td>
+            <td class="text-end text-dark">{{$animal->id}}</td>
+        </tr>
     </table>
 
 
