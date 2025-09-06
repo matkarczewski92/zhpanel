@@ -52,7 +52,7 @@
         </tr>
     </table>
 
-    <table class="table mx-auto mt-5 table-dark">
+    <table class="table mx-auto mt-5">
         <tr>
             <td>KOD WĘŻA</td>
             <td class="text-end text-dark">{{$animal->public_profile_tag}}</td>
