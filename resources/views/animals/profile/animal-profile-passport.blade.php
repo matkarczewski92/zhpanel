@@ -55,7 +55,7 @@
     <table class="table mx-auto mt-5 table-dark">
         <tr>
             <td>KOD WĘŻA</td>
-            <td class="text-end">{{$animal->public_profile_tag}}</td>
+            <td class="text-end text-dark">{{$animal->public_profile_tag}}</td>
         </tr>
     </table>
 
