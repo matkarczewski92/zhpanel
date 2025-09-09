@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=0.7">
         <meta name="description" content="Hodowla węży zbożowych">
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
         <meta name="keywords" content="węże zbożowe, hodowla węży, scaleless, palmetto, corn snake, hodowla węży zbożowych">
         <meta name="author" content="Mateusz Karczewski">
         <meta name="google-site-verification" content="N_YwIOyUOpLAPpK3OqnMndmKuTEYffIFxsYNAHyIZT0" />
