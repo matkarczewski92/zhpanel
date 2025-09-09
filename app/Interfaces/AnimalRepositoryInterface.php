@@ -45,4 +45,6 @@ interface AnimalRepositoryInterface
     public function timeToWeight(int $animalId);
 
     public function animalStatus(int $animalId);
+
+    public function getByIdsWithRelations(array $ids);
 }

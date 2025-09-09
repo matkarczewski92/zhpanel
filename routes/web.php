@@ -62,8 +62,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('winterings', [WinteringController::class, 'index'])->name('winterings');
     Route::get('litters-planning', [LittersPlanningController::class, 'index'])->name('litters-planning');
     Route::get('presentation', PresentationController::class)->name('presentation');
-    Route::get('labels', [LabelsController::class, 'index'])->name('labels');
-    Route::post('labels-generate', [LabelsController::class, 'generate'])->name('labels-generate');
+    Route::get('/labels', [LabelsController::class, 'index'])->name('labels.index');
+    Route::post('/labels/generate', [LabelsController::class, 'generate'])->name('labels.generate');
     Route::get('project/{project}/stages/{stage}/create-litter', [ProjectsStagesController::class, 'createLitter'])->name('project.stages.create-litter');
 
     Route::resource('not-for-sale', LittersNotForSaleController::class);

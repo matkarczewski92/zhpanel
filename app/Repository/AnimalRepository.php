@@ -198,4 +198,8 @@ class AnimalRepository implements AnimalRepositoryInterface
             return 'Wykarmiony - oczekiwanie na sprzedaż';
         }
     }
+
+    public function getByIdsWithRelations(array $ids) {
+        return Animal::with(['animalType','animalCategory'])->whereIn('id', $ids)->orderBy('id')->get();
+    }
 }

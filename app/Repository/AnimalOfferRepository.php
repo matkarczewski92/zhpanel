@@ -12,5 +12,9 @@ class AnimalOfferRepository implements AnimalOfferRepositoryInterface
     {
         return AnimalOffer::where('sold_date', NULL)->orderBy('animal_id', 'ASC')->get();
     }
+    public function getById($id)
+    {
+        return AnimalOffer::where('animal_id', $id)->where('sold_date', NULL)->first();
+    }
 
 }
