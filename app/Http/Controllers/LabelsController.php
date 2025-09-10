@@ -70,38 +70,33 @@ class LabelsController extends Controller
     private function exportCsv($rows): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         $filename  = 'labels_'.now()->format('Ymd_His').'.csv';
-        $header    = ['id','type','name','sex','date_of_birth','code','qr_url', 'price'];
-        $delimiter = ';'; // Excel PL lubi średnik
+        $header    = ['id','type','name','sex','date_of_birth','code','qr_url','price'];
+        $delimiter = ';';
 
         $csv = fopen('php://temp', 'w+');
         fputcsv($csv, $header, $delimiter);
 
         foreach ($rows as $r) {
-            // płeć
+            // mapowanie płci (2=Samiec, 3=Samica; reszta N/sex)
             $sexLabel = match ((int)($r['sex'] ?? 0)) {
-                0, 1     => 'N/sex',
-                2        => '♂ Samiec',
-                3        => '♀ Samica',
-                default  => 'N/sex',
+                2       => 'Samiec',
+                3       => 'Samica',
+                default => 'N/sex',
             };
 
-            // oczyszczanie nazwy i (opcjonalnie) typu
+            // „goły” tekst
             $name = $this->plainText((string)($r['name'] ?? ''));
             $type = $this->plainText((string)($r['type'] ?? ''));
 
-            // pewny URL do QR
             $code   = (string)($r['code'] ?? '');
             $qrLink = 'https://www.makssnake.pl/profile/'.rawurlencode($code);
-            
+
+            // jeśli używasz offerRepo – pamiętaj o wstrzyknięciu go w __construct
+            $price = $this->offerRepo->getById($r['id'])?->price ?? '';
+
             fputcsv($csv, [
-                $r['id'],
-                $type,          // <- już „plain”
-                $name,          // <- już „plain”
-                $sexLabel,
-                $r['date_of_birth'],
-                $code,
-                $qrLink,
-                $this->offerRepo->getById($r['id'])?->price ?? '', // cena lub puste
+                $r['id'], $type, $name, $sexLabel, $r['date_of_birth'],
+                $code, $qrLink, $price
             ], $delimiter);
         }
 
@@ -109,16 +104,15 @@ class LabelsController extends Controller
         $contents = stream_get_contents($csv);
         fclose($csv);
 
-        // BOM dla UTF-8 (Excel poprawnie wyświetli polskie znaki)
-        $bom = chr(0xEF).chr(0xBB).chr(0xBF);
-
-        return new \Symfony\Component\HttpFoundation\StreamedResponse(function () use ($bom, $contents) {
-            echo $bom.$contents;
+        // BEZ BOM – P-touch poprawnie odczyta UTF-8
+        return new \Symfony\Component\HttpFoundation\StreamedResponse(function () use ($contents) {
+            echo $contents;
         }, 200, [
             'Content-Type'        => 'text/csv; charset=UTF-8',
             'Content-Disposition' => 'attachment; filename="'.$filename.'"',
         ]);
     }
+
     private function plainText(string $html): string
     {
         // usuń tagi, zdekoduj encje, zamień NBSP, zredukuj białe znaki
