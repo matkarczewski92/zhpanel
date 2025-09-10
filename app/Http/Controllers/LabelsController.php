@@ -67,51 +67,74 @@ class LabelsController extends Controller
     }
 
 
+    // helper do konwersji UTF-8 -> Windows-1250
+    private function toWin1250(string $s): string
+    {
+        // iconv bywa szybszy; fallback na mb_convert_encoding
+        $out = @iconv('UTF-8', 'Windows-1250//TRANSLIT', $s);
+        if ($out === false) {
+            $out = mb_convert_encoding($s, 'Windows-1250', 'UTF-8');
+        }
+        return $out;
+    }
+
     private function exportCsv($rows): \Symfony\Component\HttpFoundation\StreamedResponse
     {
         $filename  = 'labels_'.now()->format('Ymd_His').'.csv';
         $header    = ['id','type','name','sex','date_of_birth','code','qr_url','price'];
-        $delimiter = ';';
+        $delimiter = ';'; // jak dotychczas
 
         $csv = fopen('php://temp', 'w+');
-        fputcsv($csv, $header, $delimiter);
+
+        // nagłówek w CP1250
+        fputcsv($csv, array_map([$this, 'toWin1250'], $header), $delimiter);
 
         foreach ($rows as $r) {
-            // mapowanie płci (2=Samiec, 3=Samica; reszta N/sex)
+            // płeć jako tekst (bez symboli)
             $sexLabel = match ((int)($r['sex'] ?? 0)) {
                 2       => 'Samiec',
                 3       => 'Samica',
                 default => 'N/sex',
             };
 
-            // „goły” tekst
+            // „gołe” teksty bez HTML
             $name = $this->plainText((string)($r['name'] ?? ''));
             $type = $this->plainText((string)($r['type'] ?? ''));
 
             $code   = (string)($r['code'] ?? '');
             $qrLink = 'https://www.makssnake.pl/profile/'.rawurlencode($code);
 
-            // jeśli używasz offerRepo – pamiętaj o wstrzyknięciu go w __construct
             $price = $this->offerRepo->getById($r['id'])?->price ?? '';
 
-            fputcsv($csv, [
-                $r['id'], $type, $name, $sexLabel, $r['date_of_birth'],
-                $code, $qrLink, $price
-            ], $delimiter);
+            $fields = [
+                (string)$r['id'],
+                $type,
+                $name,
+                $sexLabel,
+                (string)$r['date_of_birth'],
+                $code,
+                $qrLink,
+                (string)$price,
+            ];
+
+            // konwersja każdego pola do Windows-1250
+            fputcsv($csv, array_map([$this, 'toWin1250'], $fields), $delimiter);
         }
 
         rewind($csv);
         $contents = stream_get_contents($csv);
         fclose($csv);
 
-        // BEZ BOM – P-touch poprawnie odczyta UTF-8
+        // CP1250, BEZ BOM
         return new \Symfony\Component\HttpFoundation\StreamedResponse(function () use ($contents) {
             echo $contents;
         }, 200, [
-            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Type'        => 'text/csv; charset=Windows-1250',
             'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+            'Pragma'              => 'public',
         ]);
     }
+
 
     private function plainText(string $html): string
     {
