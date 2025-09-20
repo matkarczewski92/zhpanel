@@ -15,6 +15,7 @@ class PossibleConnectionController extends Component
     public $finale = [];
     public $selectedFemale = null;
     public $dictionary;
+    
 
     public function boot(
         LitterRepositoryInterface $litterRepo,
