@@ -17,6 +17,7 @@ use App\Http\Controllers\LitterController;
 use App\Http\Controllers\LitterGalleryController;
 use App\Http\Controllers\LittersNotForSaleController;
 use App\Http\Controllers\LittersPlanningController;
+use App\Http\Controllers\LittersPlanningFormController;
 use App\Http\Controllers\MassDataController;
 use App\Http\Controllers\PossibleOffspringController;
 use App\Http\Controllers\PossOffspringController;
@@ -64,10 +65,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('presentation', PresentationController::class)->name('presentation');
     Route::get('/labels', [LabelsController::class, 'index'])->name('labels.index');
     Route::post('/labels/generate', [LabelsController::class, 'generate'])->name('labels.generate');
+    Route::get('litters-planning-form', [LittersPlanningFormController::class, 'index'])->name('litters-planning-form');
     Route::get('project/{project}/stages/{stage}/create-litter', [ProjectsStagesController::class, 'createLitter'])->name('project.stages.create-litter');
 
     Route::resource('not-for-sale', LittersNotForSaleController::class);
-    Route::resource('availableconnections', AvailableConnectionsController::class)->only(['index', 'show']);
+    // Route::resource('availableconnections', AvailableConnectionsController::class)->only(['index', 'show']);
     Route::resource('animals', AnimalController::class);
     Route::resource('finances', FinancesController::class);
     Route::resource('feeds', FeedController::class)->names(['show' => 'feed.profile']);

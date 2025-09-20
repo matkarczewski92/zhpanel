@@ -43,7 +43,8 @@
           <li class="nav-item dropdown">
             <a class="nav-link {{ (request()->segment(1) == 'availableconnections' || request()->segment(1) == 'possibleoffspring') ? 'active' : '' }} dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Planowanie</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ route('availableconnections.index') }}">Dostępne łączenia</a></li>
+              
+              <li><a class="dropdown-item" href="{{ route('litters-planning-form') }}">Planowanie łączeń</a></li>
               <li><a class="dropdown-item" href="{{ route('possibleoffspring')}}">Możliwe młode</a></li>
               <li><a class="dropdown-item" href="{{ route('possoffspring')}}">Możliwe młode NOWE</a></li>
               <li><a class="dropdown-item" href="{{ route('not-for-sale.index')}}">Do zatrzymania</a></li>

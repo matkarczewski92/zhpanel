@@ -1,25 +1,27 @@
 <div>
     {{-- Pasek akcji na górze --}}
     <div class="d-flex align-items-center gap-2 mb-2">
-        <div class="input-group" style="max-width: 720px;">
-            <span class="input-group-text">Samica:</span>
-            <select id="femaleSelect" class="form-select" wire:model.live="selectedFemale">
-                <option value="">-- wybierz --</option>
-                @foreach($females as $female)
-                    @php
-                        $isPaired = in_array($female->id, $pairedFemaleIds ?? []);
-                        $optStyle = $isPaired ? 'font-weight:600;' : '';
-                        $prefix   = $isPaired ? '✓ ' : '';
-                        $femWeight = $animalRepo->lastWeight($female->id) ?? 0;
-                        $femColor = $femWeight < 250 ? 'text-danger' : ($femWeight < 300 ? 'text-warning' : 'text-success');
-                    @endphp
-                    <option value="{{ $female->id }}" style="{{ $optStyle }}" class="{{ $femColor }}">
-                         
-                        {!! $prefix !!} ({{ $femWeight }}g) {!! $female->name !!}
-                    </option>
-                @endforeach
-            </select>
+        <div class="d-flex justify-content-center my-3 w-100">
+            <div class="input-group">
+                <span class="input-group-text">Samica:</span>
+                <select id="femaleSelect" class="form-select" wire:model.live="selectedFemale">
+                    <option value="">-- wybierz --</option>
+                    @foreach($females as $female)
+                        @php
+                            $isPaired = in_array($female->id, $pairedFemaleIds ?? []);
+                            $optStyle = $isPaired ? 'font-weight:600;' : '';
+                            $prefix   = $isPaired ? '✓ ' : '';
+                            $femWeight = $animalRepo->lastWeight($female->id) ?? 0;
+                            $femColor = $femWeight < 250 ? 'text-danger' : ($femWeight < 300 ? 'text-warning' : 'text-success');
+                        @endphp
+                        <option value="{{ $female->id }}" style="{{ $optStyle }}" class="{{ $femColor }}">
+                            {!! $prefix !!} ({{ $femWeight }}g) {!! $female->name !!}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
+
 
         <button class="btn btn-primary"
                 type="button"
