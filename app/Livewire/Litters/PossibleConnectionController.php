@@ -214,12 +214,12 @@ class PossibleConnectionController extends Component
 
     public function addPlanningLitters(): void
     {
-        // 1) Walidacja prostego roku i czy coś wybrano
-        $this->validate([
-            'plannedYear' => 'required|integer|min:2024|max:2100',
-        ], [], [
-            'plannedYear' => 'planowany rok',
-        ]);
+        // // 1) Walidacja prostego roku i czy coś wybrano
+        // $this->validate([
+        //     'plannedYear' => 'required|integer|min:2022|max:2100',
+        // ], [], [
+        //     'plannedYear' => 'planowany rok',
+        // ]);
 
         if (empty($this->selectedPairs)) {
             // np. flash/emit — tu tylko przerwiemy:

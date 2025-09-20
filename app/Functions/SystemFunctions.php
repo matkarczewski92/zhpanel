@@ -12,8 +12,8 @@ function systemConfig(string $key)
 function litterCode(int $maleId, int $femaleId, int $year = null): string
 {
     // jeśli nie podano roku – weź bieżący
-    if ($year === null) {
-        $year = (int)date('Y');
+    if ($year === null OR $year < 2023) {
+        return "PLAN";
     }
 
     // 1. Litera roku (A=2023, B=2024, C=2025, …)
