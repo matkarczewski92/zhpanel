@@ -10,9 +10,12 @@
                         $isPaired = in_array($female->id, $pairedFemaleIds ?? []);
                         $optStyle = $isPaired ? 'font-weight:600;' : '';
                         $prefix   = $isPaired ? '✓ ' : '';
+                        $femWeight = $animalRepo->lastWeight($female->id) ?? 0;
+                        $femColor = $femWeight < 250 ? 'text-danger' : ($femWeight < 300 ? 'text-warning' : 'text-success');
                     @endphp
-                    <option value="{{ $female->id }}" style="{{ $optStyle }}">
-                        {!! $prefix !!}{!! $female->name !!}
+                    <option value="{{ $female->id }}" style="{{ $optStyle }}" class="{{ $femColor }}">
+                         
+                        {!! $prefix !!} ({{ $femWeight }}g) {!! $female->name !!}
                     </option>
                 @endforeach
             </select>
@@ -39,15 +42,20 @@
                     $fnMale  = $data['rows'];
                     $checked = $this->isChecked($selectedFemale, $maleId);
                     $used    = $this->maleUsedTimes($maleId);   // ile razy samiec już użyty
+                    $weight = $animalRepo->lastWeight($maleId) ?? 0;
+                    $color = $weight < 180 ? 'text-danger' : ($weight < 250 ? 'text-warning' : 'text-success');
                 @endphp
 
                 <div class="d-flex align-items-center justify-content-between">
-                    <h3 class="mb-2">
+                    <h3 class="mb-2 {{ $color }}">
                         {!! $name !!}
+                        </h3>
                         @if($used > 0)
-                            <span class="badge text-bg-secondary ms-2">użyty {{ $used }} razy</span>
+                            <span class="badge text-bg-success ms-2 fs-6 px-2 py-1">
+                                użyty {{ $used }} razy
+                            </span>
                         @endif
-                    </h3>
+                    
 
                     <div class="form-check">
                         <input class="form-check-input"

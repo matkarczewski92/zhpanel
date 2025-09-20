@@ -48,7 +48,9 @@ class PossibleConnectionController extends Component
             array_map(fn($p) => (int)$p['female_id'], $this->selectedPairs)
         ));
 
-        return view('livewire.litters.possible-connection-controller');
+        return view('livewire.litters.possible-connection-controller', [
+            'animalRepo' => $this->animalRepo,
+        ]);
     }
 
     public function updatedSelectedFemale($value): void
