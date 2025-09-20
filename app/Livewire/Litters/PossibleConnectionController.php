@@ -42,9 +42,9 @@ class PossibleConnectionController extends Component
     {
         if (!empty($femaleId)) {
             $possibleCombinations = [];
-            // ewentualnie dociągnij model, jeśli potrzebujesz:
+            $fm = $this->animalRepo->getById($femaleId);
             $female = $this->getAnimalArray($this->animalRepo->getById($femaleId));
-            $males = $this->animalRepo->getAllInBreedingMales();
+            $males = $this->animalRepo->getAllInBreedingMales()->where('animal_category_id', $fm->animal_category_id);
 
             foreach ($males as $male) {
             $maleObj = $this->getAnimalArray($male);
