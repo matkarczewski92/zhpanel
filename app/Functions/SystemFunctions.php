@@ -9,6 +9,26 @@ function systemConfig(string $key)
     return $systemConfig->value;
 }
  
+function litterCode(int $maleId, int $femaleId, int $year = null): string
+{
+    // jeśli nie podano roku – weź bieżący
+    if ($year === null) {
+        $year = (int)date('Y');
+    }
+
+    // 1. Litera roku (A=2023, B=2024, C=2025, …)
+    $baseYear   = 2023;
+    $baseLetter = 'A';
+    $offset     = $year - $baseYear;
+    $letter     = chr(ord($baseLetter) + $offset);
+
+    // 2. ID samca i samicy – minimum 2 cyfry, ale jeśli >99 to w całości
+    $maleStr   = str_pad((string)$maleId,   2, '0', STR_PAD_LEFT);
+    $femaleStr = str_pad((string)$femaleId, 2, '0', STR_PAD_LEFT);
+
+    return "{$letter}.{$maleStr}.{$femaleStr}";
+}
+
 
 function generate_combinations($arrays, $index = 0, $current_combination = [], &$combinations = []) {
     if ($index == count($arrays)) {

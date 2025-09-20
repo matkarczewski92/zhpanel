@@ -236,7 +236,7 @@ class PossibleConnectionController extends Component
             $litter = new Litter();
             $litter->category = 2;
             $litter->season = $year;
-            $litter->litter_code = "PLAN";
+            $litter->litter_code = litterCode($maleId, $femaleId, $year);
             $litter->parent_male = $maleId;
             $litter->parent_female = $femaleId;
             $litter->save();

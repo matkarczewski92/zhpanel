@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('sold', [SoldController::class, 'index'])->name('sold');
     Route::get('deleted', [DeletedAnimalsController::class, 'index'])->name('deleted');
     Route::get('animals.sell/{id}', [AnimalOfferController::class, 'sell'])->name('sell');
-    Route::get('possibleoffspring', [PossibleOffspringController::class, 'index'])->name('possibleoffspring');
+    // Route::get('possibleoffspring', [PossibleOffspringController::class, 'index'])->name('possibleoffspring');
     Route::get('possoffspring', [PossOffspringController::class, 'index'])->name('possoffspring');
     Route::get('massdata', [MassDataController::class, 'index'])->name('massdata');
     Route::get('winterings', [WinteringController::class, 'index'])->name('winterings');

@@ -39,7 +39,7 @@
     </div>
 </div>
 
-@include('litters.components.litters-create-from-template-modal')
+{{-- @include('litters.components.litters-create-from-template-modal') --}}
 @include('litters.components.litters-create-modal')
 
 @endsection
