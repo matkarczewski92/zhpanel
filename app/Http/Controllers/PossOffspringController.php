@@ -51,7 +51,7 @@ class PossOffspringController extends Controller
         $dictionary = $this->getDictionary();
         foreach($litters as $lt){
             $male = $this->getAnimalArray($this->litterRepo->getById($lt->id)->animalMale);
-            $female = $this->getAnimalArray($this->litterRepo->getById($lt->id)->animalFemale); 
+            $female = $this->getAnimalArray($this->litterRepo->getById($lt->id)->animalFemale);
             $genotypeArray = getGenotypeFinale($male, $female, $dictionary);
             foreach($genotypeArray as $gA){
                 if (strpos($gA['additional_genes'], "1/2 Tessera") !== false) {        

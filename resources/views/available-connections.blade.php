@@ -44,9 +44,6 @@
             </div>
             <div class="modal-body">
                 @livewire('litters.possible-connection-controller')
-                {{-- jeśli potrzebujesz parametrów:
-                @livewire('litters.possible-connection-controller', ['somethingId' => $something->id])
-                --}}
             </div>
         </div>
     </div>
