@@ -247,6 +247,7 @@ class PossibleConnectionController extends Component
         $this->plannedYear    = null;
         $this->dispatch('hide-all-modals');
         session()->flash('success', 'Plany miotów zapisane.');
+        redirect()->route('litters.index');
     }
 
 }
