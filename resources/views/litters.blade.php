@@ -10,7 +10,6 @@
 @endif
 
 <div class="text-end me-5" style="margin-top:-30px">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFromTemplate">Dodaj miot z szablonu</button>
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addLitter">Dodaj nowy miot</button>
 </div>
 <div class="card mb-3 me-4 ms-4 mt-4 bg-dark photobg rounded-1">
