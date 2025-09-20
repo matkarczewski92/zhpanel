@@ -5,6 +5,7 @@
 <div class="row m-1" >
     <div class="text-end me-5" style="margin-top:-30px">
         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addLitter">Dodaj nowy szablon</button>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#possibleConnection">Możliwe połączenia</button>
     </div>
     @foreach ($females ?? [] as $f)
     <div class="col-lg-4 col-12 mt-3" >
@@ -34,5 +35,23 @@
 
 </div>
 @include('litters.components.litters-create-modal', ['animalsMale' => $males, 'animalsFemale' => $females, 'part' => 'availableconnections'])
+<div class="modal fade" id="possibleConnection" tabindex="-1" aria-labelledby="possibleConnectionLabel" aria-hidden="true" wire:ignore.self>
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="possibleConnectionLabel" class="modal-title">Możliwe połączenia</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+            </div>
+            <div class="modal-body">
+                @livewire('litters.possible-connection-controller')
+                {{-- jeśli potrzebujesz parametrów:
+                @livewire('litters.possible-connection-controller', ['somethingId' => $something->id])
+                --}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
