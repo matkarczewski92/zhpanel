@@ -24,8 +24,8 @@ class PossibleConnectionController extends Component
     public $selectedPairs = [];           // wybrane pary: ['femaleId:maleId' => ['female_id'=>..,'male_id'=>..]]
     public $showSummary = false;          // drugi modal
     public $pairedFemaleIds = [];         // <- IDs samic już sparowanych
-    public $showAddLitters = false;     // modal „Dodaj mioty”
-    public $plannedYear = null;         // rok planu
+    public $showAddLitters = false;       // modal „Dodaj mioty”
+    public $plannedYear = null;           // rok planu
 
     public $dictionary;
 
@@ -149,6 +149,11 @@ class PossibleConnectionController extends Component
     }
     /*** ------ OBSŁUGA PAR ------ ***/
 
+    public function maleUsedTimes(int $maleId): int
+    {
+        return count(array_filter($this->selectedPairs, fn($p) => (int)$p['male_id'] === $maleId));
+    }
+
     public function pairKey($femaleId, $maleId): string
     {
         return "{$femaleId}:{$maleId}";
@@ -238,6 +243,7 @@ class PossibleConnectionController extends Component
         $this->showAddLitters = false;
         $this->showSummary    = false;
         $this->plannedYear    = null;
+        $this->dispatch('hide-all-modals');
         session()->flash('success', 'Plany miotów zapisane.');
     }
 

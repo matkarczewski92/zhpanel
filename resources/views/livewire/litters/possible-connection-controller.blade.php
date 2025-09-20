@@ -35,13 +35,19 @@
         <div class="mt-2">
             @foreach ($finale as $maleId => $data)
                 @php
-                    $name   = $data['name'];
-                    $fnMale = $data['rows'];
+                    $name    = $data['name'];
+                    $fnMale  = $data['rows'];
                     $checked = $this->isChecked($selectedFemale, $maleId);
+                    $used    = $this->maleUsedTimes($maleId);   // ile razy samiec już użyty
                 @endphp
 
                 <div class="d-flex align-items-center justify-content-between">
-                    <h3 class="mb-2">{!! $name !!}</h3>
+                    <h3 class="mb-2">
+                        {!! $name !!}
+                        @if($used > 0)
+                            <span class="badge text-bg-secondary ms-2">użyty {{ $used }}×</span>
+                        @endif
+                    </h3>
 
                     <div class="form-check">
                         <input class="form-check-input"
@@ -49,8 +55,12 @@
                                id="pair-{{ $selectedFemale }}-{{ $maleId }}"
                                wire:change="togglePair({{ $selectedFemale }}, {{ $maleId }})"
                                @checked($checked)>
+
                         <label class="form-check-label" for="pair-{{ $selectedFemale }}-{{ $maleId }}">
                             dodaj do podsumowania
+                            @if($used > 0)
+                                <span class="text-muted">(użyty {{ $used }}×)</span>
+                            @endif
                         </label>
                     </div>
                 </div>
@@ -136,9 +146,9 @@
                             <table class="table table-sm align-middle">
                                 <thead>
                                 <tr>
-                                    <th style="width:40%">Samica</th>
-                                    <th style="width:40%">Samiec</th>
-                                    <th style="width:20%" class="text-end">Akcje</th>
+                                    <th style="width:25%">Samica</th>
+                                    <th style="width:25%">Samiec</th>
+                                    <th style="width:50%" class="text-end">Akcje</th>
                                 </tr>
                                 </thead>
                                 <tbody>
