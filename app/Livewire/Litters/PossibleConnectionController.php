@@ -45,7 +45,7 @@ class PossibleConnectionController extends Component
             $fm = $this->animalRepo->getById($femaleId);
             $female = $this->getAnimalArray($this->animalRepo->getById($femaleId));
             $males = $this->animalRepo->getAllInBreedingMales()->where('animal_type_id', $fm->animal_type_id);
-            dd($males);
+            
             foreach ($males as $male) {
             $maleObj = $this->getAnimalArray($male);
             $finalCombinations = getGenotypeFinale($maleObj, $female, $this->dictionary);
