@@ -45,7 +45,7 @@
                     <h3 class="mb-2">
                         {!! $name !!}
                         @if($used > 0)
-                            <span class="badge text-bg-secondary ms-2">użyty {{ $used }}×</span>
+                            <span class="badge text-bg-secondary ms-2">użyty {{ $used }} razy</span>
                         @endif
                     </h3>
 
@@ -58,9 +58,6 @@
 
                         <label class="form-check-label" for="pair-{{ $selectedFemale }}-{{ $maleId }}">
                             dodaj do podsumowania
-                            @if($used > 0)
-                                <span class="text-muted">(użyty {{ $used }}×)</span>
-                            @endif
                         </label>
                     </div>
                 </div>
