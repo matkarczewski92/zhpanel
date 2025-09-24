@@ -12,7 +12,7 @@
                     <td style="width:10%">Wazenie</td>
                     <td style="width:20%">Karma</td>
                     <td>Czy karmić</td>
-                    <td></td>
+                    <td style="width:10%"></td>
                 </tr>
                 @foreach ($animals as $a)
                 @php
@@ -38,8 +38,8 @@
                             <input type="number" min="0" class="form-control"  wire:model="mass.{{$a->id}}.amount">
                         </div>
                     </td>
-                    <td><input class="form-check-input" type="checkbox" wire:model="mass.{{$a->id}}.feedCheck"></td>
-                    <td><a href="{{ route('animal.profile', $a->id) }}">{!! $a->id !!}</a></td>
+                    <td class="border-bottom"><input class="form-check-input" type="checkbox" wire:model="mass.{{$a->id}}.feedCheck"></td>
+                    <td class="border-bottom"><a href="{{ route('animal.profile', $a->id) }}">{!! $a->id !!}</a></td>
                 </tr>
                 @endforeach
             </table>
