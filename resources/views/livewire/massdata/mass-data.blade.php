@@ -12,7 +12,7 @@
                     <td style="width:10%">Wazenie</td>
                     <td style="width:20%">Karma</td>
                     <td>Czy karmić</td>
-                    <td style="width:10%"></td>
+                    <td style="width:4%"></td>
                 </tr>
                 @foreach ($animals as $a)
                 @php
