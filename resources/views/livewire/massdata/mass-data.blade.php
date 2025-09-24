@@ -39,7 +39,7 @@
                         </div>
                     </td>
                     <td><input class="form-check-input" type="checkbox" wire:model="mass.{{$a->id}}.feedCheck"></td>
-                    <td></td>
+                    <td><a href="{{ route('animal.profile', $a->id) }}">{!! $a->id !!}</a></td>
                 </tr>
                 @endforeach
             </table>
