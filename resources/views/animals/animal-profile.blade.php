@@ -6,8 +6,8 @@
     'animal' => $animal
 ])
 
-<div class="container-fluid mb-3" style="height: 6rem; margin-top:-30px; width:80%;">
-    <div class="row bg-dark rounded-3" style="height: 6rem;">
+<div class="container-fluid mb-3" style="height: 5rem; margin-top:-30px; width:80%;">
+    <div class="row bg-dark rounded-3" style="height: 5rem;">
         <div class="col-1 text-center">
             <a href="#" data-bs-toggle="modal" data-bs-target="#photo_profil">
                 <img src="{{$animal->animalMainPhoto->url  ?? ''}}" class="avatar border border-3 border-light" alt="...">
