@@ -29,12 +29,7 @@
                     <td class="value">@if($animal->animalLitter->litter_code) {{ $animal->animalLitter?->litter_code }}@endif</td>
                 </tr>
                 @endif
-                @if($animal->public_profile)
-                <tr>
-                    <td class="key">Publiczny tag</td>
-                    <td class="value">{{ $animal?->public_profile_tag }}</td>
-                </tr>
-                @endif
+
                 <tr>
                     <td colspan="2"><div class="strike mb-2 mt-2"><span>Karmienie</span></div></td>
                 </tr>
