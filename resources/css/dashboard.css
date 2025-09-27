@@ -2,9 +2,9 @@ body {
     background-color: black;
     background-image: url('/public/src/5.jpg');
     background-attachment: fixed;
-    background-position: center;
-    background-position-y: -100px;
-  }
+    background-position: center -100px; /* skrócony zapis: x y */
+    background-size: 100% auto;          /* ← dopasowanie do szerokości strony */
+}
 
   .navbar {
     margin-bottom: 20px;
