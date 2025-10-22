@@ -25,17 +25,17 @@
 <style>
 .litter-profile-avatar,
 .litter-profile-avatar-placeholder {
-    width:3.8rem;
-    height:3.8rem;
+    width:3rem;
+    height:3rem;
     object-fit:cover;
-    margin-top:-0.8rem;
+    margin-top:-0.5rem;
 }
 @media (min-width: 768px) {
     .litter-profile-avatar,
     .litter-profile-avatar-placeholder {
-        width:4.5rem !important;
-        height:4.5rem !important;
-        margin-top:-1.2rem !important;
+        width:3.6rem !important;
+        height:3.6rem !important;
+        margin-top:-0.7rem !important;
     }
 }
 </style>
@@ -67,7 +67,7 @@
             </div>
             <div class="col d-flex flex-column align-items-end">
                 <div class="mt-3 me-4 mb-auto d-flex align-items-center gap-2">
-                    <a href="#" class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0" style="width:2.4rem; height:2.4rem;" title="Galeria" data-bs-toggle="modal" data-bs-target="#animalProfileGallery">
+                    <a href="#" class="d-flex align-items-center justify-content-center" style="width:2.3rem; height:2.3rem; border-radius:50%; background:#ffffffdd; border:2px solid #fff;" title="Galeria" data-bs-toggle="modal" data-bs-target="#animalProfileGallery">
                         <i class="bi bi-image fs-5 text-dark"></i>
                     </a>
                     <a href="{{ url()->previous() }}" class="h3 p-2" title="Wroc">
