@@ -21,25 +21,7 @@
         return \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($clean, 0, 1));
     };
 @endphp
-@push('styles')
-<style>
-.litter-profile-avatar,
-.litter-profile-avatar-placeholder {
-    width:2rem;
-    height:2rem;
-    object-fit:cover;
-    margin-top:-1rem;
-}
-@media (min-width: 768px) {
-    .litter-profile-avatar,
-    .litter-profile-avatar-placeholder {
-        width:5rem !important;
-        height:5rem !important;
-        margin-top:-1.5rem !important;
-    }
-}
-</style>
-@endpush
+
 <div class="container-fluid background-opacity rounded-bottom-3 div-bg"
      style="height: 19rem; width: 90%; background: url('https://makssnake.pl/{{ $bannerSource }}'); background-size: cover; background-position: center; margin-top: -55px;">
     <div class="container-fluid h-100">
@@ -87,7 +69,7 @@
                     <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light litter-profile-avatar" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder>
+                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder" style="margin-right:0">
                     {{ $male ? $fallbackInitial($male->name) : '?' }}
                 </div>
             @endif
@@ -123,7 +105,7 @@
                     <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light litter-profile-avatar" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder>
+                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder" style="margin-right:0">
                     {{ $female ? $fallbackInitial($female->name) : '?' }}
                 </div>
             @endif
