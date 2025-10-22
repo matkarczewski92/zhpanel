@@ -25,8 +25,8 @@
 <style>
 .litter-profile-avatar,
 .litter-profile-avatar-placeholder {
-    width:4rem;
-    height:4rem;
+    width:2rem;
+    height:2rem;
     object-fit:cover;
     margin-top:-1rem;
 }
