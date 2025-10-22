@@ -81,7 +81,7 @@
 
 <div class="container-fluid mb-3" style="margin-top:-30px; width:90%;">
     <div class="row bg-dark rounded-3 align-items-center px-4 py-3 g-3 g-lg-0">
-        <div class="col-lg-3 col-md-4 d-flex align-items-center gap-1 pe-0" style="flex: 0 0 30%; max-width: 30%;">
+        <div class="col-lg-3 col-md-4 d-flex align-items-center gap-0 gap-md-2 pe-0" style="flex: 0 0 30%; max-width: 30%;">
             @if($male?->animalMainPhoto?->url)
                 <a href="{{ route('animal.profile', $male->id) }}" class="flex-shrink-0">
                     <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light litter-profile-avatar" alt="">
@@ -109,8 +109,8 @@
                 Sprzedane / Na sprzedaz: {{ $soldAnimals->count() }} / {{ $totalForSale }}
             </div>
         </div>
-        <div class="col-lg-3 col-md-4 d-flex align-items-center justify-content-end gap-1 ps-0" style="flex: 0 0 30%; max-width: 30%;">
-            <div class="text-lg-end flex-grow-1 d-none d-md-block" style="word-break: break-word;">
+        <div class="col-lg-3 col-md-4 d-flex align-items-center justify-content-end gap-0 gap-md-2 ps-0" style="flex: 0 0 30%; max-width: 30%;">
+            <div class="text-lg-end flex-grow-1 d-none d-md-block pe-md-2" style="word-break: break-word;">
                 <p class="mb-0 text-secondary small text-uppercase">Samica</p>
                 @if($female)
                     <a href="{{ route('animal.profile', $female->id) }}" class="text-white fw-semibold text-decoration-none d-block">{!! $female->name !!}</a>
