@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\AnimalRepositoryInterface;
 use App\Models\Animal;
-use App\Models\Feed;
 use App\Models\Litter;
 
 class HomeController extends Controller
@@ -18,17 +17,21 @@ class HomeController extends Controller
 
     public function index()
     {
+        $animalsToFeed = $this->animalToFeed();
+        $littersToFeed = $this->animalToFeed(2);
+        $animalsToWeight = $this->animalToWeight();
+        $littersToWeight = $this->animalToWeight(2);
+
         return view('home', [
-            'animal' => $this->animalToFeed(),
-            'litter' => $this->animalToFeed(2),
-            'toWeight' => $this->animalToWeight(),
-            'toWeightLitters' => $this->animalToWeight(2),
-            'summary' => $this->animalToFeedSummary($this->animalToFeed(), 0),
-            'summaryLitters' => $this->animalToFeedSummary($this->animalToFeed(2), 0),
-            'summaryPast' => $this->animalToFeedSummary($this->animalToFeed(), 1),
-            'summaryLittersPast' => $this->animalToFeedSummary($this->animalToFeed(2), 1),
+            'animal' => $animalsToFeed,
+            'litter' => $littersToFeed,
+            'toWeight' => $animalsToWeight,
+            'toWeightLitters' => $littersToWeight,
+            'summary' => $this->animalToFeedSummary($animalsToFeed, 0),
+            'summaryLitters' => $this->animalToFeedSummary($littersToFeed, 0),
+            'summaryPast' => $this->animalToFeedSummary($animalsToFeed, 1),
+            'summaryLittersPast' => $this->animalToFeedSummary($littersToFeed, 1),
             'littersStatus' => $this->litterStatus(),
-            'animalRepo' => $this->animalRepo,
             'summary_info' => $this->info_data(),
         ]);
     }
@@ -36,9 +39,14 @@ class HomeController extends Controller
     public function animalToFeed(int $animalCategoryId = 1): array
     {
         $animal = [];
-        $animals = Animal::where('animal_category_id', '=', $animalCategoryId)->get();
+        $animals = Animal::with('animalFeed')
+            ->where('animal_category_id', '=', $animalCategoryId)
+            ->get();
         foreach ($animals as $a) {
-            if ($this->animalRepo->timeToFeed($a->id) <= 1) {
+            $timeToFeed = $this->animalRepo->timeToFeed($a->id);
+            if ($timeToFeed <= 1) {
+                $a->setAttribute('time_to_feed', $timeToFeed);
+                $a->setAttribute('next_feed_date', $this->animalRepo->nextFeed($a->id));
                 $animal[] = $a;
             }
         }
@@ -51,14 +59,13 @@ class HomeController extends Controller
         $feed = [];
         if (!empty($animalArray)) {
             foreach ($animalArray ?? [] as $a) {
+                $timeToFeed = $a->time_to_feed ?? $this->animalRepo->timeToFeed($a->id);
                 if ($fn == 1) {
-                    if ($this->animalRepo->timeToFeed($a->id) <= 0) {
-                        $fName = Feed::find($a->animalFeed?->id);
-                        $feed[] = $fName->name ?? '';
+                    if ($timeToFeed <= 0) {
+                        $feed[] = $a->animalFeed?->name ?? '';
                     }
                 } elseif ($fn == 0) {
-                    $fName = Feed::find($a->animalFeed?->id) ?? [];
-                    $feed[] = $fName->name ?? '';
+                    $feed[] = $a->animalFeed?->name ?? '';
                 }
             }
 
@@ -73,7 +80,11 @@ class HomeController extends Controller
         $animal = [];
         $animals = Animal::where('animal_category_id', '=', $animalCategoryId)->get();
         foreach ($animals as $a) {
-            if ($this->animalRepo->timeToWeight($a->id) <= 3) {
+            $timeToWeight = $this->animalRepo->timeToWeight($a->id);
+            if ($timeToWeight <= 3) {
+                $a->setAttribute('time_to_weight', $timeToWeight);
+                $a->setAttribute('last_weight_value', $this->animalRepo->lastWeight($a->id));
+                $a->setAttribute('last_weighting_date', $this->animalRepo->lastWeighting($a->id));
                 $animal[] = $a;
             }
         }

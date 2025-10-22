@@ -12,6 +12,15 @@ use Carbon\Carbon;
 
 class AnimalRepository implements AnimalRepositoryInterface
 {
+    protected array $feedIntervalCache = [];
+    protected array $lastFeedCache = [];
+    protected array $nextFeedCache = [];
+    protected array $timeToFeedCache = [];
+    protected array $lastWeightCache = [];
+    protected array $lastWeightingCache = [];
+    protected array $nextWeightCache = [];
+    protected array $timeToWeightCache = [];
+
     public function all()
     {
         return Animal::all();
@@ -87,43 +96,59 @@ class AnimalRepository implements AnimalRepositoryInterface
 
     public function feedInterval(int $animalId): int
     {
+        if (array_key_exists($animalId, $this->feedIntervalCache)) {
+            return $this->feedIntervalCache[$animalId];
+        }
+
         $animal = Animal::find($animalId);
         if (!is_null($animal->feed_id)) {
             if (is_null($animal->feed_interval)) {
                 $feed = Feed::find($animal->feed_id);
 
-                return $feed->feeding_interval;
+                return $this->feedIntervalCache[$animalId] = $feed->feeding_interval;
             } else {
-                return $animal->feed_interval;
+                return $this->feedIntervalCache[$animalId] = $animal->feed_interval;
             }
         }
 
-        return 0;
+        return $this->feedIntervalCache[$animalId] = 0;
     }
 
     public function lastFeed(int $animalId): string
     {
+        if (array_key_exists($animalId, $this->lastFeedCache)) {
+            return $this->lastFeedCache[$animalId];
+        }
+
         $feed = AnimalFeedings::where('animal_id', '=', $animalId)->orderBy('created_at', 'desc')->first();
         if ($feed) {
-            return $feed->created_at->format('Y-m-d');
-        } else {
-            return '';
+            return $this->lastFeedCache[$animalId] = $feed->created_at->format('Y-m-d');
         }
+
+        return $this->lastFeedCache[$animalId] = '';
     }
 
     public function nextFeed(int $animalId): string
     {
+        if (array_key_exists($animalId, $this->nextFeedCache)) {
+            return $this->nextFeedCache[$animalId];
+        }
+
         if ($this->lastFeed($animalId)) {
             $date = Carbon::parse($this->lastFeed($animalId));
 
-            return $date->addDays($this->feedInterval($animalId))->format('Y-m-d');
-        } else {
-            return '';
+            return $this->nextFeedCache[$animalId] = $date->addDays($this->feedInterval($animalId))->format('Y-m-d');
         }
+
+        return $this->nextFeedCache[$animalId] = '';
     }
 
     public function timeToFeed(int $animalId)
     {
+        if (array_key_exists($animalId, $this->timeToFeedCache)) {
+            return $this->timeToFeedCache[$animalId];
+        }
+
         $nowDate = Carbon::now();
 
         $nextFeedDate = $this->nextFeed($animalId);
@@ -132,7 +157,7 @@ class AnimalRepository implements AnimalRepositoryInterface
         $diff = ($diff < 0) ? $diff - 1 : $diff;
         $diff = ($nowDate->format('Y-m-d') == $test->format('Y-m-d')) ? $diff : $diff + 1;
 
-        return $diff;
+        return $this->timeToFeedCache[$animalId] = $diff;
     }
 
     public function feedCount(int $animalId): int
@@ -144,34 +169,50 @@ class AnimalRepository implements AnimalRepositoryInterface
 
     public function lastWeight(int $animalId): int|null
     {
+        if (array_key_exists($animalId, $this->lastWeightCache)) {
+            return $this->lastWeightCache[$animalId];
+        }
+
         $weight = AnimalWeight::where('animal_id', '=', $animalId)->orderBy('created_at', 'desc')->first();
 
-        return $weight->value ?? null;
+        return $this->lastWeightCache[$animalId] = $weight->value ?? null;
     }
 
     public function lastWeighting(int $animalId): string
     {
+        if (array_key_exists($animalId, $this->lastWeightingCache)) {
+            return $this->lastWeightingCache[$animalId];
+        }
+
         $feed = AnimalWeight::where('animal_id', '=', $animalId)->orderBy('created_at', 'desc')->first();
         if ($feed) {
-            return $feed->created_at->format('Y-m-d');
-        } else {
-            return '';
+            return $this->lastWeightingCache[$animalId] = $feed->created_at->format('Y-m-d');
         }
+
+        return $this->lastWeightingCache[$animalId] = '';
     }
 
     public function nextWeight(int $animalId): string
     {
+        if (array_key_exists($animalId, $this->nextWeightCache)) {
+            return $this->nextWeightCache[$animalId];
+        }
+
         if ($this->lastWeight($animalId)) {
             $date = Carbon::parse($this->lastWeighting($animalId));
 
-            return $date->addDays(30)->format('Y-m-d');
-        } else {
-            return '';
+            return $this->nextWeightCache[$animalId] = $date->addDays(30)->format('Y-m-d');
         }
+
+        return $this->nextWeightCache[$animalId] = '';
     }
 
     public function timeToWeight(int $animalId)
     {
+        if (array_key_exists($animalId, $this->timeToWeightCache)) {
+            return $this->timeToWeightCache[$animalId];
+        }
+
         $nowDate = Carbon::now();
         $nextWeight = $this->nextWeight($animalId);
         $nextWeightDate = Carbon::parse($nextWeight);
@@ -179,7 +220,7 @@ class AnimalRepository implements AnimalRepositoryInterface
         $diff = ($nowDate->format('Y-m-d') == $nextWeightDate->format('Y-m-d')) ? $diff : $diff + 1;
         $diff = ($diff < 0) ? $diff - 1 : $diff;
 
-        return $diff;
+        return $this->timeToWeightCache[$animalId] = $diff;
     }
 
     public function animalStatus(int $animalId)

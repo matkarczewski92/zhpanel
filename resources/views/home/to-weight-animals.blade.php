@@ -15,11 +15,14 @@
                     <td class="text-center">Dni do ważenia</td>
                 </tr>
                 @foreach ($animal as $a)
-                <tr class="@if($animalRepo->timeToFeed($a->id)<0) text-danger @elseif ($animalRepo->timeToFeed($a->id)==0)text-success @endif">
+                @php
+                    $timeToWeight = $a->getAttribute('time_to_weight');
+                @endphp
+                <tr class="@if(isset($timeToWeight) && $timeToWeight < 0) text-danger @elseif (isset($timeToWeight) && $timeToWeight === 0) text-success @endif">
                     <td>{{$a->id}}. <a href="{{ route('animal.profile', $a->id) }}">{!!$a->name!!}</a></td>
-                    <td>{{$animalRepo->lastWeight($a->id)}} g.</td>
-                    <td>{{$animalRepo->lastWeighting($a->id)}}</td>
-                    <td class="text-center">{{$animalRepo->timeToWeight($a->id)}}</td>
+                    <td>{{$a->getAttribute('last_weight_value')}} g.</td>
+                    <td>{{$a->getAttribute('last_weighting_date')}}</td>
+                    <td class="text-center">{{$timeToWeight ?? ''}}</td>
                 </tr>
                 @endforeach
             </table>

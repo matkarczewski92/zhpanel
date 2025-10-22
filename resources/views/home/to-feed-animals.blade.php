@@ -15,11 +15,14 @@
                     <td class="text-center">Dni do karmienia</td>
                 </tr>
                 @foreach ($animal as $a)
-                <tr class="@if($animalRepo->timeToFeed($a->id)<0) text-danger @elseif ($animalRepo->timeToFeed($a->id)==0)text-success @endif">
+                @php
+                    $timeToFeed = $a->getAttribute('time_to_feed');
+                @endphp
+                <tr class="@if(isset($timeToFeed) && $timeToFeed < 0) text-danger @elseif (isset($timeToFeed) && $timeToFeed === 0) text-success @endif">
                     <td>{{$a->id}}. <a href="{{ route('animal.profile', $a->id) }}">{!!$a->name!!}</a></td>
                     <td>{{$a->animalFeed?->name}}</td>
-                    <td>{{$animalRepo->nextFeed($a?->id ?? '')}}</td>
-                    <td class="text-center">{{$animalRepo->timeToFeed($a?->id) ?? ''}}</td>
+                    <td>{{$a->getAttribute('next_feed_date')}}</td>
+                    <td class="text-center">{{$timeToFeed ?? ''}}</td>
                 </tr>
                 @endforeach
             </table>
