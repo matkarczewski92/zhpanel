@@ -61,11 +61,11 @@
     <div class="row bg-dark rounded-3 align-items-center px-4 py-3 g-3 g-lg-0">
         <div class="col-lg-3 col-md-4 d-flex align-items-center gap-3" style="flex: 0 0 30%; max-width: 30%;">
             @if($male?->animalMainPhoto?->url)
-                <a href="{{ route('animal.profile', $male->id) }}" class="flex-shrink-0" style="margin-top:-1.5rem;">
-                    <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light" style="width:4.75rem; height:4.75rem; object-fit:cover;" alt="">
+                <a href="{{ route('animal.profile', $male->id) }}" class="flex-shrink-0" style="margin-top:-2.5rem;">
+                    <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light" style="width:6rem; height:6rem; object-fit:cover;" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:4.75rem; height:4.75rem; margin-top:-1.5rem;">
+                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:6rem; height:6rem; margin-top:-2.5rem;">
                     {{ $male ? $fallbackInitial($male->name) : '?' }}
                 </div>
             @endif
@@ -89,11 +89,11 @@
         </div>
         <div class="col-lg-3 col-md-4 d-flex align-items-center gap-3 justify-content-lg-end" style="flex: 0 0 30%; max-width: 30%;">
             @if($female?->animalMainPhoto?->url)
-                <a href="{{ route('animal.profile', $female->id) }}" class="flex-shrink-0" style="margin-top:-1.5rem;">
-                    <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light" style="width:4.75rem; height:4.75rem; object-fit:cover;" alt="">
+                <a href="{{ route('animal.profile', $female->id) }}" class="flex-shrink-0" style="margin-top:-2.5rem;">
+                    <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light" style="width:6rem; height:6rem; object-fit:cover;" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:4.75rem; height:4.75rem; margin-top:-1.5rem;">
+                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:6rem; height:6rem; margin-top:-2.5rem;">
                     {{ $female ? $fallbackInitial($female->name) : '?' }}
                 </div>
             @endif
