@@ -61,11 +61,11 @@
     <div class="row bg-dark rounded-3 align-items-center px-4 py-3 g-3 g-lg-0">
         <div class="col-lg-3 col-md-4 d-flex align-items-center gap-3" style="flex: 0 0 30%; max-width: 30%;">
             @if($male?->animalMainPhoto?->url)
-                <a href="{{ route('animal.profile', $male->id) }}" class="flex-shrink-0">
-                    <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-2 border-secondary" style="width:4rem; height:4rem; object-fit:cover;" alt="">
+                <a href="{{ route('animal.profile', $male->id) }}" class="flex-shrink-0" style="margin-top:-1.5rem;">
+                    <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light" style="width:4.75rem; height:4.75rem; object-fit:cover;" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-2 border-secondary d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:4rem; height:4rem;">
+                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:4.75rem; height:4.75rem; margin-top:-1.5rem;">
                     {{ $male ? $fallbackInitial($male->name) : '?' }}
                 </div>
             @endif
@@ -78,19 +78,22 @@
                 @endif
             </div>
         </div>
-        <div class="col-lg-6 col-md-4 d-flex justify-content-center text-center" style="flex: 0 0 40%; max-width: 40%;">
+        <div class="col-lg-6 col-md-4 d-flex flex-column align-items-center justify-content-center" style="flex: 0 0 40%; max-width: 40%;">
             <div class="d-inline-flex align-items-center gap-2">
-                <span class="fs-5 text-light text-uppercase fw-semibold mb-0">Maluchy w miocie</span>
-                <span class="fs-5 fw-bold text-white mb-0">{{ $offspringCount }}</span>
+                <span class="fs-6 text-light text-uppercase fw-semibold mb-0">Maluchy w miocie</span>
+                <span class="fs-6 fw-bold text-white mb-0">{{ $offspringCount }}</span>
+            </div>
+            <div class="text-white-50 small">
+                Sprzedane / Na sprzedaz: {{ $soldAnimals->count() }} / {{ $totalForSale }}
             </div>
         </div>
         <div class="col-lg-3 col-md-4 d-flex align-items-center gap-3 justify-content-lg-end" style="flex: 0 0 30%; max-width: 30%;">
             @if($female?->animalMainPhoto?->url)
-                <a href="{{ route('animal.profile', $female->id) }}" class="flex-shrink-0">
-                    <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-2 border-secondary" style="width:4rem; height:4rem; object-fit:cover;" alt="">
+                <a href="{{ route('animal.profile', $female->id) }}" class="flex-shrink-0" style="margin-top:-1.5rem;">
+                    <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light" style="width:4.75rem; height:4.75rem; object-fit:cover;" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-2 border-secondary d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:4rem; height:4rem;">
+                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:4.75rem; height:4.75rem; margin-top:-1.5rem;">
                     {{ $female ? $fallbackInitial($female->name) : '?' }}
                 </div>
             @endif
@@ -120,7 +123,7 @@
         </div>
         <div class="col-xl-3 col-lg-3 d-flex">
             <div class="w-100 h-100 d-flex flex-column">
-                <div class="mb-3">
+                <div class="mb-2">
                     @include('litters.components.litters-main-photo')
                 </div>
                 <div class="flex-grow-1 d-flex">
