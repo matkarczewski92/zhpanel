@@ -21,25 +21,6 @@
         return \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($clean, 0, 1));
     };
 @endphp
-@push('styles')
-<style>
-.litter-profile-avatar,
-.litter-profile-avatar-placeholder {
-    width:3rem;
-    height:3rem;
-    object-fit:cover;
-    margin-top:-0.5rem;
-}
-@media (min-width: 768px) {
-    .litter-profile-avatar,
-    .litter-profile-avatar-placeholder {
-        width:3.6rem !important;
-        height:3.6rem !important;
-        margin-top:-0.7rem !important;
-    }
-}
-</style>
-@endpush
 <div class="container-fluid background-opacity rounded-bottom-3 div-bg"
      style="height: 19rem; width: 90%; background: url('https://makssnake.pl/{{ $bannerSource }}'); background-size: cover; background-position: center; margin-top: -55px;">
     <div class="container-fluid h-100">
@@ -83,11 +64,11 @@
     <div class="row bg-dark rounded-3 align-items-center px-4 py-3 g-3 g-lg-0">
         <div class="col-lg-3 col-md-4 d-flex align-items-center gap-0 gap-md-2 pe-0" style="flex: 0 0 30%; max-width: 30%;">
             @if($male?->animalMainPhoto?->url)
-                <a href="{{ route('animal.profile', $male->id) }}" class="flex-shrink-0">
-                    <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light litter-profile-avatar" alt="">
+                <a href="{{ route('animal.profile', $male->id) }}" class="flex-shrink-0" style="margin-top:-0.9rem;">
+                    <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-2 border-light" style="width:9rem;height:9rem;object-fit:cover; margin-top: -4rem" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder">
+                <div class="rounded-circle border border-2 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:3rem;height:3rem;margin-top:-0.9rem;">
                     {{ $male ? $fallbackInitial($male->name) : '?' }}
                 </div>
             @endif
@@ -119,11 +100,11 @@
                 @endif
             </div>
             @if($female?->animalMainPhoto?->url)
-                <a href="{{ route('animal.profile', $female->id) }}" class="flex-shrink-0">
-                    <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light litter-profile-avatar" alt="">
+                <a href="{{ route('animal.profile', $female->id) }}" class="flex-shrink-0" style="margin-top:-0.9rem;">
+                    <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-2 border-light" style="width:9rem;height:9rem;object-fit:cover; margin-top: -4rem" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder">
+                <div class="rounded-circle border border-2 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:3rem;height:3rem;margin-top:-0.9rem;">
                     {{ $female ? $fallbackInitial($female->name) : '?' }}
                 </div>
             @endif
@@ -170,3 +151,4 @@
 
 @include('litters.profile.litters-profile-gallery')
 @endsection
+
