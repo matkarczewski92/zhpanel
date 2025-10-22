@@ -26,7 +26,7 @@
     <div class="container-fluid h-100">
         <div class="row h-100">
             <div class="col-lg-8">
-                <div class="position-relative top-50 translate-middle-y">
+                <div class="position-relative top-50 translate-middle-y" style="margin-top: -2rem">
                     <p class="display-5 fw-bold mb-1">{{ $litter->litter_code ?? 'Miot bez nazwy' }}</p>
                     <p class="h5 ms-1 mb-0" style="margin-top:-10px;">{{ $category }}@if($litter->season) - Sezon {{ $litter->season }}@endif</p>
                     <div class="d-flex flex-wrap gap-2 ms-1 mt-3">
