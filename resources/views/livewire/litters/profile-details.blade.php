@@ -65,7 +65,6 @@
                                 @else <a href="{{ route('animal.profile', $litter->animalFemale->id)}}">{!! $litter->animalFemale->name !!}</a> @endif</td>
                         </tr>
                         <tr>
-                            <td class="key">Planowany dochód</td>
                             <td>{{ $litterValue }} zł</td>
                         </tr>
                         {{-- <tr>
