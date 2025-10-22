@@ -25,17 +25,17 @@
 <style>
 .litter-profile-avatar,
 .litter-profile-avatar-placeholder {
-    width:4.5rem;
-    height:4.5rem;
+    width:4rem;
+    height:4rem;
     object-fit:cover;
-    margin-top:-1.5rem;
+    margin-top:-1rem;
 }
 @media (min-width: 768px) {
     .litter-profile-avatar,
     .litter-profile-avatar-placeholder {
-        width:6rem !important;
-        height:6rem !important;
-        margin-top:-2.2rem !important;
+        width:5rem !important;
+        height:5rem !important;
+        margin-top:-1.5rem !important;
     }
 }
 </style>
