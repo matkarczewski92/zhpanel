@@ -23,23 +23,19 @@
 @endphp
 @push('styles')
 <style>
-.litter-profile-avatar {
-    width:5rem;
-    height:5rem;
-    object-fit:cover;
-    margin-top:-2rem;
-}
+.litter-profile-avatar,
 .litter-profile-avatar-placeholder {
-    width:5rem;
-    height:5rem;
-    margin-top:-2rem;
+    width:4.5rem;
+    height:4.5rem;
+    object-fit:cover;
+    margin-top:-1.5rem;
 }
 @media (min-width: 768px) {
     .litter-profile-avatar,
     .litter-profile-avatar-placeholder {
-        width:8rem !important;
-        height:8rem !important;
-        margin-top:-3rem !important;
+        width:6rem !important;
+        height:6rem !important;
+        margin-top:-2.2rem !important;
     }
 }
 </style>
@@ -71,8 +67,8 @@
             </div>
             <div class="col d-flex flex-column align-items-end">
                 <div class="mt-3 me-4 mb-auto d-flex align-items-center gap-2">
-                    <a href="#" class="btn btn-outline-light rounded-circle" title="Galeria" data-bs-toggle="modal" data-bs-target="#animalProfileGallery">
-                        <i class="fa-solid fa-images"></i>
+                    <a href="#" class="btn btn-light rounded-circle d-flex align-items-center justify-content-center" style="width:2.4rem; height:2.4rem;" title="Galeria" data-bs-toggle="modal" data-bs-target="#animalProfileGallery">
+                        <i class="bi bi-image fs-5 text-dark"></i>
                     </a>
                     <a href="{{ url()->previous() }}" class="h3 p-2" title="Wroc">
                         <i class="fa-solid fa-circle-arrow-left" style="color: #edf3f8;"></i>
