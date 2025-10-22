@@ -65,7 +65,7 @@
         <div class="col-lg-3 col-md-4 d-flex align-items-center gap-0 gap-md-2 pe-0" style="flex: 0 0 30%; max-width: 30%;">
             @if($male?->animalMainPhoto?->url)
                 <a href="{{ route('animal.profile', $male->id) }}" class="flex-shrink-0" style="margin-top:-0.9rem;">
-                    <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-2 border-light" style="width:9rem;height:9rem;object-fit:cover; margin-top: -4rem" alt="">
+                    <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-2 border-light" style="width:8rem;height:8rem;object-fit:cover; margin-top: -4rem" alt="">
                 </a>
             @else
                 <div class="rounded-circle border border-2 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:3rem;height:3rem;margin-top:-0.9rem;">
@@ -101,7 +101,7 @@
             </div>
             @if($female?->animalMainPhoto?->url)
                 <a href="{{ route('animal.profile', $female->id) }}" class="flex-shrink-0" style="margin-top:-0.9rem;">
-                    <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-2 border-light" style="width:9rem;height:9rem;object-fit:cover; margin-top: -4rem" alt="">
+                    <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-2 border-light" style="width:8rem;height:8rem;object-fit:cover; margin-top: -4rem" alt="">
                 </a>
             @else
                 <div class="rounded-circle border border-2 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:3rem;height:3rem;margin-top:-0.9rem;">
