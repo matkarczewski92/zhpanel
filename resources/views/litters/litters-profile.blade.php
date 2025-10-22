@@ -21,6 +21,29 @@
         return \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($clean, 0, 1));
     };
 @endphp
+@push('styles')
+<style>
+.litter-profile-avatar {
+    width:5rem;
+    height:5rem;
+    object-fit:cover;
+    margin-top:-2rem;
+}
+.litter-profile-avatar-placeholder {
+    width:5rem;
+    height:5rem;
+    margin-top:-2rem;
+}
+@media (min-width: 768px) {
+    .litter-profile-avatar,
+    .litter-profile-avatar-placeholder {
+        width:8rem !important;
+        height:8rem !important;
+        margin-top:-3rem !important;
+    }
+}
+</style>
+@endpush
 <div class="container-fluid background-opacity rounded-bottom-3 div-bg"
      style="height: 19rem; width: 90%; background: url('https://makssnake.pl/{{ $bannerSource }}'); background-size: cover; background-position: center; margin-top: -55px;">
     <div class="container-fluid h-100">
@@ -47,7 +70,10 @@
                 </div>
             </div>
             <div class="col d-flex flex-column align-items-end">
-                <div class="mt-3 me-4 mb-auto">
+                <div class="mt-3 me-4 mb-auto d-flex align-items-center gap-2">
+                    <a href="#" class="btn btn-outline-light rounded-circle" title="Galeria" data-bs-toggle="modal" data-bs-target="#animalProfileGallery">
+                        <i class="fa-solid fa-images"></i>
+                    </a>
                     <a href="{{ url()->previous() }}" class="h3 p-2" title="Wroc">
                         <i class="fa-solid fa-circle-arrow-left" style="color: #edf3f8;"></i>
                     </a>
@@ -59,13 +85,13 @@
 
 <div class="container-fluid mb-3" style="margin-top:-30px; width:90%;">
     <div class="row bg-dark rounded-3 align-items-center px-4 py-3 g-3 g-lg-0">
-        <div class="col-lg-3 col-md-4 d-flex align-items-center gap-1" style="flex: 0 0 30%; max-width: 30%;">
+        <div class="col-lg-3 col-md-4 d-flex align-items-center gap-1 pe-0" style="flex: 0 0 30%; max-width: 30%;">
             @if($male?->animalMainPhoto?->url)
-                <a href="{{ route('animal.profile', $male->id) }}" class="flex-shrink-0" style="margin-top:-2.5rem;">
-                    <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light" style="width:6rem; height:6rem; object-fit:cover;" alt="">
+                <a href="{{ route('animal.profile', $male->id) }}" class="flex-shrink-0">
+                    <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light litter-profile-avatar" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:6rem; height:6rem; margin-top:-2.5rem;">
+                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder">
                     {{ $male ? $fallbackInitial($male->name) : '?' }}
                 </div>
             @endif
@@ -87,7 +113,7 @@
                 Sprzedane / Na sprzedaz: {{ $soldAnimals->count() }} / {{ $totalForSale }}
             </div>
         </div>
-        <div class="col-lg-3 col-md-4 d-flex align-items-center justify-content-between gap-1" style="flex: 0 0 30%; max-width: 30%;">
+        <div class="col-lg-3 col-md-4 d-flex align-items-center justify-content-end gap-1 ps-0" style="flex: 0 0 30%; max-width: 30%;">
             <div class="text-lg-end flex-grow-1 d-none d-md-block" style="word-break: break-word;">
                 <p class="mb-0 text-secondary small text-uppercase">Samica</p>
                 @if($female)
@@ -97,11 +123,11 @@
                 @endif
             </div>
             @if($female?->animalMainPhoto?->url)
-                <a href="{{ route('animal.profile', $female->id) }}" class="flex-shrink-0" style="margin-top:-2.5rem;">
-                    <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light" style="width:6rem; height:6rem; object-fit:cover;" alt="">
+                <a href="{{ route('animal.profile', $female->id) }}" class="flex-shrink-0">
+                    <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light litter-profile-avatar" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:6rem; height:6rem; margin-top:-2.5rem;">
+                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder">
                     {{ $female ? $fallbackInitial($female->name) : '?' }}
                 </div>
             @endif
@@ -123,9 +149,6 @@
         </div>
         <div class="col-xl-3 col-lg-3 d-flex">
             <div class="w-100 h-100 d-flex flex-column">
-                <div class="mb-2">
-                    @include('litters.components.litters-main-photo')
-                </div>
                 <div class="flex-grow-1 d-flex">
                     <div class="w-100">
                         @livewire('litters.planning')

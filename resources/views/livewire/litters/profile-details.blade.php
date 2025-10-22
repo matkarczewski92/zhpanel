@@ -27,7 +27,7 @@
                                     <select wire:model="category" class="form-select">
                                         <option value="1" @if ($litter->category == 0) selected @endif>Miot</option>
                                         <option value="2" @if ($litter->category == 1) selected @endif>Planowane</option>
-                                        <option value="3" @if ($litter->category == 2) selected @endif>Szablon/Możliwe</option>
+                                        <option value="3" @if ($litter->category == 2) selected @endif>Szablon/MoĹĽliwe</option>
                                         <option value="4" @if ($litter->category == 3) selected @endif>Zrealizowane</option>
                                     </select>
                                 @else {{ $litterRepo->litterCategory($category) }} @endif</td>
@@ -65,10 +65,9 @@
                                 @else <a href="{{ route('animal.profile', $litter->animalFemale->id)}}">{!! $litter->animalFemale->name !!}</a> @endif</td>
                         </tr>
                         <tr>
-                            <td>{{ $litterValue }} zł</td>
                         </tr>
                         {{-- <tr>
-                            <td class="key">Rzeczywisty dochód</td>
+                            <td class="key">Rzeczywisty dochĂłd</td>
                             <td></td>
                         </tr> --}}
                     </table>
@@ -77,11 +76,11 @@
 
                     <table class="detailsTable">
                         <tr>
-                            <td class="key">Planowana data łączenia</td>
+                            <td class="key">Planowana data Ĺ‚Ä…czenia</td>
                             <td>@if ($editMode==1) <input type="date" class="form-control" wire:model="plannedConnectionDate"> @else {{ $litter->planned_connection_date }} @endif</td>
                         </tr>
                         <tr>
-                            <td class="key">Data łączenia</td>
+                            <td class="key">Data Ĺ‚Ä…czenia</td>
                             <td>@if ($editMode==1) <input type="date" class="form-control" wire:model="connectionDate"> @else {{ $litter->connection_date }} @endif</td>
                         </tr>
                         <tr>
@@ -96,15 +95,15 @@
                             <td colspan="2"><hr/></td>
                         </tr>
                         <tr>
-                            <td class="key">Ilość zniesionych jaj</td>
+                            <td class="key">IloĹ›Ä‡ zniesionych jaj</td>
                             <td>@if ($editMode==1) <input type="number" min="0" class="form-control" wire:model="layingEggsTotal" required> @else {{ $litter->laying_eggs_total ?? 0 }} szt. @endif</td>
                         </tr>
                         <tr>
-                            <td class="key">Ilosć jaj do inkubacji</td>
+                            <td class="key">IlosÄ‡ jaj do inkubacji</td>
                             <td>@if ($editMode==1) <input type="number" min="0" class="form-control" wire:model="layingEggsOk" required> @else {{ $litter->laying_eggs_ok ?? 0}} szt. @endif</td>
                         </tr>
                         <tr>
-                            <td class="key">Ilosć wyklutych</td>
+                            <td class="key">IlosÄ‡ wyklutych</td>
                             <td>@if ($editMode==1) <input type="number" min="0" class="form-control" wire:model="hatchingEggs" required> @else {{ $litter->hatching_eggs ?? 0}} szt. @endif</td>
                         </tr>
                     </table>
@@ -113,7 +112,7 @@
                 @if ($editMode==1)
                 <div class="d-grid gap-2 mt-4"> <!-- Here -->
                     <button class="btn btn-success" wire:click="save" type="submit">Zapisz</button>
-                    <button class="btn btn-danger mt-3" wire:click="delete" type="submit">Usuń miot</button>
+                    <button class="btn btn-danger mt-3" wire:click="delete" type="submit">UsuĹ„ miot</button>
                 </div>
                 @endif
             </div>
