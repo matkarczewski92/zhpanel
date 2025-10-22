@@ -1,5 +1,5 @@
-<div class="card bg-dark photobg rounded-1">
-    <div class="card-body" style="">
+<div class="card bg-dark photobg rounded-1 h-100">
+    <div class="card-body" style="overflow-y: auto;">
         <div class="strike mb-2">
             <span>Planowanie</span>
          </div>

@@ -71,6 +71,8 @@ class LitterController extends Controller
         $animals = Animal::with('animalOffer')->where('litter_id', $id)->get();
         $soldAnimals = $animals->filter(function ($animal) {
             return !empty($animal->animalOffer?->sold_date);
+        })->sortBy(function ($animal) {
+            return $animal->animalOffer?->sold_date;
         })->values();
         $totalForSale = $animals->filter(function ($animal) {
             return !is_null($animal->animalOffer);
