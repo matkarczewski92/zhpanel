@@ -21,7 +21,25 @@
         return \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($clean, 0, 1));
     };
 @endphp
-
+@push('styles')
+<style>
+.litter-profile-avatar,
+.litter-profile-avatar-placeholder {
+    width:3.8rem;
+    height:3.8rem;
+    object-fit:cover;
+    margin-top:-0.8rem;
+}
+@media (min-width: 768px) {
+    .litter-profile-avatar,
+    .litter-profile-avatar-placeholder {
+        width:4.5rem !important;
+        height:4.5rem !important;
+        margin-top:-1.2rem !important;
+    }
+}
+</style>
+@endpush
 <div class="container-fluid background-opacity rounded-bottom-3 div-bg"
      style="height: 19rem; width: 90%; background: url('https://makssnake.pl/{{ $bannerSource }}'); background-size: cover; background-position: center; margin-top: -55px;">
     <div class="container-fluid h-100">
@@ -49,7 +67,7 @@
             </div>
             <div class="col d-flex flex-column align-items-end">
                 <div class="mt-3 me-4 mb-auto d-flex align-items-center gap-2">
-                    <a href="#" class="btn btn-light rounded-circle d-flex align-items-center justify-content-center" style="width:2.4rem; height:2.4rem;" title="Galeria" data-bs-toggle="modal" data-bs-target="#animalProfileGallery">
+                    <a href="#" class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0" style="width:2.4rem; height:2.4rem;" title="Galeria" data-bs-toggle="modal" data-bs-target="#animalProfileGallery">
                         <i class="bi bi-image fs-5 text-dark"></i>
                     </a>
                     <a href="{{ url()->previous() }}" class="h3 p-2" title="Wroc">
@@ -69,7 +87,7 @@
                     <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light litter-profile-avatar" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder" style="margin-right:0">
+                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder">
                     {{ $male ? $fallbackInitial($male->name) : '?' }}
                 </div>
             @endif
@@ -105,7 +123,7 @@
                     <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-3 border-light litter-profile-avatar" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder" style="margin-right:0">
+                <div class="rounded-circle border border-3 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0 litter-profile-avatar-placeholder">
                     {{ $female ? $fallbackInitial($female->name) : '?' }}
                 </div>
             @endif
