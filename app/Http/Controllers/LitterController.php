@@ -68,10 +68,21 @@ class LitterController extends Controller
     {
         $litter = Litter::find($id);
 
+        $animals = Animal::with('animalOffer')->where('litter_id', $id)->get();
+        $soldAnimals = $animals->filter(function ($animal) {
+            return !empty($animal->animalOffer?->sold_date);
+        })->values();
+        $totalForSale = $animals->filter(function ($animal) {
+            return !is_null($animal->animalOffer);
+        })->count();
+
         return view('litters.litters-profile', [
             'litter' => $litter,
             'category' => $this->litterRepo->litterCategory($litter->category),
-            'animals' => Animal::where('litter_id', $id)->get(),
+            'animals' => $animals,
+            'soldAnimals' => $soldAnimals,
+            'totalForSale' => $totalForSale,
+            'status' => $this->litterRepo->litterStatus($litter->id),
             'animalRepo' => $this->animalRepo,
         ]);
     }

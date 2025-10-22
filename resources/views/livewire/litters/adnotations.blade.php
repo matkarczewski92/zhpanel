@@ -6,10 +6,9 @@
         <div class="strike mb-2">
             <span>Adnotacje</span>
          </div>
-         <textarea class="adnotations h-75" wire:model="adnotation"></textarea>
+         <textarea class="adnotations" wire:model="adnotation" rows="8"></textarea>
          @if ($status == 'ok')
          <p class="text-center text-success">Zapisano pomyślnie</p>
         @endif
     </div>
 </div>
-
