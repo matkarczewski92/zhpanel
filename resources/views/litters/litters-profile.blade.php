@@ -68,7 +68,7 @@
                     <img src="{{ $male->animalMainPhoto->url }}" class="rounded-circle border border-2 border-light" style="width:8rem;height:8rem;object-fit:cover; margin-top: -4rem" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-2 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:3rem;height:3rem;margin-top:-0.9rem;">
+                <div class="rounded-circle border border-2 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:3.2rem;height:3.2rem;margin-top:-0.8rem;">
                     {{ $male ? $fallbackInitial($male->name) : '?' }}
                 </div>
             @endif
@@ -104,7 +104,7 @@
                     <img src="{{ $female->animalMainPhoto->url }}" class="rounded-circle border border-2 border-light" style="width:8rem;height:8rem;object-fit:cover; margin-top: -4rem" alt="">
                 </a>
             @else
-                <div class="rounded-circle border border-2 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:3rem;height:3rem;margin-top:-0.9rem;">
+                <div class="rounded-circle border border-2 border-light d-flex align-items-center justify-content-center text-uppercase flex-shrink-0" style="width:3.2rem;height:3.2rem;margin-top:-0.8rem;">
                     {{ $female ? $fallbackInitial($female->name) : '?' }}
                 </div>
             @endif
