@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Interfaces\AnimalRepositoryInterface;
 use App\Models\Animal;
+use App\Models\AnimalOffer;
+use App\Models\Finances;
+use App\Models\FinancesCategory;
 use App\Models\Litter;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -15,24 +19,29 @@ class HomeController extends Controller
         $this->animalRepo = $animalRepo;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $animalsToFeed = $this->animalToFeed();
         $littersToFeed = $this->animalToFeed(2);
-        $animalsToWeight = $this->animalToWeight();
-        $littersToWeight = $this->animalToWeight(2);
+
+        $financeYears = $this->financeYears();
+        $requestedYear = (int)($request->input('finances_year') ?? 0);
+        $selectedFinanceYear = in_array($requestedYear, $financeYears, true)
+            ? $requestedYear
+            : ($financeYears[0] ?? (int)now()->year);
 
         return view('home', [
             'animal' => $animalsToFeed,
             'litter' => $littersToFeed,
-            'toWeight' => $animalsToWeight,
-            'toWeightLitters' => $littersToWeight,
             'summary' => $this->animalToFeedSummary($animalsToFeed, 0),
             'summaryLitters' => $this->animalToFeedSummary($littersToFeed, 0),
             'summaryPast' => $this->animalToFeedSummary($animalsToFeed, 1),
             'summaryLittersPast' => $this->animalToFeedSummary($littersToFeed, 1),
             'littersStatus' => $this->litterStatus(),
             'summary_info' => $this->info_data(),
+            'financeSummary' => $this->financeSummary($selectedFinanceYear),
+            'financeYears' => $financeYears,
+            'financeSelectedYear' => $selectedFinanceYear,
         ]);
     }
 
@@ -75,23 +84,6 @@ class HomeController extends Controller
         }
     }
 
-    public function animalToWeight(int $animalCategoryId = 1): array
-    {
-        $animal = [];
-        $animals = Animal::where('animal_category_id', '=', $animalCategoryId)->get();
-        foreach ($animals as $a) {
-            $timeToWeight = $this->animalRepo->timeToWeight($a->id);
-            if ($timeToWeight <= 3) {
-                $a->setAttribute('time_to_weight', $timeToWeight);
-                $a->setAttribute('last_weight_value', $this->animalRepo->lastWeight($a->id));
-                $a->setAttribute('last_weighting_date', $this->animalRepo->lastWeighting($a->id));
-                $animal[] = $a;
-            }
-        }
-
-        return $animal;
-    }
-
     public function litterStatus(): array
     {
         $littersLaying = Litter::where('category', 1)
@@ -117,11 +109,80 @@ class HomeController extends Controller
 
             
             $summary['litter_count'] = Litter::where('category', 1)->count();
-            $summary['eggs_count'] = Litter::whereNotNull('laying_date')->whereNull('hatching_date')->sum('laying_eggs_ok');
+            $summary['eggs_count'] = Litter::where('category', 1)->whereNotNull('laying_date')->whereNull('hatching_date')->sum('laying_eggs_ok');
             $summary['for_sale'] = Animal::where('animal_category_id', '=', 2)->count();
-            $summary['this_year'] = Litter::where('category', 1)->whereNotNull('laying_date')->whereNull('hatching_date')->sum('laying_eggs_ok')+Litter::where('category', 1)->whereNotNull('laying_date')->whereNotNull('hatching_date')->sum('laying_eggs_ok');
+            $summary['incubation_total'] = Litter::where('category', 1)->whereNotNull('laying_date')->whereNull('hatching_date')->sum('laying_eggs_ok');
+            $summary['planned_income'] = AnimalOffer::whereNull('sold_date')->sum('price');
     
             return $summary;
         
+    }
+
+    protected function financeYears(): array
+    {
+        $years = Finances::selectRaw('YEAR(created_at) as year')
+            ->whereNotNull('created_at')
+            ->distinct()
+            ->orderByDesc('year')
+            ->pluck('year')
+            ->filter()
+            ->map(fn ($year) => (int)$year)
+            ->toArray();
+
+        if (empty($years)) {
+            $years[] = (int)now()->year;
+        }
+
+        return $years;
+    }
+
+    protected function financeSummary(int $year): array
+    {
+        $yearIncome = (float) Finances::whereYear('created_at', $year)->where('type', 'i')->sum('amount');
+        $yearCosts = (float) Finances::whereYear('created_at', $year)->where('type', 'c')->sum('amount');
+
+        $categoryRaw = Finances::selectRaw('finances_category_id, type, SUM(amount) as total')
+            ->whereYear('created_at', $year)
+            ->groupBy('finances_category_id', 'type')
+            ->get();
+
+        $categories = FinancesCategory::pluck('name', 'id');
+        $categorySummary = [];
+
+        foreach ($categoryRaw as $row) {
+            $categorySummary[$row->finances_category_id] ??= [
+                'name' => $categories[$row->finances_category_id] ?? __('Nieznana kategoria'),
+                'income' => 0.0,
+                'cost' => 0.0,
+            ];
+
+            if ($row->type === 'i') {
+                $categorySummary[$row->finances_category_id]['income'] = (float) $row->total;
+            } elseif ($row->type === 'c') {
+                $categorySummary[$row->finances_category_id]['cost'] = (float) $row->total;
+            }
+        }
+
+        $categorySummary = array_values(array_filter($categorySummary, function ($data) {
+            return ($data['income'] ?? 0) !== 0.0 || ($data['cost'] ?? 0) !== 0.0;
+        }));
+
+        $overallIncome = (float) Finances::where('type', 'i')->sum('amount');
+        $overallCosts = (float) Finances::where('type', 'c')->sum('amount');
+
+        return [
+            'year' => $year,
+            'yearTotals' => [
+                'income' => $yearIncome,
+                'costs' => $yearCosts,
+                'profit' => $yearIncome - $yearCosts,
+            ],
+            'categoryTotals' => $categorySummary,
+            'overallTotals' => [
+                'income' => $overallIncome,
+                'costs' => $overallCosts,
+                'profit' => $overallIncome - $overallCosts,
+            ],
+        ];
     }
 }
