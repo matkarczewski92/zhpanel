@@ -14,16 +14,11 @@
     @php
         $hasLittersStatus = !empty($littersStatus['laying']) || !empty($littersStatus['hatching']);
     @endphp
-    <div class="col-lg-7 col-12 mb-4">
+    <div class="col-12">
         <div class="row g-3">
             <div class="col-12">
                 @include('home.info')
             </div>
-            @if ($hasLittersStatus)
-                <div class="col-12">
-                    @include('home.litters-status')
-                </div>
-            @endif
             <div class="col-12">
                 @include('home.financial-summary', [
                     'summary' => $financeSummary,
@@ -31,19 +26,24 @@
                     'selectedYear' => $financeSelectedYear,
                 ])
             </div>
-        </div>
-    </div>
-    <div class="col-lg-5 col-12 mb-4">
-        <div class="row g-3">
-            <div class="col-12">
-                @include('home.to-feed-animals', [
-                    'animal' => $animal,
-                    'summary' => $summary,
-                    'summaryPast' => $summaryPast,
-                    'title' => 'Do nakarmienia - W hodowli',
-                ])
+            <div class="col-lg-6 col-12">
+                <div class="row g-3">
+                    @if ($hasLittersStatus)
+                        <div class="col-12">
+                            @include('home.litters-status')
+                        </div>
+                    @endif
+                    <div class="col-12">
+                        @include('home.to-feed-animals', [
+                            'animal' => $animal,
+                            'summary' => $summary,
+                            'summaryPast' => $summaryPast,
+                            'title' => 'Do nakarmienia - W hodowli',
+                        ])
+                    </div>
+                </div>
             </div>
-            <div class="col-12">
+            <div class="col-lg-6 col-12">
                 @include('home.to-feed-animals', [
                     'animal' => $litter,
                     'summary' => $summaryLitters,
