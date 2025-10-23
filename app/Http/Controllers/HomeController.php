@@ -146,15 +146,25 @@ class HomeController extends Controller
             ->groupBy('finances_category_id', 'type')
             ->get();
 
+        $overallCategoryRaw = Finances::selectRaw('finances_category_id, type, SUM(amount) as total')
+            ->groupBy('finances_category_id', 'type')
+            ->get();
+
         $categories = FinancesCategory::pluck('name', 'id');
         $categorySummary = [];
 
-        foreach ($categoryRaw as $row) {
-            $categorySummary[$row->finances_category_id] ??= [
-                'name' => $categories[$row->finances_category_id] ?? __('Nieznana kategoria'),
+        $ensureCategoryEntry = function (int $categoryId) use (&$categorySummary, $categories): void {
+            $categorySummary[$categoryId] ??= [
+                'name' => $categories[$categoryId] ?? __('Nieznana kategoria'),
                 'income' => 0.0,
                 'cost' => 0.0,
+                'overall_income' => 0.0,
+                'overall_cost' => 0.0,
             ];
+        };
+
+        foreach ($categoryRaw as $row) {
+            $ensureCategoryEntry((int) $row->finances_category_id);
 
             if ($row->type === 'i') {
                 $categorySummary[$row->finances_category_id]['income'] = (float) $row->total;
@@ -163,8 +173,21 @@ class HomeController extends Controller
             }
         }
 
+        foreach ($overallCategoryRaw as $row) {
+            $ensureCategoryEntry((int) $row->finances_category_id);
+
+            if ($row->type === 'i') {
+                $categorySummary[$row->finances_category_id]['overall_income'] = (float) $row->total;
+            } elseif ($row->type === 'c') {
+                $categorySummary[$row->finances_category_id]['overall_cost'] = (float) $row->total;
+            }
+        }
+
         $categorySummary = array_values(array_filter($categorySummary, function ($data) {
-            return ($data['income'] ?? 0) !== 0.0 || ($data['cost'] ?? 0) !== 0.0;
+            return ($data['income'] ?? 0.0) !== 0.0
+                || ($data['cost'] ?? 0.0) !== 0.0
+                || ($data['overall_income'] ?? 0.0) !== 0.0
+                || ($data['overall_cost'] ?? 0.0) !== 0.0;
         }));
 
         $overallIncome = (float) Finances::where('type', 'i')->sum('amount');

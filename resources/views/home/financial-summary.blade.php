@@ -22,7 +22,7 @@
         <div class="row text-center mb-4">
             <div class="col">
                 <div class="text-muted small">Przychód ({{ $summary['year'] }})</div>
-               <div class="fs-5 text-success">{{ $formatCurrency($summary['yearTotals']['income']) }}</div>
+                <div class="fs-5 text-success">{{ $formatCurrency($summary['yearTotals']['income']) }}</div>
             </div>
             <div class="col">
                 <div class="text-muted small">Koszty ({{ $summary['year'] }})</div>
@@ -34,15 +34,24 @@
             </div>
         </div>
 
+        <div class="border-top border-secondary opacity-50 my-4"></div>
+
         @if (!empty($summary['categoryTotals']))
             <div class="table-responsive mb-4">
                 <table class="table table-dark table-sm align-middle mb-0">
                     <thead>
                         <tr class="text-muted">
-                            <th>Kategoria</th>
-                            <th class="text-end">Przychód</th>
-                            <th class="text-end">Koszty</th>
-                            <th class="text-end">Dochód</th>
+                            <th scope="col"></th>
+                            <th class="text-center border-end border-secondary" scope="colgroup" colspan="3">Rok {{ $summary['year'] }}</th>
+                            <th class="text-center" scope="colgroup" colspan="2">Od początku</th>
+                        </tr>
+                        <tr class="text-muted">
+                            <th scope="col">Kategoria</th>
+                            <th class="text-end" scope="col">Przychód</th>
+                            <th class="text-end" scope="col">Koszty</th>
+                            <th class="text-end border-end border-secondary" scope="col">Dochód</th>
+                            <th class="text-end text-success" scope="col">Przychód (łącznie)</th>
+                            <th class="text-end text-danger" scope="col">Koszty (łącznie)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,7 +60,9 @@
                                 <td>{{ $category['name'] }}</td>
                                 <td class="text-end text-success">{{ $formatCurrency($category['income']) }}</td>
                                 <td class="text-end text-danger">{{ $formatCurrency($category['cost']) }}</td>
-                                <td class="text-end">{{ $formatCurrency($category['income'] - $category['cost']) }}</td>
+                                <td class="text-end border-end border-secondary">{{ $formatCurrency($category['income'] - $category['cost']) }}</td>
+                                <td class="text-end text-success">{{ $formatCurrency($category['overall_income'] ?? 0) }}</td>
+                                <td class="text-end text-danger">{{ $formatCurrency($category['overall_cost'] ?? 0) }}</td>
                             </tr>
                         @endforeach
                     </tbody>
