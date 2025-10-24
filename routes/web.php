@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('finances', FinancesController::class);
     Route::resource('feeds', FeedController::class)->names(['show' => 'feed.profile']);
     Route::resource('offers', AnimalOfferController::class);
+    Route::delete('litters/planned/bulk-destroy', [LitterController::class, 'bulkDestroyPlanned'])->name('litters.bulk-destroy-planned');
     Route::resource('litters', LitterController::class);
     Route::resource('litters.gallery', LitterGalleryController::class);
     Route::resource('projects', ProjectsController::class);

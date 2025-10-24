@@ -70,9 +70,7 @@ table.detailsTable td.key  {
 .strike > span {
     position: relative;
     display: inline-block;
-
 }
-
 
 .strike > span:before,
 .strike > span:after {
@@ -92,6 +90,28 @@ table.detailsTable td.key  {
 .strike > span:after {
     left: 100%;
     margin-left: 15px;
+}
+
+.strike-with-action {
+    position: relative;
+    padding-right: 64px;
+}
+
+.strike-action-btn {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.strike-action-btn i {
+    font-size: 18px;
 }
 
 .editmode {

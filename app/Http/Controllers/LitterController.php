@@ -28,6 +28,12 @@ class LitterController extends Controller
             'littersActual' => Litter::where('category', 1)->orderBy('connection_date', 'asc')->paginate(25),
             'littersPlan' => Litter::where('category', 2)->orderByRaw('COALESCE(connection_date, planned_connection_date) ASC')->paginate(50),
             'littersClose' => Litter::where('category', 4)->orderBy('season', 'desc')->paginate(15),
+            'plannedSeasons' => Litter::where('category', 2)
+                ->whereNotNull('season')
+                ->select('season')
+                ->distinct()
+                ->orderBy('season', 'desc')
+                ->pluck('season'),
             'animalsMale' => Animal::where('sex', 2)->where(function ($query) {
                 $query->where('animal_category_id', 1)
                 ->orWhere('animal_category_id', 4);
@@ -91,5 +97,65 @@ class LitterController extends Controller
 
     public function destroy(string $id)
     {
+    }
+
+    public function bulkDestroyPlanned(Request $request)
+    {
+        $validated = $request->validate([
+            'season' => ['required', 'integer'],
+        ]);
+
+        $season = (int) $validated['season'];
+        $currentYear = (int) now()->format('Y');
+
+        if ($season < $currentYear) {
+            return redirect()
+                ->route('litters.index')
+                ->with('litters-status', "Sezon {$season} jest w przeszlosci, nic nie usunieto.")
+                ->with('litters-status-color', 'warning');
+        }
+
+        $today = now()->toDateString();
+
+        $eligibleQuery = Litter::where('category', 2)
+            ->where('season', $season)
+            ->whereNull('connection_date')
+            ->where(function ($query) use ($today) {
+                $query->whereNull('planned_connection_date')
+                    ->orWhere('planned_connection_date', '>=', $today);
+            });
+
+        $deletableCount = (clone $eligibleQuery)->count();
+
+        if ($deletableCount === 0) {
+            $hasSeason = Litter::where('category', 2)->where('season', $season)->exists();
+
+            return redirect()
+                ->route('litters.index')
+                ->with(
+                    'litters-status',
+                    $hasSeason
+                        ? "Brak miotow do usuniecia w sezonie {$season}. Sprawdz daty laczenia."
+                        : "Brak planowanych miotow dla sezonu {$season}."
+                )
+                ->with('litters-status-color', $hasSeason ? 'info' : 'warning');
+        }
+
+        $eligibleQuery->delete();
+
+        $blockedCount = Litter::where('category', 2)
+            ->where('season', $season)
+            ->count();
+
+        $message = "Usunieto {$deletableCount} planowanych miotow z sezonu {$season}.";
+
+        if ($blockedCount > 0) {
+            $message .= " Pominieto {$blockedCount} miotow (posiadaja date laczenia albo termin w przeszlosci).";
+        }
+
+        return redirect()
+            ->route('litters.index')
+            ->with('litters-status', $message)
+            ->with('litters-status-color', 'success');
     }
 }
