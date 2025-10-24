@@ -6,6 +6,8 @@ use App\Interfaces\AnimalRepositoryInterface;
 use App\Interfaces\LitterRepositoryInterface;
 use App\Models\AnimalGenotypeCategory;
 use App\Models\Litter;
+use App\Models\LitterPlan;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class PossibleConnectionController extends Component
@@ -13,26 +15,32 @@ class PossibleConnectionController extends Component
     private LitterRepositoryInterface $litterRepo;
     private AnimalRepositoryInterface $animalRepo;
 
-    public $females = [];                 // kolekcja samic do selecta
-    public $femalesMap = [];              // [id => name] do podsumowania
-    public $malesMap = [];                // [id => name] cache nazw samców
+    public $females = [];
+    public $femalesMap = [];
+    public $malesMap = [];
 
-    public $finale = [];                  // aktualny wynik dla wybranej samicy: [maleId => ['name'=>..., 'rows'=>[]]]
-    public $finaleCache = [];             // cache wyników: [femaleId][maleId] = ['name'=>..., 'rows'=>[]]
+    public $finale = [];
+    public $finaleCache = [];
 
-    public $selectedFemale = null;        // id samicy z selecta
-    public $selectedPairs = [];           // wybrane pary: ['femaleId:maleId' => ['female_id'=>..,'male_id'=>..]]
-    public $showSummary = false;          // drugi modal
-    public $pairedFemaleIds = [];         // <- IDs samic już sparowanych
-    public $showAddLitters = false;       // modal „Dodaj mioty”
-    public $plannedYear = null;           // rok planu
+    public $selectedFemale = null;
+    public $selectedPairs = [];
+    public $showSummary = false;
+    public $pairedFemaleIds = [];
+    public $plannedYear = null;
+
+    public $activeTab = 'builder';
+    public $planName = '';
+    public $editingPlanId = null;
+    public $saveMessage = null;
+    public $showPlanRealizeModal = false;
+    public $planToRealizeId = null;
 
     public $dictionary;
 
     public function boot(
         LitterRepositoryInterface $litterRepo,
         AnimalRepositoryInterface $animalRepo
-    ) {
+    ): void {
         $this->litterRepo = $litterRepo;
         $this->animalRepo = $animalRepo;
     }
@@ -41,15 +49,15 @@ class PossibleConnectionController extends Component
     {
         $this->dictionary = $this->getDictionary();
         $this->females    = $this->animalRepo->getAllInBreedingFemales();
-        $this->femalesMap = $this->females->pluck('name','id')->toArray();
+        $this->femalesMap = $this->females->pluck('name', 'id')->toArray();
 
-        // << NOWE >> wylicz listę samic, które mają już wybraną parę
         $this->pairedFemaleIds = array_values(array_unique(
-            array_map(fn($p) => (int)$p['female_id'], $this->selectedPairs)
+            array_map(fn ($pair) => (int) $pair['female_id'], $this->selectedPairs)
         ));
 
         return view('livewire.litters.possible-connection-controller', [
             'animalRepo' => $this->animalRepo,
+            'plans'      => LitterPlan::with(['pairs.female', 'pairs.male'])->orderByDesc('updated_at')->get(),
         ]);
     }
 
@@ -65,7 +73,6 @@ class PossibleConnectionController extends Component
             return;
         }
 
-        // jeśli mamy cache, użyj
         if (isset($this->finaleCache[$femaleId])) {
             $this->finale = $this->finaleCache[$femaleId];
             return;
@@ -73,22 +80,20 @@ class PossibleConnectionController extends Component
 
         $possibleCombinations = [];
 
-        $fm     = $this->animalRepo->getById($femaleId);
-        $female = $this->getAnimalArray($fm);
-        $males  = $this->animalRepo
+        $femaleModel = $this->animalRepo->getById($femaleId);
+        $female      = $this->getAnimalArray($femaleModel);
+        $males       = $this->animalRepo
             ->getAllInBreedingMales()
-            ->where('animal_type_id', $fm->animal_type_id);
+            ->where('animal_type_id', $femaleModel->animal_type_id);
 
-        foreach ($males as $male) {
-            $maleObj           = $this->getAnimalArray($male);
-            $finalCombinations = getGenotypeFinale($maleObj, $female, $this->dictionary);
+        foreach ($males as $maleModel) {
+            $maleData         = $this->getAnimalArray($maleModel);
+            $finalCombinations = getGenotypeFinale($maleData, $female, $this->dictionary);
 
-            // zapamiętaj nazwę samca
-            $this->malesMap[$male->id] = $male->name;
+            $this->malesMap[$maleModel->id] = $maleModel->name;
 
-            // kluczem jest ID samca (żeby checkbox mógł działać stabilnie)
-            $possibleCombinations[$male->id] = [
-                'name' => $male->name,
+            $possibleCombinations[$maleModel->id] = [
+                'name' => $maleModel->name,
                 'rows' => $finalCombinations,
             ];
         }
@@ -99,39 +104,42 @@ class PossibleConnectionController extends Component
 
     public function getDictionary()
     {
-        $gens = AnimalGenotypeCategory::all();
-        $array = [];
-        foreach ($gens as $gen) {
-            $array[] = [$gen->gene_code, $gen->name];
+        $genes = AnimalGenotypeCategory::all();
+        $dictionary = [];
+
+        foreach ($genes as $gene) {
+            $dictionary[] = [$gene->gene_code, $gene->name];
         }
-        return $array;
+
+        return $dictionary;
     }
 
     public function getAnimalArray($animal)
     {
         $genotype = $animal->animalGenotype;
-        $array = [];
-        foreach ($genotype as $gen) {
-            if ($gen->type == 'h') {
-                $array[] = [ucfirst($gen->genotypeCategory->gene_code), lcfirst($gen->genotypeCategory->gene_code)];
-            } elseif ($gen->type == 'v') {
-                if ($gen->genotypeCategory->gene_type == "r") {
-                    $array[] = [lcfirst($gen->genotypeCategory->gene_code), lcfirst($gen->genotypeCategory->gene_code)];
+        $result = [];
+
+        foreach ($genotype as $gene) {
+            if ($gene->type === 'h') {
+                $result[] = [ucfirst($gene->genotypeCategory->gene_code), lcfirst($gene->genotypeCategory->gene_code)];
+            } elseif ($gene->type === 'v') {
+                if ($gene->genotypeCategory->gene_type === 'r') {
+                    $result[] = [lcfirst($gene->genotypeCategory->gene_code), lcfirst($gene->genotypeCategory->gene_code)];
                 } else {
-                    $array[] = [ucfirst($gen->genotypeCategory->gene_code), ucfirst($gen->genotypeCategory->gene_code)];
+                    $result[] = [ucfirst($gene->genotypeCategory->gene_code), ucfirst($gene->genotypeCategory->gene_code)];
                 }
             }
         }
-        return $array;
+
+        return $result;
     }
 
-     public function getPairRows(int $femaleId, int $maleId): array
+    public function getPairRows(int $femaleId, int $maleId): array
     {
         if (isset($this->finaleCache[$femaleId][$maleId])) {
             return $this->finaleCache[$femaleId][$maleId]['rows'];
         }
 
-        // dogeneruj on-demand
         $femaleModel = $this->animalRepo->getById($femaleId);
         $maleModel   = $this->animalRepo->getById($maleId);
 
@@ -140,20 +148,21 @@ class PossibleConnectionController extends Component
 
         $rows = getGenotypeFinale($male, $female, $this->dictionary);
 
-        // uzupełnij cache i mapy nazw
-        $this->malesMap[$maleModel->id] = $maleModel->name;
+        $this->malesMap[$maleId] = $maleModel->name;
         $this->finaleCache[$femaleId][$maleId] = [
-            'name' => $maleModel->name,
+            'name' => $this->malesMap[$maleId],
             'rows' => $rows,
         ];
 
         return $rows;
     }
-    /*** ------ OBSŁUGA PAR ------ ***/
 
     public function maleUsedTimes(int $maleId): int
     {
-        return count(array_filter($this->selectedPairs, fn($p) => (int)$p['male_id'] === $maleId));
+        return count(array_filter(
+            $this->selectedPairs,
+            fn ($pair) => (int) $pair['male_id'] === (int) $maleId
+        ));
     }
 
     public function pairKey($femaleId, $maleId): string
@@ -168,32 +177,50 @@ class PossibleConnectionController extends Component
 
     public function togglePair($femaleId, $maleId): void
     {
-        if (empty($femaleId) || empty($maleId)) return;
+        if (empty($femaleId) || empty($maleId)) {
+            return;
+        }
 
         $key = $this->pairKey($femaleId, $maleId);
 
         if (isset($this->selectedPairs[$key])) {
             unset($this->selectedPairs[$key]);
+            $this->refreshFemaleFinale((int) $femaleId);
         } else {
             $this->selectedPairs[$key] = [
-                'female_id' => (int)$femaleId,
-                'male_id'   => (int)$maleId,
+                'female_id' => (int) $femaleId,
+                'male_id'   => (int) $maleId,
             ];
         }
     }
 
     public function removePair($key): void
     {
+        if (!isset($this->selectedPairs[$key])) {
+            return;
+        }
+
+        $femaleId = (int) $this->selectedPairs[$key]['female_id'];
+
         unset($this->selectedPairs[$key]);
+
+        $this->refreshFemaleFinale($femaleId);
     }
 
     public function clearPairs(): void
     {
+        $currentFemale = $this->selectedFemale ? (int) $this->selectedFemale : null;
+
         $this->selectedPairs = [];
+
+        if (!is_null($currentFemale)) {
+            $this->refreshFemaleFinale($currentFemale);
+        }
     }
 
     public function openSummary(): void
     {
+        $this->saveMessage = null;
         $this->showSummary = true;
     }
 
@@ -202,50 +229,187 @@ class PossibleConnectionController extends Component
         $this->showSummary = false;
     }
 
-    public function openAddLittersModal(): void
+    public function setActiveTab(string $tab): void
     {
-        $this->showAddLitters = true;
+        if (!in_array($tab, ['builder', 'plans'], true)) {
+            return;
+        }
+
+        $this->activeTab = $tab;
+
+        if ($tab === 'plans') {
+            $this->showSummary = false;
+        }
     }
 
-    public function closeAddLittersModal(): void
+    public function newPlan(): void
     {
-        $this->showAddLitters = false;
+        $this->selectedPairs = [];
+        $this->planName = '';
+        $this->plannedYear = null;
+        $this->editingPlanId = null;
+        $this->selectedFemale = null;
+        $this->showSummary = false;
+        $this->activeTab = 'builder';
+        $this->saveMessage = null;
+        $this->finale = [];
+        $this->finaleCache = [];
     }
 
-    public function addPlanningLitters(): void
+    public function savePlan(): void
     {
-        // // 1) Walidacja prostego roku i czy coś wybrano
-        // $this->validate([
-        //     'plannedYear' => 'required|integer|min:2022|max:2100',
-        // ], [], [
-        //     'plannedYear' => 'planowany rok',
-        // ]);
+        $this->validate([
+            'planName'    => 'required|string|min:3|max:255',
+            'plannedYear' => 'nullable|integer|min:0|max:2100',
+        ], [], [
+            'planName'    => 'nazwa planu',
+            'plannedYear' => 'planowany rok',
+        ]);
 
         if (empty($this->selectedPairs)) {
-            // np. flash/emit — tu tylko przerwiemy:
+            $this->addError('planName', 'Brak wybranych par do zapisania.');
+            return;
+        }
+
+        DB::transaction(function () {
+            $plan = LitterPlan::updateOrCreate(
+                ['id' => $this->editingPlanId],
+                [
+                    'name'         => $this->planName,
+                    'planned_year' => $this->plannedYear ?: null,
+                ]
+            );
+
+            $plan->pairs()->delete();
+
+            foreach ($this->selectedPairs as $pair) {
+                $plan->pairs()->create([
+                    'female_id' => (int) $pair['female_id'],
+                    'male_id'   => (int) $pair['male_id'],
+                ]);
+            }
+
+            $this->editingPlanId = $plan->id;
+            $this->plannedYear = $plan->planned_year;
+        });
+
+        $this->saveMessage = 'Plan zapisano poprawnie.';
+        $this->showSummary = false;
+        $this->setActiveTab('plans');
+    }
+
+    public function loadPlan(int $planId): void
+    {
+        $plan = LitterPlan::with('pairs')->findOrFail($planId);
+
+        $pairs = [];
+        foreach ($plan->pairs as $pair) {
+            $key = $this->pairKey($pair->female_id, $pair->male_id);
+            $pairs[$key] = [
+                'female_id' => (int) $pair->female_id,
+                'male_id'   => (int) $pair->male_id,
+            ];
+        }
+
+        $this->selectedPairs = $pairs;
+        $this->planName = $plan->name;
+        $this->plannedYear = $plan->planned_year;
+        $this->editingPlanId = $plan->id;
+        $this->selectedFemale = null;
+        $this->showSummary = true;
+        $this->setActiveTab('builder');
+        $this->saveMessage = null;
+        $this->finale = [];
+        $this->finaleCache = [];
+    }
+
+    public function deletePlan(int $planId): void
+    {
+        $plan = LitterPlan::find($planId);
+
+        if (!$plan) {
+            return;
+        }
+
+        $plan->delete();
+
+        if ($this->editingPlanId === $planId) {
+            $this->editingPlanId = null;
+            $this->planName = '';
+            $this->plannedYear = null;
+        }
+    }
+
+    public function requestRealizePlan(int $planId): void
+    {
+        $plan = LitterPlan::withCount('pairs')->find($planId);
+
+        if (!$plan || $plan->pairs_count === 0) {
+            return;
+        }
+
+        $this->planToRealizeId = $plan->id;
+        $this->plannedYear = $plan->planned_year;
+        $this->showPlanRealizeModal = true;
+        $this->saveMessage = null;
+    }
+
+    public function cancelRealizePlan(): void
+    {
+        $this->showPlanRealizeModal = false;
+        $this->planToRealizeId = null;
+        $this->plannedYear = null;
+    }
+
+    public function realizePlan(): void
+    {
+        if (!$this->planToRealizeId) {
+            return;
+        }
+
+        $this->validate([
+            'plannedYear' => 'nullable|integer|min:0|max:2100',
+        ], [], [
+            'plannedYear' => 'planowany rok',
+        ]);
+
+        $plan = LitterPlan::with('pairs')->find($this->planToRealizeId);
+
+        if (!$plan || $plan->pairs->isEmpty()) {
+            $this->cancelRealizePlan();
             return;
         }
 
         $year = (int) $this->plannedYear;
 
-        // 2) Iteracja po parach
-        foreach ($this->selectedPairs as $key => $pair) {
-            $femaleId = (int) $pair['female_id'];
-            $maleId   = (int) $pair['male_id'];
+        DB::transaction(function () use ($plan, $year) {
+            foreach ($plan->pairs as $pair) {
+                $femaleId = (int) $pair->female_id;
+                $maleId   = (int) $pair->male_id;
 
-            $litter = new Litter();
-            $litter->category = 2;
-            $litter->season = ($year == 0) ? null : $year;
-            $litter->litter_code = litterCode($maleId, $femaleId, $year);
-            $litter->parent_male = $maleId;
-            $litter->parent_female = $femaleId;
-            $litter->save();
-        }
-        $this->closeAddLittersModal();
-        $this->showAddLitters = false;
-        $this->showSummary    = false;
-        $this->plannedYear    = null;
+                $litter = new Litter();
+                $litter->category = 2;
+                $litter->season = ($year === 0) ? null : $year;
+                $litter->litter_code = litterCode($maleId, $femaleId, $year);
+                $litter->parent_male = $maleId;
+                $litter->parent_female = $femaleId;
+                $litter->save();
+            }
+
+            $plan->planned_year = ($year === 0) ? null : $year;
+            $plan->save();
+        });
+
+        $this->cancelRealizePlan();
         redirect()->route('litters.index');
     }
 
+    private function refreshFemaleFinale(int $femaleId): void
+    {
+        unset($this->finaleCache[$femaleId]);
+
+        if ((int) $this->selectedFemale === $femaleId) {
+            $this->createFinale($femaleId);
+        }
+    }
 }
