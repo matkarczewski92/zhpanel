@@ -50,7 +50,6 @@ class PossibleConnectionController extends Component
         $this->dictionary = $this->getDictionary();
         $this->females    = $this->animalRepo->getAllInBreedingFemales();
         $this->femalesMap = $this->females->pluck('name', 'id')->toArray();
-        $this->malesMap = $this->males->pluck('name', 'id')->toArray();
 
         $this->pairedFemaleIds = array_values(array_unique(
             array_map(fn ($pair) => (int) $pair['female_id'], $this->selectedPairs)
