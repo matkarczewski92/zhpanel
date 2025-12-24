@@ -204,8 +204,7 @@
                                                 $mId = (int) $pair['male_id'];
                                                 $offspringRows = $this->getPairRows($fId, $mId);
                                                 $femaleName = $femalesMap[$fId] ?? ('ID: '.$fId);
-                                                $maleName   = $malesMap[$mId] ?? ('ID: '.$mId);
-                                                
+                                                $maleName   = $this->resolveMaleName($mId);
                                             @endphp
 
                                             <tr>
@@ -339,7 +338,7 @@
                                         @foreach($plan->pairs as $pair)
                                             @php
                                                 $femaleName = optional($pair->female)->name ?? ($femalesMap[$pair->female_id] ?? 'Samica #'.$pair->female_id);
-                                                $maleName   = optional($pair->male)->name ?? ($malesMap[$pair->male_id] ?? 'Samiec #'.$pair->male_id);
+                                                $maleName   = optional($pair->male)->name ?? $this->resolveMaleName((int) $pair->male_id);
                                             @endphp
                                             <span class="badge text-bg-secondary">{!! $femaleName !!} &times; {!! $maleName !!}</span>
                                         @endforeach
@@ -405,8 +404,6 @@
         <div class="modal-backdrop fade show"></div>
     @endif
 </div>
-
-
 
 
 
