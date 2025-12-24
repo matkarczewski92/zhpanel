@@ -202,9 +202,9 @@
                                             @php
                                                 $fId = (int) $pair['female_id'];
                                                 $mId = (int) $pair['male_id'];
+                                                $offspringRows = $this->getPairRows($fId, $mId);
                                                 $femaleName = $femalesMap[$fId] ?? ('ID: '.$fId);
                                                 $maleName   = $malesMap[$mId]   ?? ('ID: '.$mId);
-                                                $offspringRows = $this->getPairRows($fId, $mId);
                                             @endphp
 
                                             <tr>
