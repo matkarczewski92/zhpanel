@@ -50,7 +50,6 @@ class PossibleConnectionController extends Component
         $this->dictionary = $this->getDictionary();
         $this->females    = $this->animalRepo->getAllInBreedingFemales();
         $this->femalesMap = $this->females->pluck('name', 'id')->toArray();
-        $this->malesMap = $this->males->pluck('name', 'id')->toArray();
 
         $this->pairedFemaleIds = array_values(array_unique(
             array_map(fn ($pair) => (int) $pair['female_id'], $this->selectedPairs)
@@ -138,9 +137,6 @@ class PossibleConnectionController extends Component
     public function getPairRows(int $femaleId, int $maleId): array
     {
         if (isset($this->finaleCache[$femaleId][$maleId])) {
-            if (!isset($this->malesMap[$maleId]) && isset($this->finaleCache[$femaleId][$maleId]['name'])) {
-                $this->malesMap[$maleId] = $this->finaleCache[$femaleId][$maleId]['name'];
-            }
             return $this->finaleCache[$femaleId][$maleId]['rows'];
         }
 
@@ -159,21 +155,6 @@ class PossibleConnectionController extends Component
         ];
 
         return $rows;
-    }
-
-    public function resolveMaleName(int $maleId): string
-    {
-        $maleId = (int) $maleId;
-
-        if (!isset($this->malesMap[$maleId])) {
-            $maleModel = $this->animalRepo->getById($maleId);
-
-            if ($maleModel) {
-                $this->malesMap[$maleId] = $maleModel->name;
-            }
-        }
-
-        return $this->malesMap[$maleId] ?? ('ID: '.$maleId);
     }
 
     public function maleUsedTimes(int $maleId): int
